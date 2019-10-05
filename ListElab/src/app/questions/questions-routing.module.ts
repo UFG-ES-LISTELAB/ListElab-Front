@@ -4,11 +4,11 @@ import {QuestionsComponent} from './questions.component';
 
 
 const routes: Routes = [
-  { path: '', component: QuestionsComponent, pathMatch: 'full' },
+  { path: '', component: QuestionsComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
 export class QuestionsRoutingModule { }

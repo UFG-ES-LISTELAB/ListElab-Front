@@ -1,9 +1,22 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {QuestionsComponent} from './questions/questions.component';
 
 
 const routes: Routes = [
-  { path: '', loadChildren: './questions/questions.module#QuestionsModule' },
+  {
+    path: '',
+    redirectTo: 'questions',
+    pathMatch: 'full'
+  },
+  {
+    path: 'questions',
+    component: QuestionsComponent
+  }
+  // {
+  //   path: 'questions',
+  //   loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule)
+  // },
 ];
 
 @NgModule({
