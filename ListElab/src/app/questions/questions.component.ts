@@ -16,8 +16,7 @@ export class QuestionsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.questionsService.getQuestions()
-      .subscribe(questions => this.questions = questions)
-      .error(error => console.error(error));
+      .subscribe(questions => this.questions = questions);
   }
 
   ngOnDestroy() {
