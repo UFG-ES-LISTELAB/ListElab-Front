@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {QuestionsComponent} from './questions.component';
 
 
 const routes: Routes = [
-  { path: '', loadChildren: './questions/questions.module#QuestionsModule' },
+  { path: '', component: QuestionsComponent, pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class QuestionsRoutingModule { }
