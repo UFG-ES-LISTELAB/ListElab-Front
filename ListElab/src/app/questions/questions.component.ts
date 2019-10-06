@@ -27,7 +27,6 @@ export class QuestionsComponent implements OnInit {
   displayedColumns: string[] = [ 'enunciado', 'areaConhecimento', 'tipo', 'dificuldade' ];
   dataSource = ELEMENT_DATA;
 
-
   constructor(private fb: FormBuilder,
               private questionsService: QuestionsService) {}
 

@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { QuestionsComponent } from './questions.component';
 import { SearchQuestionsComponent } from './search-questions/search-questions.component';
+import {QuestionsRoutingModule} from './questions-routing.module';
 
 
 @NgModule({
@@ -15,10 +16,9 @@ import { SearchQuestionsComponent } from './search-questions/search-questions.co
   ],
   imports: [
     CommonModule,
-
-    SharedModule,
-    FormsModule,
-    ReactiveFormsModule
+    QuestionsRoutingModule,
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class QuestionsModule { }
