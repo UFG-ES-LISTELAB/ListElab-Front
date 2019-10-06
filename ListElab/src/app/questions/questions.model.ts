@@ -1,3 +1,7 @@
 export interface Question {
-  id: any;
+  id?: any;
+  enunciado?: any;
+  areaConhecimento?: any;
+  tipo?: any;
+  dificuldade?: any;
 }

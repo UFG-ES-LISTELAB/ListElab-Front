@@ -18,10 +18,11 @@ body {
 }
 
 .container {
-  margin: 0 20px;
+  width: 1200px;
+  margin: 0 auto;
 }
 
-::ng-deep .mat-form-field-infix {
-  font-size: 12px;
+.input__full-width {
+  width: 100%;
 }
 

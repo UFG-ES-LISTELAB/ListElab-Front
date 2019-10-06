@@ -5,14 +5,16 @@ import {
   MatButtonModule,
   MatIconModule,
   MatInputModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTableModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
   MatToolbarModule,
   MatButtonModule,
   MatIconModule,
-  MatInputModule
+  MatInputModule,
+  MatTableModule
 ];
 
 @NgModule({
