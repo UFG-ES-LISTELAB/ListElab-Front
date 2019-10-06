@@ -1,4 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
+
 import {QuestionsService} from './questions.service';
 import {Question} from './questions.model';
 
@@ -25,7 +27,9 @@ export class QuestionsComponent implements OnInit {
   displayedColumns: string[] = [ 'enunciado', 'areaConhecimento', 'tipo', 'dificuldade' ];
   dataSource = ELEMENT_DATA;
 
-  constructor(private questionsService: QuestionsService) { }
+
+  constructor(private fb: FormBuilder,
+              private questionsService: QuestionsService) {}
 
   ngOnInit() {
     // this.questionsService.getQuestions()

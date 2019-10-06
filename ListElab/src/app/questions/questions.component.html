@@ -2,7 +2,11 @@
 
 <div class="container">
 
-  <table mat-table [dataSource]="dataSource" class="questions__table input__full-width mat-elevation-z8">
+  <div class="search__form">
+    <app-search-questions></app-search-questions>
+  </div>
+
+  <table [dataSource]="dataSource" class="questions__table full-width mat-elevation-z8" mat-table>
 
     <ng-container matColumnDef="enunciado">
       <th mat-header-cell *matHeaderCellDef> Enunciado </th>

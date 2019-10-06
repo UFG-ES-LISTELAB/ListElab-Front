@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +12,7 @@ export class QuestionsService {
   constructor(private http: HttpClient) {}
 
   getQuestions(): Observable<any> {
-    return this.http.get(`endpoint/`);
-  }
-
-  getQuestion(id: any): Observable<any> {
-    return this.http.get(`endpoint/${id}`);
+    return this.http.get(`${environment.api}/QuestaoDiscursiva`);
   }
 
 }
