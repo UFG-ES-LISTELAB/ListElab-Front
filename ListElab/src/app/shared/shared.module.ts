@@ -7,8 +7,9 @@ import {
   MatInputModule,
   MatToolbarModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
 } from '@angular/material';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 const MATERIAL_MODULES = [
   MatToolbarModule,
@@ -16,18 +17,19 @@ const MATERIAL_MODULES = [
   MatIconModule,
   MatInputModule,
   MatTableModule,
-  MatPaginatorModule
+  MatPaginatorModule,
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [ToolbarComponent],
   imports: [
     CommonModule,
     ...MATERIAL_MODULES
   ],
   exports: [
     MatToolbarModule,
-    ...MATERIAL_MODULES
+    ...MATERIAL_MODULES,
+    ToolbarComponent
   ]
 })
 export class SharedModule { }
