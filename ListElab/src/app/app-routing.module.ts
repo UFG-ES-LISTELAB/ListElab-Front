@@ -6,16 +6,20 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule)
+    redirectTo: 'questions'
   },
   {
     path: 'login',
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   {
-    path: '**',
-    redirectTo: ''
-  }
+    path: 'questions',
+    loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule)
+  },
+  // {
+  //   path: '**',
+  //   redirectTo: ''
+  // }
 ];
 
 @NgModule({
