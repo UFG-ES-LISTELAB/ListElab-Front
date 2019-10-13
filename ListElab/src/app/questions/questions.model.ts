@@ -6,5 +6,5 @@ export interface Question {
   dificuldade?: any;
   disciplina?: any;
   autor?: any;
-  tags?: any[];
+  tag?: string;
 }

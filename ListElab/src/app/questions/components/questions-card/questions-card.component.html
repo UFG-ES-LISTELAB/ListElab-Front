@@ -27,10 +27,19 @@
       <span>Autor</span>
       <span>{{ question.autor }}</span>
     </div>
-    <div class="col-md-6 col-sm-12 item">
+    <div class="col-md-5 col-sm-12 item">
       <span>Tags</span>
-      <span>{{ question.tags[0] }}</span>
+      <span>{{ question.tag }}</span>
+    </div>
+    <div class="col-md-1 col-sm-12 item--menu"
+         [matMenuTriggerFor]="appMenu">
+      <mat-icon>more_vert</mat-icon>
     </div>
   </div>
 
 </mat-card>
+
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item>Settings</button>
+  <button mat-menu-item>Help</button>
+</mat-menu>

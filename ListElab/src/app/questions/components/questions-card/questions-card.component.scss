@@ -1,20 +1,21 @@
 .item {
   margin-bottom: 12px;
-
   & span:first-child {
     font-size: 10px;
-    font-weight: 600;
     display: block;
+    text-transform: uppercase;
   }
   & span:last-child {
     font-size: 16px;
     display: block;
-    font-variant: small-caps;
   }
-
 }
 
 .item--enunciado {
   padding: 10px;
   background-color: #f7f7f7;
+}
+
+.item--menu {
+  cursor: pointer;
 }

@@ -8,7 +8,8 @@ import {
   MatToolbarModule,
   MatTableModule,
   MatPaginatorModule,
-  MatCardModule
+  MatCardModule,
+  MatMenuModule
 } from '@angular/material';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
@@ -19,7 +20,8 @@ const MATERIAL_MODULES = [
   MatInputModule,
   MatTableModule,
   MatPaginatorModule,
-  MatCardModule
+  MatCardModule,
+  MatMenuModule
 ];
 
 @NgModule({

@@ -25,10 +25,7 @@ export class QuestionsListComponent implements OnInit {
       disciplina: 'História do Brasil',
       areaConhecimento: 'Ciências Humanas',
       autor: 'Desconhecido',
-      tags: [
-        'Cabral',
-        'Descobrimento'
-      ]
+      tag: 'Cabral',
     };
     // this.questionsService.getQuestions()
     //   .subscribe(questions => this.questions = questions);
