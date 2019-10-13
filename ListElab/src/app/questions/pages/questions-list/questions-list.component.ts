@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {Question} from '../../questions.model';
 import {FormBuilder} from '@angular/forms';
 import {QuestionsService} from '../../questions.service';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-questions-list',
@@ -11,24 +12,15 @@ import {QuestionsService} from '../../questions.service';
 })
 export class QuestionsListComponent implements OnInit {
 
-  question: Question;
+  questions: Question[] = [];
+  hasError: any;
 
   constructor(private fb: FormBuilder,
               private questionsService: QuestionsService) {}
 
   ngOnInit() {
-    this.question = {
-      id: 1,
-      tipo: 'Discursiva',
-      enunciado: '3) Enunciado de uma questão que precisa ser respondida',
-      dificuldade: 'Fácil',
-      disciplina: 'História do Brasil',
-      areaConhecimento: 'Ciências Humanas',
-      autor: 'Desconhecido',
-      tag: 'Cabral',
-    };
-    // this.questionsService.getQuestions()
-    //   .subscribe(questions => this.questions = questions);
+    this.questionsService.getQuestions()
+      .subscribe(questions => this.questions = questions);
   }
 
 }

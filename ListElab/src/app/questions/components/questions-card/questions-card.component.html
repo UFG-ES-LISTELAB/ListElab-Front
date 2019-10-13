@@ -32,14 +32,16 @@
       <span>{{ question.tag }}</span>
     </div>
     <div class="col-md-1 col-sm-12 item--menu"
-         [matMenuTriggerFor]="appMenu">
+         [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </div>
   </div>
 
-</mat-card>
+  <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
+    <ng-template matMenuContent>
+      <button mat-menu-item (click)="handleDetalhes()">Detalhes</button>
+      <button mat-menu-item (click)="handleEliminar()">Eliminar</button>
+    </ng-template>
+  </mat-menu>
 
-<mat-menu #appMenu="matMenu">
-  <button mat-menu-item>Settings</button>
-  <button mat-menu-item>Help</button>
-</mat-menu>
+</mat-card>

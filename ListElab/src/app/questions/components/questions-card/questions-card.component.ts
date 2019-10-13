@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {Question} from '../../questions.model';
 
 @Component({
@@ -15,4 +15,11 @@ export class QuestionsCardComponent implements OnInit {
   ngOnInit() {
   }
 
+  handleDetalhes() {
+    console.log('detalhes');
+  }
+
+  handleEliminar() {
+    console.log('eliminar');
+  }
 }

@@ -2,9 +2,20 @@
 
   <app-questions-search></app-questions-search>
 
-  <app-questions-card [question]="question"></app-questions-card>
-  <app-questions-card [question]="question"></app-questions-card>
-  <app-questions-card [question]="question"></app-questions-card>
+  <app-questions-card *ngFor="let question of questions"
+                      [question]="question"></app-questions-card>
+
+  <div *ngIf="questions.length === 0">
+    <mat-card>
+      <span>Nenhuma questão encontrada</span>
+    </mat-card>
+  </div>
+
+  <div *ngIf="hasError">
+    <mat-card>
+      <span>Não foi possível acessar os dados.</span>
+    </mat-card>
+  </div>
 
   <br>
 </div>
