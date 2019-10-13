@@ -4,20 +4,6 @@ import {Question} from '../../questions.model';
 import {FormBuilder} from '@angular/forms';
 import {QuestionsService} from '../../questions.service';
 
-const ELEMENT_DATA: Question[] = [
-  {id: 1,   enunciado: 'Hydrogen',  areaConhecimento: 'Computação',     tipo: 'Discursiva',  dificuldade: 'Fácil' },
-  {id: 2,   enunciado: 'Helium',    areaConhecimento: 'Computação',     tipo: 'Discursiva', dificuldade: 'Fácil' },
-  {id: 3,   enunciado: 'Lithium',   areaConhecimento: 'Computação',      tipo: 'Discursiva', dificuldade: 'Fácil' },
-  {id: 4,   enunciado: 'Beryllium', areaConhecimento: 'Computação',     tipo: 'Discursiva', dificuldade: 'Fácil' },
-  {id: 5,   enunciado: 'Boron',     areaConhecimento: 'Computação',     tipo: 'Discursiva',  dificuldade: 'Fácil' },
-  {id: 6,   enunciado: 'Carbon',    areaConhecimento: 'Computação',    tipo: 'Discursiva',  dificuldade: 'Fácil' },
-  {id: 7,   enunciado: 'Nitrogen',  areaConhecimento: 'Computação',    tipo: 'Discursiva',  dificuldade: 'Fácil' },
-  {id: 8,   enunciado: 'Oxygen',    areaConhecimento: 'Computação',    tipo: 'Discursiva',  dificuldade: 'Fácil' },
-  {id: 9,   enunciado: 'Fluorine',  areaConhecimento: 'Computação',    tipo: 'Discursiva',  dificuldade: 'Fácil' },
-  {id: 10,  enunciado: 'Neon',      areaConhecimento: 'Computação',    tipo: 'Discursiva', dificuldade: 'Fácil' },
-];
-
-
 @Component({
   selector: 'app-questions-list',
   templateUrl: './questions-list.component.html',
@@ -25,13 +11,25 @@ const ELEMENT_DATA: Question[] = [
 })
 export class QuestionsListComponent implements OnInit {
 
-  displayedColumns: string[] = [ 'enunciado', 'areaConhecimento', 'tipo', 'dificuldade' ];
-  dataSource = ELEMENT_DATA;
+  question: Question;
 
   constructor(private fb: FormBuilder,
               private questionsService: QuestionsService) {}
 
   ngOnInit() {
+    this.question = {
+      id: 1,
+      tipo: 'Discursiva',
+      enunciado: '3) Enunciado de uma questão que precisa ser respondida',
+      dificuldade: 'Fácil',
+      disciplina: 'História do Brasil',
+      areaConhecimento: 'Ciências Humanas',
+      autor: 'Desconhecido',
+      tags: [
+        'Cabral',
+        'Descobrimento'
+      ]
+    };
     // this.questionsService.getQuestions()
     //   .subscribe(questions => this.questions = questions);
   }

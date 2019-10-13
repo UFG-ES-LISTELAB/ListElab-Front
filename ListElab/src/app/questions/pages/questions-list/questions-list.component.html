@@ -1,18 +1,10 @@
 <div class="container">
 
-  <br>
   <app-questions-search></app-questions-search>
-  <br>
 
-  <app-questions-card
-    [tipo]="'Discursiva'"
-    [dificuldade]="'Fácil'"
-    [disciplina]="'Administração Pública'"
-    [areaConhecimento]="'Políticas Públicas'"
-    [enunciado]="'3) Enunciado de uma questão'"
-    [autor]="'Desconhecido'"
-    [tags]="'Século XX'"
-  ></app-questions-card>
+  <app-questions-card [question]="question"></app-questions-card>
+  <app-questions-card [question]="question"></app-questions-card>
+  <app-questions-card [question]="question"></app-questions-card>
 
   <br>
 </div>

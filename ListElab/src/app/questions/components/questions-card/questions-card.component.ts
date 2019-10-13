@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Question} from '../../questions.model';
 
 @Component({
   selector: 'app-questions-card',
@@ -7,13 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class QuestionsCardComponent implements OnInit {
 
-  @Input() tipo: string;
-  @Input() dificuldade: string;
-  @Input() disciplina: string;
-  @Input() areaConhecimento: string;
-  @Input() enunciado: string;
-  @Input() autor: string;
-  @Input() tags: string;
+  @Input() question: Question;
 
   constructor() { }
 

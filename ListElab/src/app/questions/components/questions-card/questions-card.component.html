@@ -1,42 +1,36 @@
-<div class="row">
-  <div class="col-md-12">
+<mat-card class="mat-elevation-z8 full-width" style="margin-bottom: 20px">
 
-    <mat-card class="mat-elevation-z8 full-width">
-
-      <div class="row">
-        <div class="col-md-3 col-sm-12 item">
-          <span>Tipo</span>
-          <span>{{ tipo }}</span>
-        </div>
-        <div class="col-md-3 col-sm-12 item">
-          <span>Dificuldade</span>
-          <span>{{ dificuldade }}</span>
-        </div>
-        <div class="col-md-3 col-sm-12 item">
-          <span>Disciplina</span>
-          <span>{{ disciplina }}</span>
-        </div>
-        <div class="col-md-3 col-sm-12 item">
-          <span>Área de Conhecimento</span>
-          <span>{{ areaConhecimento }}</span>
-        </div>
-        <div class="col-md-12 col-sm-12 item">
-          <span>Enunciado</span>
-          <span style="padding: 10px; background-color: #f7f7f7;">
-            {{ enunciado }}
-          </span>
-        </div>
-        <div class="col-md-6 col-sm-12 item">
-          <span>Autor</span>
-          <span>{{ autor }}</span>
-        </div>
-        <div class="col-md-6 col-sm-12 item">
-          <span>Tags</span>
-          <span>{{ tags }}</span>
-        </div>
-      </div>
-
-    </mat-card>
-
+  <div class="row">
+    <div class="col-md-3 col-sm-12 item">
+      <span>Tipo</span>
+      <span>{{ question.tipo }}</span>
+    </div>
+    <div class="col-md-3 col-sm-12 item">
+      <span>Dificuldade</span>
+      <span>{{ question.dificuldade }}</span>
+    </div>
+    <div class="col-md-3 col-sm-12 item">
+      <span>Disciplina</span>
+      <span>{{ question.disciplina }}</span>
+    </div>
+    <div class="col-md-3 col-sm-12 item">
+      <span>Área de Conhecimento</span>
+      <span>{{ question.areaConhecimento }}</span>
+    </div>
+    <div class="col-md-12 col-sm-12 item item--enunciado">
+      <span>Enunciado</span>
+      <span>
+        {{ question.enunciado }}
+      </span>
+    </div>
+    <div class="col-md-6 col-sm-12 item">
+      <span>Autor</span>
+      <span>{{ question.autor }}</span>
+    </div>
+    <div class="col-md-6 col-sm-12 item">
+      <span>Tags</span>
+      <span>{{ question.tags[0] }}</span>
+    </div>
   </div>
-</div>
+
+</mat-card>

@@ -1,7 +1,10 @@
 export interface Question {
   id?: any;
+  tipo?: any;
   enunciado?: any;
   areaConhecimento?: any;
-  tipo?: any;
   dificuldade?: any;
+  disciplina?: any;
+  autor?: any;
+  tags?: any[];
 }

@@ -1,43 +1,46 @@
-<form [formGroup]="searchForm">
+<div style="margin: 15px 0;">
+  <form [formGroup]="searchForm">
 
-  <div class="row" style="margin-bottom: 10px;">
-    <div class="col-md-6" style="text-align: left;">
-      <h3 style="text-transform: capitalize">Questões</h3>
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-start; align-items: center;">
+        <h3 style="text-transform: capitalize">Questões</h3>
+      </div>
+      <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-end; align-items: center;">
+        <button mat-raised-button color="primary">Buscar</button>
+      </div>
     </div>
-    <div class="col-md-6" style="text-align: right;">
-      <button mat-raised-button color="primary">Buscar</button>
+
+    <div class="row">
+      <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12" appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Buscar" autocomplete="off">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Autor" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Dificuldade" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Tipo" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Área de Conhecimento" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Disciplina" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="search" placeholder="Tags" autocomplete="off">
+      </mat-form-field>
     </div>
-  </div>
 
-  <div class="row">
-    <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12" appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Buscar" autocomplete="off">
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+  </form>
 
-    <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Autor" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Dificuldade" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Tipo" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Área de Conhecimento" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Disciplina" autocomplete="off">
-    </mat-form-field>
-
-    <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-      <input matInput type="text" formControlName="search" placeholder="Tags" autocomplete="off">
-    </mat-form-field>
-  </div>
-
-</form>
+</div>
