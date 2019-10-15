@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
 
 @Component({
   selector: 'app-questions-search',
@@ -10,7 +12,8 @@ export class QuestionsSearchComponent implements OnInit {
 
   searchForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private router: Router) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -18,4 +21,7 @@ export class QuestionsSearchComponent implements OnInit {
     });
   }
 
+  handleGoNovaQuestao() {
+    this.router.navigate([QUESTOES_CRIAR]);
+  }
 }

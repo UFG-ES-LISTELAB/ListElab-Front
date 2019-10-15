@@ -9,7 +9,8 @@ import {QuestionsListComponent} from './pages/questions-list/questions-list.comp
 const routes: Routes = [
   { path: '', component: QuestionsComponent, children: [
       { path: '', component: QuestionsListComponent },
-      { path: 'new', component: QuestionsNewComponent }
+      { path: 'new', component: QuestionsNewComponent },
+      { path: 'edit', component: QuestionsNewComponent },
   ]},
 ];
 
