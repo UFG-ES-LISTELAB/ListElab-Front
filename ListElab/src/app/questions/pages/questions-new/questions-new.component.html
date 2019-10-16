@@ -1,0 +1,131 @@
+<div class="container">
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <button (click)="handleReturnList()" mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-md-12">
+
+      <mat-card>
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <p>Nova Questão</p>
+          </div>
+        </div>
+        <form>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12"  appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <mat-select>
+                  <mat-option>Discursiva</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12"  appearance="outline">
+                <mat-label>Área de Conhecimento</mat-label>
+                <mat-select>
+                  <mat-option>Fácil</mat-option>
+                  <mat-option>Tranquilo</mat-option>
+                  <mat-option>Dificil</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Disciplina</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Dificuldade</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Enunciado</mat-label>
+                <textarea matInput rows="5"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Autor</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div><br>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Respostas Possíveis</h4>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Tag</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Peso</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <button mat-icon-button color="warn">
+                <mat-icon>done</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Tag</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Peso</mat-label>
+                <input matInput type="text">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <button mat-icon-button color="warn">
+                <mat-icon>done</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <button class="full-width" mat-raised-button color="primary">Salvar</button>
+            </div>
+          </div>
+
+        </form>
+
+      </mat-card>
+    </div>
+
+  </div>
+</div>
