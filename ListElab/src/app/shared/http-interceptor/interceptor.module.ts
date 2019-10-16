@@ -9,7 +9,7 @@ import {
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {LocalStorageService} from '../services/local-storage.service';
-import {LoginService} from '../services/login.service';
+import {LoginService} from '../../login/login.service';
 
 @Injectable()
 export class HttpsRequestInterceptor implements HttpInterceptor {
@@ -18,10 +18,10 @@ export class HttpsRequestInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>,
             next: HttpHandler): Observable<HttpEvent<any>> {
-    const auth = this.injector.get(LoginService);
+    const login = this.injector.get(LoginService);
     const storage = this.injector.get(LocalStorageService);
 
-    if (LoginService.isAuthenticated()) {
+    if (login.isAuthenticated()) {
       const dupReq = req.clone({
         headers: req.headers.set('Authorization', storage.getItem('token')),
       });
