@@ -1,5 +1,7 @@
 <div class="container">
 
+  <button (click)="handleLogin()">Login</button>
+
   <app-questions-search></app-questions-search>
 
   <app-questions-card *ngFor="let question of questions"

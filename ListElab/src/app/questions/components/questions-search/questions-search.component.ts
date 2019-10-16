@@ -26,11 +26,4 @@ export class QuestionsSearchComponent implements OnInit {
   handleGoNovaQuestao() {
     this.router.navigate([QUESTOES_CRIAR]);
   }
-
-  handleLogin() {
-    this.loginService.login(
-      { email: 'professor@ufg.br', password: 123456 }).subscribe(x => {
-      console.log(x);
-    });
-  }
 }

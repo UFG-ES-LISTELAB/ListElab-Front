@@ -12,6 +12,5 @@ export const ROUTES = {
 export const QUESTOES_LISTAR = `/${ROUTES.questoes.base}/`;
 export const QUESTOES_CRIAR = `/${ROUTES.questoes.base}/${ROUTES.questoes.nova}`;
 
-
 // Login Module
 export const LOGIN = `${ROUTES.login.base}`;

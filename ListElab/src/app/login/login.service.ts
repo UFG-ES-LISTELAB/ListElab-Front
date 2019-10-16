@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {LocalStorageService} from '../shared/services/local-storage.service';
 import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 import {LOGIN} from '../shared/constants/routes.contants';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,14 +16,14 @@ export class LoginService {
   onLogout = new Subject();
 
   constructor(private http: HttpClient,
-              private dialog: MatDialog,
               private localStorageService: LocalStorageService,
               private router: Router) {}
 
   login(login: any): Observable<any> {
-    return this.http.post(LOGIN, login).pipe(
+    return this.http.post(`http://sifo.tech/api/Usuario/login`, login).pipe(
       tap(response => {
-        this.localStorageService.setItem('token', `Token ${response.key}`);
+        console.log(response);
+        this.localStorageService.setItem('token', `Bearer ${response.key}`);
         this.onLogin.next();
       })
     );

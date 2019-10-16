@@ -12,20 +12,28 @@
 
     <div class="row">
       <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12" appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Buscar" autocomplete="off">
+        <input matInput type="text" formControlName="buscar" placeholder="Buscar" autocomplete="off">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Autor" autocomplete="off">
+        <input matInput type="text" formControlName="autor" placeholder="Autor" autocomplete="off">
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Dificuldade" autocomplete="off">
+        <mat-label>Dificuldade</mat-label>
+        <mat-select formControlName="search">
+          <mat-option>Fácil</mat-option>
+          <mat-option>Tranquilo</mat-option>
+          <mat-option>Dificil</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Tipo" autocomplete="off">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="search">
+          <mat-option>Discursiva</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
@@ -40,8 +48,6 @@
         <input matInput type="text" formControlName="search" placeholder="Tags" autocomplete="off">
       </mat-form-field>
     </div>
-
-    <button (click)="handleLogin()">Login</button>
 
   </form>
 
