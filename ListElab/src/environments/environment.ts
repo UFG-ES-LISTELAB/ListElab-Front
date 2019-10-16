@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'http://sifo.tech/api/'
+  api: 'http://sifo.tech/api'
 };
 
 /*
