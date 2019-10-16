@@ -14,4 +14,4 @@ export const QUESTOES_CRIAR = `/${ROUTES.questoes.base}/${ROUTES.questoes.nova}`
 
 
 // Login Module
-export const ENTRAR = `${ROUTES.login.base}`;
+export const LOGIN = `${ROUTES.login.base}`;
