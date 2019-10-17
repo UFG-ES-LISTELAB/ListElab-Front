@@ -27,4 +27,5 @@ export class QuestionsListComponent implements OnInit {
   handleLogin() {
     this.loginService.login({ email: 'professor@ufg.br', password: 123456 }).subscribe((x: ApiResponse) => {});
   }
+
 }

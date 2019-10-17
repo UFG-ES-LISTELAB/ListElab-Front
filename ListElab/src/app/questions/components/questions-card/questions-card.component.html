@@ -7,7 +7,7 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Dificuldade</span>
-      <span>{{ question.dificuldade }}</span>
+      <span>{{ question.nivelDificuldade }}</span>
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Disciplina</span>
@@ -15,7 +15,7 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
-      <span>{{ question.areaConhecimento }}</span>
+      <span>{{ question.areaDeConhecimento }}</span>
     </div>
     <div class="col-md-12 col-sm-12 item item--enunciado">
       <span>Enunciado</span>
@@ -25,11 +25,11 @@
     </div>
     <div class="col-md-6 col-sm-12 item">
       <span>Autor</span>
-      <span>{{ question.autor }}</span>
+      <span>{{ question.usuario }}</span>
     </div>
     <div class="col-md-5 col-sm-12 item">
       <span>Tags</span>
-      <span>{{ question.tag }}</span>
+      <span>{{ question.tags }}</span>
     </div>
     <div class="col-md-1 col-sm-12 item--menu"
          [matMenuTriggerFor]="menu">

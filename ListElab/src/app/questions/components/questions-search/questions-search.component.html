@@ -6,7 +6,7 @@
         <h3 style="text-transform: capitalize">Questões</h3>
       </div>
       <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-end; align-items: center;">
-        <button mat-raised-button color="accent" (click)="handleGoNovaQuestao()">Nova Questão</button>
+        <button mat-raised-button color="accent" type="button" (click)="handleGoNovaQuestao()">Nova Questão</button>
       </div>
     </div>
 
@@ -22,7 +22,7 @@
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Dificuldade</mat-label>
-        <mat-select formControlName="search">
+        <mat-select formControlName="nivelDificuldade">
           <mat-option>Fácil</mat-option>
           <mat-option>Tranquilo</mat-option>
           <mat-option>Dificil</mat-option>
@@ -31,21 +31,21 @@
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Tipo</mat-label>
-        <mat-select formControlName="search">
+        <mat-select formControlName="tipo">
           <mat-option>Discursiva</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Área de Conhecimento" autocomplete="off">
+        <input matInput type="text" formControlName="areaDeConhecimento" placeholder="Área de Conhecimento" autocomplete="off">
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Disciplina" autocomplete="off">
+        <input matInput type="text" formControlName="disciplina" placeholder="Disciplina" autocomplete="off">
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-        <input matInput type="text" formControlName="search" placeholder="Tags" autocomplete="off">
+        <input matInput type="text" formControlName="tags" placeholder="Tags" autocomplete="off">
       </mat-form-field>
     </div>
 
