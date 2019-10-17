@@ -11,7 +11,7 @@ export class QuestionsService {
 
   constructor(private http: HttpClient) {}
 
-  getQuestions(): Observable<any> {
+  getQuestions(params): Observable<any> {
     return this.http.get(`${environment.api}/QuestaoDiscursiva`);
   }
 

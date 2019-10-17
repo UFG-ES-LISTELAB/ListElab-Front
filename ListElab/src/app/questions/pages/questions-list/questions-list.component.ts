@@ -14,18 +14,32 @@ export class QuestionsListComponent implements OnInit {
 
   questions: Question[] = [];
   hasError: any;
+  isLoading: boolean;
 
   constructor(private fb: FormBuilder,
               private loginService: LoginService,
               private questionsService: QuestionsService) {}
 
   ngOnInit() {
-    this.questionsService.getQuestions()
-      .subscribe((response: ApiResponse) => this.questions = response.resultado);
+    this.isLoading = true;
+    this.searchQuestions();
   }
 
   handleLogin() {
     this.loginService.login({ email: 'professor@ufg.br', password: 123456 }).subscribe((x: ApiResponse) => {});
+  }
+
+  searchQuestions(params = {}) {
+    this.isLoading = true;
+    this.questionsService.getQuestions(params)
+      .subscribe((response: ApiResponse) => {
+        this.questions = response.resultado;
+        this.isLoading = false;
+      });
+  }
+
+  handleSearchFormSubmition(searchForm) {
+    this.searchQuestions(searchForm);
   }
 
 }

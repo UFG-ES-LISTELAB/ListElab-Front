@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
@@ -11,6 +11,7 @@ import {LoginService} from '../../../login/login.service';
 })
 export class QuestionsSearchComponent implements OnInit {
 
+  @Output() emitSearchFormSubmition = new EventEmitter();
   searchForm: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -32,4 +33,9 @@ export class QuestionsSearchComponent implements OnInit {
   handleGoNovaQuestao() {
     this.router.navigate([QUESTOES_CRIAR]);
   }
+
+  handleFormSubmition() {
+    this.emitSearchFormSubmition.emit(this.searchForm.value);
+  }
+
 }

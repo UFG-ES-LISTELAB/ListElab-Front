@@ -11,7 +11,6 @@ import { QuestionsSearchComponent } from './components/questions-search/question
 import { QuestionsNewComponent } from './pages/questions-new/questions-new.component';
 import { QuestionsListComponent } from './pages/questions-list/questions-list.component';
 import { QuestionsCardComponent } from './components/questions-card/questions-card.component';
-import {AgGridModule} from 'ag-grid-angular';
 
 
 @NgModule({
@@ -27,8 +26,7 @@ import {AgGridModule} from 'ag-grid-angular';
     QuestionsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AgGridModule.withComponents([]),
-    SharedModule
+    SharedModule,
   ]
 })
 export class QuestionsModule { }

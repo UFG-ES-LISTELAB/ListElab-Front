@@ -1,16 +1,24 @@
+<div [hidden]="!isLoading">
+  <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+</div>
+
 <div class="container">
 
   <button (click)="handleLogin()">Login</button>
 
-  <app-questions-search></app-questions-search>
+  <app-questions-search (emitSearchFormSubmition)="handleSearchFormSubmition($event)"></app-questions-search>
 
-  <app-questions-card *ngFor="let question of questions"
+  <app-questions-card [hidden]="isLoading" *ngFor="let question of questions;"
                       [question]="question"></app-questions-card>
 
-  <div *ngIf="questions.length === 0">
+  <div *ngIf="!isLoading && questions.length === 0">
     <mat-card>
       <span>Nenhuma questão encontrada</span>
     </mat-card>
+  </div>
+
+  <div *ngIf="isLoading" style="display: flex; justify-content: center; align-items: center;">
+    <mat-spinner></mat-spinner>
   </div>
 
   <div *ngIf="hasError">
@@ -21,3 +29,4 @@
 
   <br>
 </div>
+
