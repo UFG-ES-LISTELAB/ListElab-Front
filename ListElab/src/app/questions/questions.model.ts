@@ -1,10 +1,17 @@
 export interface Question {
-  id?: any;
-  tipo?: any;
-  enunciado?: any;
-  areaConhecimento?: any;
-  dificuldade?: any;
+  id?: number;
+  tipo?: number;
+  enunciado?: string;
+  areaConhecimento?: number;
+  nivelDificuldade?: any;
   disciplina?: any;
   autor?: any;
-  tag?: string;
+  respostaEsperada?: PalavraChave[];
+  tempoMaximoDeResposta?: number;
+  tags?: string[];
+}
+
+export interface PalavraChave {
+  descricao: string;
+  peso: number;
 }

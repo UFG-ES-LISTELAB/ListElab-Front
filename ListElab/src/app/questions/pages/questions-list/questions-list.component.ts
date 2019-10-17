@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-
 import {Question} from '../../questions.model';
 import {FormBuilder} from '@angular/forms';
 import {QuestionsService} from '../../questions.service';
-import {HttpErrorResponse} from '@angular/common/http';
 import {LoginService} from '../../../login/login.service';
+import {ApiResponse} from '../../../shared/models/api-response.model';
 
 @Component({
   selector: 'app-questions-list',
@@ -22,12 +21,10 @@ export class QuestionsListComponent implements OnInit {
 
   ngOnInit() {
     this.questionsService.getQuestions()
-      .subscribe(questions => this.questions = questions);
+      .subscribe((response: ApiResponse) => this.questions = response.resultado);
   }
 
   handleLogin() {
-    this.loginService.login({ email: 'professor@ufg.br', password: 123456 }).subscribe(x => {
-      console.log(x);
-    });
+    this.loginService.login({ email: 'professor@ufg.br', password: 123456 }).subscribe((x: ApiResponse) => {});
   }
 }
