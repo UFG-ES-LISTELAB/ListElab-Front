@@ -26,7 +26,10 @@ export class QuestionsListComponent implements OnInit {
   }
 
   handleLogin() {
-    this.loginService.login({ email: 'professor@ufg.br', password: 123456 }).subscribe((x: ApiResponse) => {});
+    this.loginService.login(
+      { email: 'professor@ufg.br', password: 123456 })
+      .subscribe(
+        (x: ApiResponse) => {}, error => { this.hasError = error; });
   }
 
   searchQuestions(params = {}) {
@@ -34,7 +37,10 @@ export class QuestionsListComponent implements OnInit {
     this.questionsService.getQuestions(params)
       .subscribe((response: ApiResponse) => {
         this.questions = response.resultado;
+        console.log(this.questions);
         this.isLoading = false;
+      }, error => {
+        this.hasError = error;
       });
   }
 

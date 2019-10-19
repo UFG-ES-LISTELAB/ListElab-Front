@@ -6,9 +6,9 @@ export interface Question {
   nivelDificuldade?: any;
   disciplina?: any;
   respostaEsperada?: PalavraChave[];
-  tempoMaximoDeResposta?: number;
   tags?: string[];
-  autor?: any;
+  tempoMaximoDeResposta?: number;
+  // autor?: any;
   usuario: any;
 }
 
