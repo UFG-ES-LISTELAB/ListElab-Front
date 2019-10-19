@@ -11,7 +11,7 @@ export const ROUTES = {
 };
 
 // Questões Module
-export const QUESTOES_LISTAR  =   `${ROUTES.questoes.base}/${ROUTES.questoes.listar}`;
+export const QUESTOES_LISTAR  =   `${ROUTES.questoes.base}/`;
 export const QUESTOES_CRIAR   =   `${ROUTES.questoes.base}/${ROUTES.questoes.criar}`;
 export const QUESTOES_EDITAR  =   `${ROUTES.questoes.base}/${ROUTES.questoes.editar}`;
 

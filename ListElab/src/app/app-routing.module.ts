@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'questions'
+    redirectTo: ROUTES.questoes.base
   },
   {
     path: ROUTES.login.base,

@@ -7,6 +7,15 @@ import {ApiResponse} from '../../shared/models/api-response.model';
 import {Router} from '@angular/router';
 import {QUESTOES_CRIAR, QUESTOES_EDITAR} from '../../shared/constants/routes.contants';
 
+const emptyQuestion: Question = {
+  id: null,
+  tipo: 0,
+  enunciado: '',
+  areaDeConhecimento: 0,
+  nivelDificuldade: 0,
+  tempoMaximoDeResposta: 0,
+};
+
 @Component({
   selector: 'app-questions-list',
   templateUrl: './questions-list.component.html',
@@ -52,10 +61,12 @@ export class QuestionsListComponent implements OnInit {
   }
 
   onQuestionNew() {
-    this.router.navigateByUrl(QUESTOES_CRIAR);
+    this.questionsService.selectedQuestion = emptyQuestion;
+    this.router.navigate([QUESTOES_CRIAR]);
   }
 
   onQuestionSelected(question: Question) {
-    this.router.navigateByUrl(QUESTOES_EDITAR);
+    this.questionsService.selectedQuestion = question;
+    this.router.navigate([QUESTOES_EDITAR]);
   }
 }

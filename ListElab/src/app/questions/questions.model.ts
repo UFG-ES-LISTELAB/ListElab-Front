@@ -8,7 +8,7 @@ export interface Question {
   tags?: string[];
   tempoMaximoDeResposta?: number;
   // autor?: any;
-  usuario: any;
+  usuario?: any;
 }
 
 export interface PalavraChave {

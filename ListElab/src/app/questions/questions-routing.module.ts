@@ -9,7 +9,7 @@ import {QUESTOES_LISTAR, ROUTES} from '../shared/constants/routes.contants';
 
 const routes: Routes = [
   { path: '', component: QuestionsComponent, children: [
-      { path: `${ROUTES.questoes.listar}`, component: QuestionsListComponent },
+      { path: '', component: QuestionsListComponent, pathMatch: 'full' },
       { path: `${ROUTES.questoes.criar}`, component: QuestionsFormComponent },
       { path: `${ROUTES.questoes.editar}`, component: QuestionsFormComponent },
     ]},

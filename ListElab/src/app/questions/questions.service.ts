@@ -3,11 +3,14 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
+import {Question} from './questions.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionsService {
+
+  selectedQuestion: Question;
 
   constructor(private http: HttpClient) {}
 
