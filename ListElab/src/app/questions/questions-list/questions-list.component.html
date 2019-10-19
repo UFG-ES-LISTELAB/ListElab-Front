@@ -6,10 +6,15 @@
 
   <button (click)="handleLogin()">Login</button>
 
-  <app-questions-search (emitSearchFormSubmition)="handleSearchFormSubmition($event)"></app-questions-search>
+  <app-questions-search
+    (questionNew)="onQuestionNew()"
+    (submitted)="onFormSubmit($event)">
+  </app-questions-search>
 
-  <app-questions-card [hidden]="isLoading" *ngFor="let question of questions;"
-                      [question]="question"></app-questions-card>
+  <app-questions-card *ngFor="let question of questions;"
+                      [hidden]="isLoading"
+                      [question]="question"
+                      (questionSelected)="onQuestionSelected()"></app-questions-card>
 
   <div *ngIf="!isLoading && questions.length === 0">
     <mat-card>

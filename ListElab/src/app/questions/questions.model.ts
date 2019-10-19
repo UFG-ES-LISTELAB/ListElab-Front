@@ -1,10 +1,9 @@
 export interface Question {
-  id?: number;
+  id?: string;
   tipo?: number;
   enunciado?: string;
   areaDeConhecimento?: number;
   nivelDificuldade?: any;
-  disciplina?: any;
   respostaEsperada?: PalavraChave[];
   tags?: string[];
   tempoMaximoDeResposta?: number;

@@ -10,14 +10,14 @@
       <span>{{ question.nivelDificuldade }}</span>
     </div>
     <div class="col-md-3 col-sm-12 item">
-      <span>Disciplina</span>
-      <span>{{ question.disciplina }}</span>
-    </div>
-    <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
       <span>{{ question.areaDeConhecimento }}</span>
     </div>
-    <div class="col-md-12 col-sm-12 item item--enunciado">
+    <div class="col-md-3 col-sm-12 item">
+      <span>Tempo de Resposta</span>
+      <span>{{ question.tempoMaximoDeResposta }}</span>
+    </div>
+    <div class="col-md-12 col-sm-12 item">
       <span>Enunciado</span>
       <span>
         {{ question.enunciado }}
@@ -39,8 +39,8 @@
 
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent>
-      <button mat-menu-item (click)="handleDetalhes()">Detalhes</button>
-      <button mat-menu-item (click)="handleEliminar()">Eliminar</button>
+      <button mat-menu-item (click)="selectDetail()">Detalhes</button>
+      <button mat-menu-item (click)="selectDelete()">Eliminar</button>
     </ng-template>
   </mat-menu>
 

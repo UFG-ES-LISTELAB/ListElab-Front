@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
-import {QUESTOES_LISTAR} from '../../../shared/constants/routes.contants';
+import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
-import {PalavraChave, Question} from '../../questions.model';
+import {PalavraChave, Question} from '../questions.model';
 
 @Component({
-  selector: 'app-questions-new',
-  templateUrl: './questions-new.component.html',
-  styleUrls: ['./questions-new.component.scss']
+  selector: 'app-questions-form',
+  templateUrl: './questions-form.component.html',
+  styleUrls: ['./questions-form.component.scss']
 })
-export class QuestionsNewComponent implements OnInit {
+export class QuestionsFormComponent implements OnInit {
 
   questionForm: FormGroup;
 
@@ -22,6 +22,7 @@ export class QuestionsNewComponent implements OnInit {
       tipo: ['a'],
       areaDeConhecimento: ['a'],
       // disciplina: ['a'],
+      tempoMaximoDeResposta: 0,
       dificuldade: ['a'],
       enunciado: ['a'],
       autor: ['a']
@@ -33,13 +34,12 @@ export class QuestionsNewComponent implements OnInit {
     // this.respostasEsperadasForm.push(this.createItem());
   }
 
-  // createItem(): FormGroup {
-  //   return this.formBuilder.group({
-  //     name: '',
-  //     description: '',
-  //     price: ''
-  //   });
-  // }
+  createItem(): FormGroup {
+    return this.fb.group({
+      descricao: '',
+      peso: 0.0
+    });
+  }
 
   handleReturnList() {
     this.router.navigate([QUESTOES_LISTAR]);

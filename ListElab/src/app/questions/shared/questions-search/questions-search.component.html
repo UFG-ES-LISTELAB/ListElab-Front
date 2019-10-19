@@ -6,7 +6,7 @@
         <h3 style="text-transform: capitalize">Questões</h3>
       </div>
       <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-end; align-items: center;">
-        <button mat-raised-button [color]="'primary'" type="button" (click)="handleGoNovaQuestao()">Nova Questão</button>
+        <button mat-raised-button [color]="'primary'" type="button" (click)="handleNewQuestion()">Nova Questão</button>
       </div>
     </div>
 
@@ -40,8 +40,12 @@
         <input matInput type="text" formControlName="areaDeConhecimento" placeholder="Área de Conhecimento" autocomplete="off">
       </mat-form-field>
 
+<!--      <mat-form-field class="col-md-3 col-sm-12 full-width font-size&#45;&#45;12"  appearance="outline">-->
+<!--        <input matInput type="text" formControlName="disciplina" placeholder="Disciplina" autocomplete="off">-->
+<!--      </mat-form-field>-->
+
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
-        <input matInput type="text" formControlName="disciplina" placeholder="Disciplina" autocomplete="off">
+        <input matInput type="text" formControlName="tempoMaximoDeResposta" placeholder="Tempo máximo de resposta" autocomplete="off">
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">

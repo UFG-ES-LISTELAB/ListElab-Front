@@ -7,17 +7,17 @@ import { QuestionsRoutingModule } from './questions-routing.module';
 
 import { QuestionsComponent } from './questions.component';
 
-import { QuestionsSearchComponent } from './components/questions-search/questions-search.component';
-import { QuestionsNewComponent } from './pages/questions-new/questions-new.component';
-import { QuestionsListComponent } from './pages/questions-list/questions-list.component';
-import { QuestionsCardComponent } from './components/questions-card/questions-card.component';
+import { QuestionsSearchComponent } from './shared/questions-search/questions-search.component';
+import { QuestionsFormComponent } from './questions-form/questions-form.component';
+import { QuestionsListComponent } from './questions-list/questions-list.component';
+import { QuestionsCardComponent } from './shared/questions-card/questions-card.component';
 
 
 @NgModule({
   declarations: [
     QuestionsSearchComponent,
     QuestionsComponent,
-    QuestionsNewComponent,
+    QuestionsFormComponent,
     QuestionsListComponent,
     QuestionsCardComponent,
   ],

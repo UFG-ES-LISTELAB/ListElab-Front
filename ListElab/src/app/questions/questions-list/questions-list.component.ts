@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Question} from '../../questions.model';
+import {Question} from '../questions.model';
 import {FormBuilder} from '@angular/forms';
-import {QuestionsService} from '../../questions.service';
-import {LoginService} from '../../../login/login.service';
-import {ApiResponse} from '../../../shared/models/api-response.model';
+import {QuestionsService} from '../questions.service';
+import {LoginService} from '../../login/login.service';
+import {ApiResponse} from '../../shared/models/api-response.model';
+import {Router} from '@angular/router';
+import {QUESTOES_CRIAR, QUESTOES_EDITAR} from '../../shared/constants/routes.contants';
 
 @Component({
   selector: 'app-questions-list',
@@ -17,6 +19,7 @@ export class QuestionsListComponent implements OnInit {
   isLoading: boolean;
 
   constructor(private fb: FormBuilder,
+              private router: Router,
               private loginService: LoginService,
               private questionsService: QuestionsService) {}
 
@@ -44,8 +47,15 @@ export class QuestionsListComponent implements OnInit {
       });
   }
 
-  handleSearchFormSubmition(searchForm) {
+  onFormSubmit(searchForm) {
     this.searchQuestions(searchForm);
   }
 
+  onQuestionNew() {
+    this.router.navigate([QUESTOES_CRIAR]);
+  }
+
+  onQuestionSelected() {
+    this.router.navigate([QUESTOES_EDITAR]);
+  }
 }

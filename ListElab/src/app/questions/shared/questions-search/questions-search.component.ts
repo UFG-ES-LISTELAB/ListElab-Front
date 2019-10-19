@@ -11,7 +11,9 @@ import {LoginService} from '../../../login/login.service';
 })
 export class QuestionsSearchComponent implements OnInit {
 
-  @Output() emitSearchFormSubmition = new EventEmitter();
+  @Output() submitted = new EventEmitter();
+  @Output() questionNew = new EventEmitter();
+
   searchForm: FormGroup;
 
   constructor(private fb: FormBuilder,
@@ -25,17 +27,18 @@ export class QuestionsSearchComponent implements OnInit {
       nivelDificuldade: [''],
       tipo: [''],
       areaDeConhecimento: [''],
-      disciplina: [''],
+      // disciplina: [''],
+      tempoMaximoDeResposta: [''],
       tags: ['']
     });
   }
 
-  handleGoNovaQuestao() {
-    this.router.navigate([QUESTOES_CRIAR]);
+  handleQuestionNew() {
+    this.questionNew.emit();
   }
 
   handleFormSubmition() {
-    this.emitSearchFormSubmition.emit(this.searchForm.value);
+    this.submitted.emit(this.searchForm.value);
   }
 
 }
