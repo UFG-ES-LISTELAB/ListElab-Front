@@ -52,10 +52,10 @@ export class QuestionsListComponent implements OnInit {
   }
 
   onQuestionNew() {
-    this.router.navigate([QUESTOES_CRIAR]);
+    this.router.navigateByUrl(QUESTOES_CRIAR);
   }
 
-  onQuestionSelected() {
-    this.router.navigate([QUESTOES_EDITAR]);
+  onQuestionSelected(question: Question) {
+    this.router.navigateByUrl(QUESTOES_EDITAR);
   }
 }

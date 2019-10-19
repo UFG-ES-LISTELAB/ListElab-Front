@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import {ROUTES} from './shared/constants/routes.contants';
 
 
 const routes: Routes = [
@@ -9,11 +10,11 @@ const routes: Routes = [
     redirectTo: 'questions'
   },
   {
-    path: 'login',
+    path: ROUTES.login.base,
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   {
-    path: 'questions',
+    path: ROUTES.questoes.base,
     loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule)
   },
   // {

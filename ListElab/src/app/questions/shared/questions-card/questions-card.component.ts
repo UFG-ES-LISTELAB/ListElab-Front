@@ -20,8 +20,8 @@ export class QuestionsCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  selectDetail() {
-    this.selectedDetail.emit();
+  selectDetail(question: Question) {
+    this.selectedDetail.emit(question);
   }
 
   selectDelete() {

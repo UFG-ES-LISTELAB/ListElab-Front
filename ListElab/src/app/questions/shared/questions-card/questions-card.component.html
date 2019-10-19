@@ -39,8 +39,8 @@
 
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent>
-      <button mat-menu-item (click)="selectDetail()">Detalhes</button>
-      <button mat-menu-item (click)="selectDelete()">Eliminar</button>
+      <button mat-menu-item type="button" (click)="selectDetail(question)">Detalhes</button>
+      <button mat-menu-item type="button" (click)="selectDelete()">Eliminar</button>
     </ng-template>
   </mat-menu>
 

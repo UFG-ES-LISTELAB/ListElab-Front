@@ -16,9 +16,7 @@ export class QuestionsSearchComponent implements OnInit {
 
   searchForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
-              private loginService: LoginService,
-              private router: Router) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
     this.searchForm = this.fb.group({
@@ -27,17 +25,17 @@ export class QuestionsSearchComponent implements OnInit {
       nivelDificuldade: [''],
       tipo: [''],
       areaDeConhecimento: [''],
-      // disciplina: [''],
       tempoMaximoDeResposta: [''],
       tags: ['']
+      // disciplina: [''],
     });
   }
 
-  handleQuestionNew() {
+  onQuestionNew() {
     this.questionNew.emit();
   }
 
-  handleFormSubmition() {
+  onFormSubmitted() {
     this.submitted.emit(this.searchForm.value);
   }
 
