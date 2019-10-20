@@ -7,7 +7,7 @@ import {ApiResponse} from '../../shared/models/api-response.model';
 import {Router} from '@angular/router';
 import {QUESTOES_CRIAR, QUESTOES_EDITAR} from '../../shared/constants/routes.contants';
 
-const emptyQuestion: Question = {
+export const emptyQuestion: Question = {
   id: null,
   tipo: 0,
   enunciado: '',
@@ -38,6 +38,7 @@ export class QuestionsListComponent implements OnInit {
   }
 
   handleLogin() {
+    this.hasError = null;
     this.loginService.login(
       { email: 'professor@ufg.br', password: 123456 })
       .subscribe(
@@ -46,6 +47,7 @@ export class QuestionsListComponent implements OnInit {
 
   searchQuestions(params = {}) {
     this.isLoading = true;
+    this.hasError = null;
     this.questionsService.getQuestions(params)
       .subscribe((response: ApiResponse) => {
         this.questions = response.resultado;

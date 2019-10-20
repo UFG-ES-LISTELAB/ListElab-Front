@@ -22,32 +22,12 @@ export class QuestionsService {
     return this.http.get(`${environment.api}/QuestaoDiscusiva/consulta/${id}`);
   }
 
+  createQuestion(question: Question): Observable<any> {
+    return this.http.post(`${environment.api}/QuestaoDiscusiva/cadastre/`, { question });
+  }
+
+  updateQuestion(question: Question): Observable<any> {
+    return this.http.put(`${environment.api}/QuestaoDiscusiva/atualize/`, { question });
+  }
+
 }
-
-
-// requisicao fake
-// const questions = [
-//   {
-//     id: 1,
-//     tipo: 'Discursiva',
-//     enunciado: '3) Enunciado de uma questão que precisa ser respondida',
-//     dificuldade: 'Fácil',
-//     disciplina: 'História do Brasil',
-//     areaConhecimento: 'Ciências Humanas',
-//     autor: 'Desconhecido',
-//     tag: 'Cabral',
-//   },
-//   {
-//     id: 2,
-//     tipo: 'Discursiva',
-//     enunciado: '3) Enunciado de uma questão que precisa ser respondida',
-//     dificuldade: 'Fácil',
-//     disciplina: 'História do Brasil',
-//     areaConhecimento: 'Ciências Humanas',
-//     autor: 'Desconhecido',
-//     tag: 'Cabral',
-//   }
-// ];
-// return new Observable(observer => {
-//   observer.next(questions);
-// });

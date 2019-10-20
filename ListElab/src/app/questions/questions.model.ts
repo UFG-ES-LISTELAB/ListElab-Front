@@ -4,11 +4,15 @@ export interface Question {
   enunciado?: string;
   areaDeConhecimento?: number;
   nivelDificuldade?: any;
-  respostaEsperada?: PalavraChave[];
+  respostaEsperada?: RespostaEsperada;
   tags?: string[];
   tempoMaximoDeResposta?: number;
   // autor?: any;
   usuario?: any;
+}
+
+export interface RespostaEsperada {
+  palavrasChaves: PalavraChave[];
 }
 
 export interface PalavraChave {

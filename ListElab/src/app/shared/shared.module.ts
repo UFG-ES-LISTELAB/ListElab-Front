@@ -13,7 +13,8 @@ import {
   MatSelectModule,
   MatOptionModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTooltipModule
 } from '@angular/material';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
@@ -29,7 +30,8 @@ const MATERIAL_MODULES = [
   MatSelectModule,
   MatOptionModule,
   MatProgressBarModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatTooltipModule
 ];
 
 @NgModule({

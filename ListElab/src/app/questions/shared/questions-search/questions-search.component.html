@@ -1,14 +1,14 @@
+<div class="row" style="margin-bottom: 10px;">
+  <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-start; align-items: center;">
+    <h3 style="text-transform: capitalize">Questões</h3>
+  </div>
+  <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-end; align-items: center;">
+    <button mat-raised-button [color]="'primary'" type="button" (click)="onQuestionNew()">Nova Questão</button>
+  </div>
+</div>
+
 <mat-card style="margin: 15px 0;">
   <form [formGroup]="searchForm" (ngSubmit)="onFormSubmitted()">
-
-    <div class="row" style="margin-bottom: 10px;">
-      <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-start; align-items: center;">
-        <h3 style="text-transform: capitalize">Questões</h3>
-      </div>
-      <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-end; align-items: center;">
-        <button mat-raised-button [color]="'primary'" type="button" (click)="onQuestionNew()">Nova Questão</button>
-      </div>
-    </div>
 
     <div class="row">
       <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12" appearance="outline">

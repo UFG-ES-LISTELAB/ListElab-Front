@@ -3,14 +3,19 @@
 </div>
 
 <div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <button (click)="handleLogin()">Login</button>
 
-  <button (click)="handleLogin()">Login</button>
+      <app-questions-search
+        (questionNew)="onQuestionNew()"
+        (submitted)="onFormSubmit($event)">
+      </app-questions-search>
+    </div>
+  </div>
+</div>
 
-  <app-questions-search
-    (questionNew)="onQuestionNew()"
-    (submitted)="onFormSubmit($event)">
-  </app-questions-search>
-
+<div class="container">
   <app-questions-card *ngFor="let question of questions;"
                       [hidden]="isLoading"
                       [question]="question"

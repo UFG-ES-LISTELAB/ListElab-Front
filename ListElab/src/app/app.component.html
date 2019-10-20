@@ -2,10 +2,10 @@
 
   <mat-drawer mode="side" [opened]="sidebarOpened()">
     <mat-nav-list>
-      <mat-list-item class="sidenav__list--item" [routerLink]="['/login']">
+      <mat-list-item class="sidenav__list--item" [routerLink]="[routes.login.base]">
         <mat-icon>home</mat-icon><span>Login</span>
       </mat-list-item>
-      <mat-list-item class="sidenav__list--item" [routerLink]="['/questions']">
+      <mat-list-item class="sidenav__list--item" [routerLink]="[routes.questoes.base]">
         <mat-icon>question_answer</mat-icon><span>Questões</span>
       </mat-list-item>
     </mat-nav-list>

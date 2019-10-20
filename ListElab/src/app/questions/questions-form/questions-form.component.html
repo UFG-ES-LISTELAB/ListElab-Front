@@ -24,31 +24,17 @@
               <mat-form-field class="full-width font-size--12"  appearance="outline">
                 <mat-label>Tipo</mat-label>
                 <input matInput type="text" formControlName="tipo">
-<!--                <mat-select>-->
-<!--                  <mat-option>Discursiva</mat-option>-->
-<!--                </mat-select>-->
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field class="full-width font-size--12"  appearance="outline">
                 <mat-label>Área de Conhecimento</mat-label>
                 <input matInput type="text" formControlName="areaDeConhecimento">
-<!--                <mat-select>-->
-<!--                  <mat-option>Fácil</mat-option>-->
-<!--                  <mat-option>Tranquilo</mat-option>-->
-<!--                  <mat-option>Dificil</mat-option>-->
-<!--                </mat-select>-->
               </mat-form-field>
             </div>
           </div>
 
           <div class="row">
-<!--            <div class="col-md-6">-->
-<!--              <mat-form-field class="full-width font-size&#45;&#45;12" appearance="outline">-->
-<!--                <mat-label>Disciplina</mat-label>-->
-<!--                <input matInput type="text" autocomplete="off" formControlName="disciplina">-->
-<!--              </mat-form-field>-->
-<!--            </div>-->
             <div class="col-md-6">
               <mat-form-field class="full-width font-size--12" appearance="outline">
                 <mat-label>Dificuldade</mat-label>
@@ -81,33 +67,48 @@
 
           <div class="row">
             <div class="col-md-12">
-              <h4>Respostas Possíveis</h4>
+              <h4>Respostas Esperadas</h4>
+            </div>
+          </div>
+
+          <div formArrayName="palavrasChaves">
+
+            <div class="row"
+                 *ngFor="let palavraChave of questionForm.get('palavrasChaves').controls; let palavraIndex = index;"
+                 [formGroupName]="palavraIndex">
+
+              <div class="col-md-4" >
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <mat-label>Descrição</mat-label>
+                  <input matInput type="text" formControlName="descricao" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <mat-label>Peso</mat-label>
+                  <input matInput type="number" formControlName="peso" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-1">
+                <button mat-icon-button
+                        type="button"
+                        matTooltip="Remover uma Resposta Esperada"
+                        (click)="removePalavraChave(palavraIndex)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+
             </div>
           </div>
 
           <div class="row">
-            <div class="col-md-4">
-              <mat-form-field class="full-width font-size--12" appearance="outline">
-                <mat-label>Tag</mat-label>
-                <input matInput type="text">
-              </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <mat-form-field class="full-width font-size--12" appearance="outline">
-                <mat-label>Peso</mat-label>
-                <input matInput type="text">
-              </mat-form-field>
-            </div>
-            <div class="col-md-2">
-              <button mat-raised-button>
-                <mat-icon>remove</mat-icon>
-              </button>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <button mat-raised-button color="accent">
-                <mat-icon>add</mat-icon> Tag
+            <div class="col-md-6" style="text-align: center">
+              <button mat-mini-fab
+                      color="accent"
+                      type="button"
+                      matTooltip="Adicionar Nova Resposta Esperada"
+                      *ngIf="this.palavrasChaves.length < 5 && questionForm.valid" (click)="addPalavraChave()">
+                <mat-icon>add</mat-icon>
               </button>
             </div>
           </div>
@@ -116,7 +117,9 @@
 
           <div class="row">
             <div class="col-md-12">
-              <button class="full-width" mat-raised-button color="primary">Salvar</button>
+              <button class="full-width"
+                      matTooltip="Salvar Questão"
+                      mat-raised-button color="primary" [disabled]="questionForm.invalid">Salvar</button>
             </div>
           </div>
 
