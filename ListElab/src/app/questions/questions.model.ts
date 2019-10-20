@@ -4,6 +4,7 @@ export interface Question {
   enunciado?: string;
   areaDeConhecimento?: number;
   nivelDificuldade?: any;
+  disciplina?: number;
   respostaEsperada?: RespostaEsperada;
   tags?: string[];
   tempoMaximoDeResposta?: number;

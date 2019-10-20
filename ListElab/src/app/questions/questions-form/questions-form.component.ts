@@ -44,6 +44,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: this.question.enunciado,
+      disciplina: 0,
       palavrasChaves: this.fb.array([]),
       autor: this.question.usuario,
     });
@@ -90,13 +91,29 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
 
-  createQuestion(question: Question) {
+  createQuestion(form: any) {
+    const question: Question = {
+      ...form,
+      respostaEsperada: {
+        palavrasChaves: [
+          ...form.palavrasChaves
+        ]
+      }
+    };
     this.questionService.createQuestion(question).subscribe(success => {
       console.log(success);
     });
   }
 
-  updateQuestion(question: Question) {
+  updateQuestion(form: any) {
+    const question: Question = {
+      ...form,
+      respostaEsperada: {
+        palavrasChaves: [
+          ...form.palavrasChaves
+        ]
+      }
+    };
     this.questionService.updateQuestion(question).subscribe(success => {
       console.log(success);
     });
