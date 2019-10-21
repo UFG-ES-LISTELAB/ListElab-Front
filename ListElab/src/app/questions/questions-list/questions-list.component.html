@@ -1,0 +1,42 @@
+<div *ngIf="isLoading && !hasError">
+  <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <button (click)="handleLogin()">Login</button>
+
+      <app-questions-search
+        (questionNew)="onQuestionNew()"
+        (submitted)="onFormSubmit($event)">
+      </app-questions-search>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <app-questions-card *ngFor="let question of questions;"
+                      [hidden]="isLoading"
+                      [question]="question"
+                      (selectedDetail)="onQuestionSelected($event)"></app-questions-card>
+
+  <div *ngIf="!isLoading && questions.length === 0">
+    <mat-card>
+      <span>Nenhuma questão encontrada</span>
+    </mat-card>
+  </div>
+
+  <div *ngIf="isLoading && !hasError" style="display: flex; justify-content: center; align-items: center;">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="hasError">
+    <mat-card>
+      <span>Não foi possível acessar os dados.</span>
+    </mat-card>
+  </div>
+
+  <br>
+</div>
+

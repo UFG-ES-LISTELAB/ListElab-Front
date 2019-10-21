@@ -1,0 +1,132 @@
+<div class="container">
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <button (click)="handleReturnList()" mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-md-12">
+
+      <mat-card>
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <h4>{{screenTitle}} Questão</h4>
+          </div>
+        </div>
+
+        <form [formGroup]="questionForm" (ngSubmit)="submitted()">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12"  appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <input matInput type="text" formControlName="tipo">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12"  appearance="outline">
+                <mat-label>Área de Conhecimento</mat-label>
+                <input matInput type="text" formControlName="areaDeConhecimento">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Dificuldade</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="nivelDificuldade">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Tempo máximo de resolução</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="tempoMaximoDeResposta">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Enunciado</mat-label>
+                <textarea matInput rows="5" formControlName="enunciado"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Autor</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="autor">
+              </mat-form-field>
+            </div><br>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Respostas Esperadas</h4>
+            </div>
+          </div>
+
+          <div formArrayName="palavrasChaves">
+
+            <div class="row"
+                 *ngFor="let palavraChave of questionForm.get('palavrasChaves').controls; let palavraIndex = index;"
+                 [formGroupName]="palavraIndex">
+
+              <div class="col-md-4" >
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <mat-label>Descrição</mat-label>
+                  <input matInput type="text" formControlName="descricao" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <mat-label>Peso</mat-label>
+                  <input matInput type="number" formControlName="peso" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-1">
+                <button mat-icon-button
+                        type="button"
+                        matTooltip="Remover uma Resposta Esperada"
+                        (click)="removePalavraChave(palavraIndex)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6" style="text-align: center">
+              <button mat-mini-fab
+                      color="accent"
+                      type="button"
+                      matTooltip="Adicionar Nova Resposta Esperada"
+                      *ngIf="this.palavrasChaves.length < 5 && questionForm.valid" (click)="addPalavraChave()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-md-12">
+              <button class="full-width"
+                      matTooltip="Salvar Questão"
+                      mat-raised-button color="primary" [disabled]="questionForm.invalid">Salvar</button>
+            </div>
+          </div>
+
+        </form>
+
+      </mat-card>
+    </div>
+
+  </div>
+</div>

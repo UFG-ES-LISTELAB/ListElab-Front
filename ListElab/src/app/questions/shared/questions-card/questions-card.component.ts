@@ -1,5 +1,5 @@
 import Swal from 'sweetalert2';
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from '../../questions.model';
 import {Router} from '@angular/router';
 
@@ -13,19 +13,18 @@ import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
 export class QuestionsCardComponent implements OnInit {
 
   @Input() question: Question;
+  @Output() selectedDetail = new EventEmitter();
 
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
 
-  handleDetalhes() {
-    console.log('detalhes');
-    this.router.navigate([QUESTOES_CRIAR]);
+  selectDetail(question: Question) {
+    this.selectedDetail.emit(question);
   }
 
-  handleEliminar() {
-    console.log('eliminar');
+  selectDelete() {
     Swal.fire({
       title: 'Você tem certeza?',
       text: 'A operação não poderá ser revertida!',

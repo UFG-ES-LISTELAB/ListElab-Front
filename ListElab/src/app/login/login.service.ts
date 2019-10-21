@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
-import {LocalStorageService} from '../shared/services/local-storage.service';
-import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
+import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
-import {LOGIN} from '../shared/constants/routes.contants';
-import {environment} from '../../environments/environment';
+import {ApiResponse} from '../shared/models/api-response.model';
+
+export interface LoginResponse extends ApiResponse {
+  mensagem: string;
+  resultado: string;
+  sucesso: boolean;
+}
+
+import {LocalStorageService} from '../shared/services/local-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +27,9 @@ export class LoginService {
 
   login(login: any): Observable<any> {
     return this.http.post(`http://sifo.tech/api/Usuario/login`, login).pipe(
-      tap(response => {
+      tap((response: ApiResponse) => {
         console.log(response);
-        this.localStorageService.setItem('token', `Bearer ${response.key}`);
+        this.localStorageService.setItem('token', `Bearer ${response.resultado}`);
         this.onLogin.next();
       })
     );

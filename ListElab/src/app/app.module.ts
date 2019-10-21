@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import {MatIconModule, MatListModule, MatSidenavModule} from '@angular/material';
+import {InterceptorModule} from './shared/http-interceptor/interceptor.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {MatIconModule, MatListModule, MatSidenavModule} from '@angular/material'
     BrowserAnimationsModule,
     HttpClientModule,
 
+    InterceptorModule,
     MatSidenavModule,
     MatListModule,
     MatIconModule

@@ -7,17 +7,21 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Dificuldade</span>
-      <span>{{ question.dificuldade }}</span>
-    </div>
-    <div class="col-md-3 col-sm-12 item">
-      <span>Disciplina</span>
-      <span>{{ question.disciplina }}</span>
+      <span>{{ question.nivelDificuldade }}</span>
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
-      <span>{{ question.areaConhecimento }}</span>
+      <span>{{ question.areaDeConhecimento }}</span>
     </div>
-    <div class="col-md-12 col-sm-12 item item--enunciado">
+    <div class="col-md-2 col-sm-12 item">
+      <span>Tempo de Resposta</span>
+      <span>{{ question.tempoMaximoDeResposta }}</span>
+    </div>
+    <div class="col-md-1 col-sm-12 item--menu"
+         [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </div>
+    <div class="col-md-12 col-sm-12 item">
       <span>Enunciado</span>
       <span>
         {{ question.enunciado }}
@@ -25,22 +29,18 @@
     </div>
     <div class="col-md-6 col-sm-12 item">
       <span>Autor</span>
-      <span>{{ question.autor }}</span>
+      <span>{{ question.usuario }}</span>
     </div>
     <div class="col-md-5 col-sm-12 item">
       <span>Tags</span>
-      <span>{{ question.tag }}</span>
-    </div>
-    <div class="col-md-1 col-sm-12 item--menu"
-         [matMenuTriggerFor]="menu">
-      <mat-icon>more_vert</mat-icon>
+      <span>{{ question.tags }}</span>
     </div>
   </div>
 
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent>
-      <button mat-menu-item (click)="handleDetalhes()">Detalhes</button>
-      <button mat-menu-item (click)="handleEliminar()">Eliminar</button>
+      <button mat-menu-item type="button" (click)="selectDetail(question)">Detalhes</button>
+      <button mat-menu-item type="button" (click)="selectDelete()">Eliminar</button>
     </ng-template>
   </mat-menu>
 

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {ROUTES} from './shared/constants/routes.contants';
 
 import {UiService} from './shared/services/ui.service';
 
@@ -8,6 +9,8 @@ import {UiService} from './shared/services/ui.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  routes = ROUTES;
 
   constructor(private uiService: UiService) {}
 

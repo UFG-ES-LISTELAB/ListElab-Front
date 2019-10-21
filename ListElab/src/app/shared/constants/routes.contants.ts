@@ -1,7 +1,9 @@
 export const ROUTES = {
   questoes: {
-    base: 'questions',
-    nova: 'new'
+    base: 'questoes',
+    listar: 'listar',
+    criar: 'criar',
+    editar: 'editar'
   },
   login: {
     base: 'login'
@@ -9,8 +11,9 @@ export const ROUTES = {
 };
 
 // Questões Module
-export const QUESTOES_LISTAR = `/${ROUTES.questoes.base}/`;
-export const QUESTOES_CRIAR = `/${ROUTES.questoes.base}/${ROUTES.questoes.nova}`;
+export const QUESTOES_LISTAR  =   `${ROUTES.questoes.base}/`;
+export const QUESTOES_CRIAR   =   `${ROUTES.questoes.base}/${ROUTES.questoes.criar}`;
+export const QUESTOES_EDITAR  =   `${ROUTES.questoes.base}/${ROUTES.questoes.editar}`;
 
 // Login Module
 export const LOGIN = `${ROUTES.login.base}`;
