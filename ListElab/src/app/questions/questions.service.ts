@@ -23,11 +23,11 @@ export class QuestionsService {
   }
 
   createQuestion(question: Question): Observable<any> {
-    return this.http.post(`${environment.api}/QuestaoDiscusiva/cadastre`, { question });
+    return this.http.post(`${environment.api}/QuestaoDiscusiva/cadastre`, question);
   }
 
   updateQuestion(question: Question): Observable<any> {
-    return this.http.post(`${environment.api}/QuestaoDiscusiva/atualize`, { question });
+    return this.http.post(`${environment.api}/QuestaoDiscusiva/atualize`, question);
   }
 
 }

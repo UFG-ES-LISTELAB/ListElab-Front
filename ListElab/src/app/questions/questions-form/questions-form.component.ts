@@ -93,12 +93,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     const question: Question = {
-      ...form,
+      id: null,
+      enunciado: form.enunciado,
+      areaDeConhecimento: form.areaDeConhecimento,
+      nivelDificuldade: form.nivelDificuldade,
+      disciplina: 0,
+      tipo: form.tipo,
+      tempoMaximoDeResposta: 0,
       respostaEsperada: {
         palavrasChaves: [
           ...form.palavrasChaves
-        ]
-      }
+        ],
+      },
+      tags: [],
+      usuario: form.autor,
     };
     this.questionService.createQuestion(question).subscribe(success => {
       console.log(success);
@@ -107,12 +115,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   updateQuestion(form: any) {
     const question: Question = {
-      ...form,
+      id: form.id,
+      enunciado: form.enunciado,
+      areaDeConhecimento: form.areaDeConhecimento,
+      nivelDificuldade: form.nivelDificuldade,
+      disciplina: 0,
+      tipo: form.tipo,
+      tempoMaximoDeResposta: 0,
       respostaEsperada: {
         palavrasChaves: [
           ...form.palavrasChaves
-        ]
-      }
+        ],
+      },
+      tags: [],
+      usuario: form.autor,
     };
     this.questionService.updateQuestion(question).subscribe(success => {
       console.log(success);
