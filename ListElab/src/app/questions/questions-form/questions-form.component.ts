@@ -93,9 +93,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     const question: Question = {
-      id: null,
       enunciado: form.enunciado,
-      areaDeConhecimento: form.areaDeConhecimento,
+      areaDeConhecimento: parseInt(form.areaDeConhecimento),
       nivelDificuldade: form.nivelDificuldade,
       disciplina: 0,
       tipo: form.tipo,
@@ -117,7 +116,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     const question: Question = {
       id: form.id,
       enunciado: form.enunciado,
-      areaDeConhecimento: form.areaDeConhecimento,
+      areaDeConhecimento: parseInt(form.areaDeConhecimento),
       nivelDificuldade: form.nivelDificuldade,
       disciplina: 0,
       tipo: form.tipo,
