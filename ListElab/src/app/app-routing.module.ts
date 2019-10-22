@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
 import {ROUTES} from './shared/constants/routes.contants';
+
 
 
 const routes: Routes = [
@@ -17,6 +19,10 @@ const routes: Routes = [
     path: ROUTES.questoes.base,
     loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule)
   },
+  {
+    path: ROUTES.listas.base,
+    loadChildren: () => import('./lists/lists.module').then(m => m.ListsModule)
+  }
   // {
   //   path: '**',
   //   redirectTo: ''

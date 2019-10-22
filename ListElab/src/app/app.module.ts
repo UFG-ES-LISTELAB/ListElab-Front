@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import {MatIconModule, MatListModule, MatSidenavModule} from '@angular/material';
 import {InterceptorModule} from './shared/http-interceptor/interceptor.module';
+import {SharedModule} from "./shared/shared.module";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {InterceptorModule} from './shared/http-interceptor/interceptor.module';
     InterceptorModule,
     MatSidenavModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

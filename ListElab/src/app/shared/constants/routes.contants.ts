@@ -5,6 +5,9 @@ export const ROUTES = {
     criar: 'criar',
     editar: 'editar'
   },
+  listas: {
+    base: 'listas'
+  },
   login: {
     base: 'login'
   },
