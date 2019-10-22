@@ -2,20 +2,19 @@
 
 <div class="container">
 
-  <form class="login__form" [formGroup]="">
+  <form class="login__form" [formGroup]="loginForm" (ngSubmit)="submitted()">
 
     <h2 class="login__form--title">Login</h2>
 
     <div class="login__form--inputs">
 
-      <mat-form-field class="full-width"
-                      appearance="outline">
-        <input matInput type="text" placeholder="Login">
+      <mat-form-field class="full-width" appearance="outline">
+        <input matInput type="text" placeholder="Login" formControlName="login">
       </mat-form-field>
 
       <mat-form-field class="full-width"
                       appearance="outline">
-        <input matInput type="password" placeholder="Password">
+        <input matInput type="password" placeholder="Password" formControlName="password">
       </mat-form-field>
 
       <button class="full-width"

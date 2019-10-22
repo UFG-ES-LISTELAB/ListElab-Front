@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-
+import { FormsModule } from '@angular/forms';
 import {MatIconModule, MatListModule, MatSidenavModule} from '@angular/material';
 import {InterceptorModule} from './shared/http-interceptor/interceptor.module';
 
@@ -19,7 +19,7 @@ import {InterceptorModule} from './shared/http-interceptor/interceptor.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     HttpClientModule,
-
+    FormsModule,
     InterceptorModule,
     MatSidenavModule,
     MatListModule,
