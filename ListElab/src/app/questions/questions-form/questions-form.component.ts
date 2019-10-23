@@ -58,27 +58,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  addPalavraChave(palavraChave: PalavraChave = emptyRespostaEsperada): void {
-    if (this.palavrasChaves.length < 5) {
-      this.palavrasChaves.push(
-        this.fb.group({
-          descricao:  [palavraChave.descricao, Validators.required ],
-          peso:       [palavraChave.peso, Validators.required]
-        })
-      );
-    }
-  }
-
-  removePalavraChave(palavraIndex) {
-    this.palavrasChaves.removeAt(palavraIndex);
-  }
-
   ngOnDestroy() {
     this.questionService.selectedQuestion = null;
-  }
-
-  handleReturnList() {
-    this.router.navigate([QUESTOES_LISTAR]);
   }
 
   submitted() {
@@ -106,8 +87,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       tags: [],
       usuario: form.autor,
     };
-    this.questionService.createQuestion(question).subscribe(success => {
-      console.log(success);
+    this.questionService.createOne(question).subscribe(success => {
+      this.router.navigate([QUESTOES_LISTAR]);
     });
   }
 
@@ -131,5 +112,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.questionService.updateQuestion(question).subscribe(success => {
       console.log(success);
     });
+  }
+
+  addPalavraChave(palavraChave: PalavraChave = emptyRespostaEsperada): void {
+    if (this.palavrasChaves.length < 5) {
+      this.palavrasChaves.push(
+        this.fb.group({
+          descricao:  [palavraChave.descricao, Validators.required ],
+          peso:       [palavraChave.peso, Validators.required]
+        })
+      );
+    }
+  }
+
+  removePalavraChave(palavraIndex) {
+    this.palavrasChaves.removeAt(palavraIndex);
   }
 }

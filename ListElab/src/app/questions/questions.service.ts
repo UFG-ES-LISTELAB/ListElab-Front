@@ -24,7 +24,7 @@ export class QuestionsService {
     return this.http.get(`${environment.api}/${QUESTAO_DISCURSIVA}/${id}`);
   }
 
-  createQuestion(question: Question): Observable<any> {
+  createOne(question: Question): Observable<any> {
     return this.http.post(`${environment.api}/${QUESTAO_DISCURSIVA}`, question);
   }
 
