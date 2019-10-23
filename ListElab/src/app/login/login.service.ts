@@ -12,6 +12,7 @@ export interface LoginResponse extends ApiResponse {
 }
 
 import {LocalStorageService} from '../shared/services/local-storage.service';
+import {NotificationService} from "../shared/services/notification.service";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,7 @@ export class LoginService {
 
   constructor(private http: HttpClient,
               private localStorageService: LocalStorageService,
+              private notificationService: NotificationService,
               private router: Router) {}
 
   login(login: any): Observable<any> {
@@ -41,6 +43,7 @@ export class LoginService {
     this.localStorageService.clear();
     this.onLogout.next();
     this.router.navigate(['/login']);
+    this.notificationService.success('Você saiu com sucesso!');
   }
 
   isAuthenticated(): boolean {

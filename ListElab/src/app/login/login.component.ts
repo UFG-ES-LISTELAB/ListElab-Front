@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from "@angular/router";
 
+import {NotificationService} from "../shared/services/notification.service";
 import {LoginService} from "./login.service"
 
 import {ROUTES} from "../shared/constants/routes.contants";
@@ -22,8 +23,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private router: Router,
     private loginHttp: LoginService,
-    private router: Router
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit() {
@@ -45,7 +47,8 @@ export class LoginComponent implements OnInit {
           this.loginForm.get('password').setErrors({ 'emailOrPasswordInvalid': true });
         } else {
           this.isLoading = false;
-          return this.router.navigate([ROUTES.questoes.base]);
+          this.router.navigate([ROUTES.questoes.base]);
+          this.notificationService.success('Autenticado com sucesso!');
         }
       });
   }
