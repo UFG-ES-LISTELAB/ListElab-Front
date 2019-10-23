@@ -40,7 +40,7 @@ export class LoginService {
   logout(): void {
     this.localStorageService.clear();
     this.onLogout.next();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {

@@ -2,15 +2,33 @@
 
   <mat-drawer mode="side" [opened]="sidebarOpened()">
     <mat-nav-list>
-      <mat-list-item class="sidenav__list--item" [routerLink]="[routes.login.base]">
+
+      <mat-list-item class="sidenav__list--item"
+                     *ngIf="!isAuthenticated"
+                     routerLinkActive="active"
+                     [routerLink]="[routes.login.base]">
         <mat-icon>home</mat-icon><span>Login</span>
       </mat-list-item>
-      <mat-list-item class="sidenav__list--item" [routerLink]="[routes.questoes.base]">
+
+      <mat-list-item class="sidenav__list--item"
+                     *ngIf="isAuthenticated" (click)="logout()">
+        <mat-icon>home</mat-icon><span>Logout</span>
+      </mat-list-item>
+
+      <mat-list-item class="sidenav__list--item"
+                     routerLinkActive="active"
+                     *ngIf="isAuthenticated"
+                     [routerLink]="[routes.questoes.base]">
         <mat-icon>question_answer</mat-icon><span>Questões</span>
       </mat-list-item>
-      <mat-list-item class="sidenav__list--item" [routerLink]="[routes.listas.base]">
+
+      <mat-list-item class="sidenav__list--item"
+                     routerLinkActive="active"
+                     *ngIf="isAuthenticated"
+                     [routerLink]="[routes.listas.base]">
         <mat-icon>vertical_split</mat-icon><span>Listas</span>
       </mat-list-item>
+
     </mat-nav-list>
   </mat-drawer>
 
