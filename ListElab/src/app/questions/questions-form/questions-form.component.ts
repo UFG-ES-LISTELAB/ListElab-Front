@@ -17,7 +17,11 @@ export const emptyRespostaEsperada = {
 })
 export class QuestionsFormComponent implements OnInit, OnDestroy {
 
+  // Automação da tela
   screenTitle: string;
+  isLoading: boolean;
+
+  // Dados
   question: Question;
   questionForm: FormGroup;
 
@@ -30,6 +34,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
               private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.isLoading = false;
     this.questionService.selectedQuestion ?
       this.question = this.questionService.selectedQuestion
       : this.question = emptyQuestion;
@@ -42,20 +47,24 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       areaDeConhecimento: this.question.areaDeConhecimento,
       tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
-      enunciado: this.question.enunciado,
+      enunciado: [this.question.enunciado, [Validators.required] ],
       disciplina: 0,
       palavrasChaves: this.fb.array([]),
       autor: this.question.usuario,
     });
 
     if (this.question && this.question.respostaEsperada ) {
-      const palavrasChaves = this.question.respostaEsperada.palavrasChaves;
+      const { palavrasChaves } = this.question.respostaEsperada;
       if (palavrasChaves.length > 0) {
         palavrasChaves.map(palavraChave => {
           this.addPalavraChave(palavraChave);
         });
       }
     }
+  }
+
+  returnToList() {
+    this.router.navigate([QUESTOES_LISTAR]);
   }
 
   ngOnDestroy() {
@@ -70,8 +79,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
   createQuestion(form: any) {
+    this.isLoading = true;
     const question: Question = {
       enunciado: form.enunciado,
       areaDeConhecimento: parseInt(form.areaDeConhecimento),
@@ -88,11 +97,13 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       usuario: form.autor,
     };
     this.questionService.createOne(question).subscribe(success => {
+      this.isLoading = false;
       this.router.navigate([QUESTOES_LISTAR]);
-    });
+    }, error => this.isLoading = false);
   }
 
   updateQuestion(form: any) {
+    this.isLoading = true;
     const question: Question = {
       id: form.id,
       enunciado: form.enunciado,
@@ -110,7 +121,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       usuario: form.autor,
     };
     this.questionService.updateQuestion(question).subscribe(success => {
-      console.log(success);
+      this.isLoading = false;
+      this.router.navigate([QUESTOES_LISTAR]);
+    }, error => {
+      return this.isLoading = false;
     });
   }
 
