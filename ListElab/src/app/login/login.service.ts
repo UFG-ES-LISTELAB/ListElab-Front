@@ -26,12 +26,13 @@ export class LoginService {
               private router: Router) {}
 
   login(login: any): Observable<any> {
-    console.log("ADADAD")
     return this.http.post(`http://sifo.tech/api/Usuario/login`, login).pipe(
       tap((response: ApiResponse) => {
-        console.log("CONSOLÃO", response);
-        this.localStorageService.setItem('token', `Bearer ${response.resultado}`);
-        this.onLogin.next();
+        if(response.sucesso) {
+          this.localStorageService.setItem('token', `Bearer ${response.resultado}`);
+          this.onLogin.next();
+        }
+        return response;
       })
     );
   }

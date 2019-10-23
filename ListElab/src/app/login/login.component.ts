@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import {
-    FormBuilder,
-    FormControl,
-    FormGroup,
-    Validators,
-  } from '@angular/forms';
-  import {LoginService} from "./login.service"
-import { Login } from "./login.model"
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from "@angular/router";
+
+import {LoginService} from "./login.service"
+
+import {ROUTES} from "../shared/constants/routes.contants";
+import {emptyLogin, Login} from "./login.model"
+
 
 @Component({
   selector: 'app-login',
@@ -18,29 +18,36 @@ export class LoginComponent implements OnInit {
 
   login: Login;
   loginForm: FormGroup;
+  isLoading = false;
 
-  constructor(private fb: FormBuilder, private loginHttp: LoginService) {}
+  constructor(
+    private fb: FormBuilder,
+    private loginHttp: LoginService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.login = { email: " ", password: " " };
+    this.login = emptyLogin;
     this.loginForm = this.fb.group({
-      login: this.login.email,
-      password: this.login.password
+      email: [ this.login.email, [Validators.required, Validators.email] ],
+      password: [ this.login.password, Validators.required ]
     });
-    //console.log(this)
   }
 
   submitted() {
-    console.log("this.questionForm.value", this.loginForm.value)
-    let sendLogin = {
-      email: this.loginForm.value.login,
-      password: this.loginForm.value.password
-    }
-    this.loginHttp.login(sendLogin)
-      .subscribe(
-        data => console.log(data),
-                      error => console.log(error)
-    )
+    this.isLoading = true;
+    this.loginHttp.login(this.loginForm.value)
+      .subscribe(resposta => {
+        if(!resposta.sucesso) {
+          this.isLoading = false;
+          this.loginForm.reset();
+          this.loginForm.get('email').setErrors({ 'emailOrPasswordInvalid': true });
+          this.loginForm.get('password').setErrors({ 'emailOrPasswordInvalid': true });
+        } else {
+          this.isLoading = false;
+          return this.router.navigate([ROUTES.questoes.base]);
+        }
+      });
   }
 
 }
