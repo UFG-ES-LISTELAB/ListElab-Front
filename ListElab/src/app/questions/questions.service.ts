@@ -32,4 +32,8 @@ export class QuestionsService {
     return this.http.put(`${environment.api}/${QUESTAO_DISCURSIVA}`, question);
   }
 
+  deleteQuestion(id): Observable<any> {
+    return this.http.delete(`${environment.api}/${QUESTAO_DISCURSIVA}/${id}`);
+  }
+
 }

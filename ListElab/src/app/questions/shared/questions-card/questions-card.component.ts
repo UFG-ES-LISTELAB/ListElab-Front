@@ -2,6 +2,7 @@ import Swal from 'sweetalert2';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from '../../questions.model';
 import {Router} from '@angular/router';
+import {QuestionsService} from '../../questions.service';
 
 import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
 
@@ -15,7 +16,7 @@ export class QuestionsCardComponent implements OnInit {
   @Input() question: Question;
   @Output() selectedDetail = new EventEmitter();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private questionService: QuestionsService) { }
 
   ngOnInit() {
   }
@@ -36,6 +37,7 @@ export class QuestionsCardComponent implements OnInit {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
+        this.questionService.deleteQuestion(this.question.id).subscribe();
         Swal.fire(
           'Removida!',
           'Sua questão foi removida.',
