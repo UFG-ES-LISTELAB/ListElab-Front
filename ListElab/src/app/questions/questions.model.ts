@@ -20,3 +20,12 @@ export interface PalavraChave {
   descricao: string;
   peso: number;
 }
+
+export const emptyQuestion: Question = {
+  id: null,
+  tipo: 0,
+  enunciado: '',
+  areaDeConhecimento: 0,
+  nivelDificuldade: 0,
+  tempoMaximoDeResposta: 0,
+};

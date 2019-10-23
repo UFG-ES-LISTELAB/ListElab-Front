@@ -1,20 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import {Question} from '../questions.model';
+import Swal from "sweetalert2";
+
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
+
+import {Router} from '@angular/router';
 import {QuestionsService} from '../questions.service';
 import {LoginService} from '../../login/login.service';
 import {ApiResponse} from '../../shared/models/api-response.model';
-import {Router} from '@angular/router';
+import {emptyQuestion, Question} from '../questions.model';
 import {QUESTOES_CRIAR, QUESTOES_EDITAR} from '../../shared/constants/routes.contants';
 
-export const emptyQuestion: Question = {
-  id: null,
-  tipo: 0,
-  enunciado: '',
-  areaDeConhecimento: 0,
-  nivelDificuldade: 0,
-  tempoMaximoDeResposta: 0,
-};
 
 @Component({
   selector: 'app-questions-list',
@@ -51,7 +46,6 @@ export class QuestionsListComponent implements OnInit {
     this.questionsService.getQuestions(params)
       .subscribe((response: ApiResponse) => {
         this.questions = response.resultado;
-        console.log(this.questions);
         this.isLoading = false;
       }, error => {
         this.hasError = error;
@@ -70,5 +64,33 @@ export class QuestionsListComponent implements OnInit {
   onQuestionSelected(question: Question) {
     this.questionsService.selectedQuestion = question;
     this.router.navigate([QUESTOES_EDITAR]);
+  }
+
+  onDeleted(question: Question) {
+    Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'A operação não poderá ser revertida!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.isLoading = true;
+        this.questionsService.deleteQuestion(question.id).subscribe(response => {
+          this.isLoading = false;
+          this.questions = this.questions.filter(x => x.id !== question.id);
+          Swal.fire(
+            'Removida!',
+            'Sua questão foi removida.',
+            'success'
+          );
+        }, error => {
+          this.isLoading = false;
+        });
+      }
+    });
   }
 }

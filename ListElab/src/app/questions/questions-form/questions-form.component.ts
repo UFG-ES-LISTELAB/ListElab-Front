@@ -2,9 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {PalavraChave, Question} from '../questions.model';
+import {emptyQuestion, PalavraChave, Question} from '../questions.model';
 import {QuestionsService} from '../questions.service';
-import {emptyQuestion} from '../questions-list/questions-list.component';
 
 export const emptyRespostaEsperada = {
   descricao: '',

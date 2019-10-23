@@ -19,7 +19,8 @@
   <app-questions-card *ngFor="let question of questions;"
                       [hidden]="isLoading"
                       [question]="question"
-                      (selectedDetail)="onQuestionSelected($event)"></app-questions-card>
+                      (deleted)="onDeleted($event)"
+                      (selected)="onQuestionSelected($event)"></app-questions-card>
 
   <div *ngIf="!isLoading && questions.length === 0">
     <mat-card>
