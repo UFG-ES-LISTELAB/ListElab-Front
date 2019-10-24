@@ -5,7 +5,9 @@ export const ROUTES = {
     editar: 'editar'
   },
   listas: {
-    base: 'listas'
+    base: 'listas',
+    criar: 'criar',
+    editar: 'editar'
   },
   login: 'login',
   logout: 'logout'
@@ -22,3 +24,5 @@ export const LOGOUT = `${ROUTES.logout}`;
 
 // Listas Listar
 export const LISTAS_LISTAR = `${ROUTES.listas.base}/`;
+export const LISTAS_CRIAR   =   `${ROUTES.listas.base}/${ROUTES.listas.criar}`;
+export const LISTAS_EDITAR  =   `${ROUTES.listas.base}/${ROUTES.listas.editar}`;

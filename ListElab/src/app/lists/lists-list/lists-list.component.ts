@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {emptyQuestion, Question} from "../../questions/questions.model";
 import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
+
+import {List} from "../lists.model";
+import {ListsService} from "../lists.service";
 import {LoginService} from "../../login/login.service";
-import {QuestionsService} from "../../questions/questions.service";
 import {ApiResponse} from "../../shared/models/api-response.model";
-import {QUESTOES_CRIAR, QUESTOES_EDITAR} from "../../shared/constants/routes.contants";
-import Swal from "sweetalert2";
+
+import * as fromRoutesConstants from "../../shared/constants/routes.contants";
+import * as fromListsModels from "../lists.model";
+import {LISTAS_EDITAR} from "../../shared/constants/routes.contants";
 
 @Component({
   selector: 'app-lists-list',
@@ -15,44 +18,43 @@ import Swal from "sweetalert2";
 })
 export class ListsListComponent implements OnInit {
 
-  questions: Question[] = [];
+  lists: List[] = [];
   hasError: any;
   isLoading: boolean;
 
   constructor(private fb: FormBuilder,
               private router: Router,
               private loginService: LoginService,
-              private questionsService: QuestionsService) {}
+              private listsService: ListsService) {}
 
   ngOnInit() {
     this.isLoading = true;
-    // this.searchQuestions();
+    this.getLists();
   }
 
-  // searchQuestions(params = {}) {
-  //   this.isLoading = true;
-  //   this.hasError = null;
-  //   this.questionsService.getQuestions(params)
-  //     .subscribe((response: ApiResponse) => {
-  //       this.questions = response.resultado;
-  //       this.isLoading = false;
-  //     }, error => {
-  //       this.hasError = error;
-  //     });
-  // }
-  //
+  getLists() {
+    this.isLoading = true;
+    this.hasError = null;
+    this.listsService.getAll().subscribe((response: ApiResponse) => {
+      this.lists = response.resultado;
+      this.isLoading = false;
+    }, error => {
+      this.hasError = error;
+    });
+  }
+
+  onListNew() {
+    this.listsService.selectedList = fromListsModels.emptyList;
+    this.router.navigate([fromRoutesConstants.LISTAS_CRIAR]);
+  }
+
+  onListSelected(list: List) {
+    this.listsService.selectedList = list;
+    this.router.navigate([LISTAS_EDITAR]);
+  }
+
   // onFormSubmit(searchForm) {
   //   this.searchQuestions(searchForm);
-  // }
-  //
-  // onQuestionNew() {
-  //   this.questionsService.selectedQuestion = emptyQuestion;
-  //   this.router.navigate([QUESTOES_CRIAR]);
-  // }
-  //
-  // onQuestionSelected(question: Question) {
-  //   this.questionsService.selectedQuestion = question;
-  //   this.router.navigate([QUESTOES_EDITAR]);
   // }
   //
   // onDeleted(question: Question) {

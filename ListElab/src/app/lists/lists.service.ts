@@ -4,11 +4,14 @@ import {environment} from "../../environments/environment";
 import {API} from "../shared/constants/api.constants";
 import {Question} from "../questions/questions.model";
 import {HttpClient} from "@angular/common/http";
+import {List} from "./lists.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ListsService {
+
+  selectedList: List;
 
   constructor(private http: HttpClient) { }
 

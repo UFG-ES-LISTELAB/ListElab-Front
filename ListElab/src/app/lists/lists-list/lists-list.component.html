@@ -5,24 +5,20 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-12">
+
       <app-lists-search></app-lists-search>
-      <!--      <app-questions-search-->
-<!--        (questionNew)="onQuestionNew()"-->
-<!--        (submitted)="onFormSubmit($event)">-->
-<!--      </app-questions-search>-->
+
     </div>
   </div>
 </div>
 
-<div class="container">
-  <app-lists-card></app-lists-card>
-<!--  <app-questions-card *ngFor="let question of questions;"-->
-<!--                      [hidden]="isLoading"-->
-<!--                      [question]="question"-->
-<!--                      (deleted)="onDeleted($event)"-->
-<!--                      (selected)="onQuestionSelected($event)"></app-questions-card>-->
+<div class="container mt-4">
 
-  <div *ngIf="!isLoading && questions.length === 0">
+  {{ lists | json }}
+
+  <app-lists-card *ngFor="let list of lists;"></app-lists-card>
+
+  <div *ngIf="!isLoading && lists.length === 0">
     <mat-card>
       <span>Nenhuma questão encontrada</span>
     </mat-card>
