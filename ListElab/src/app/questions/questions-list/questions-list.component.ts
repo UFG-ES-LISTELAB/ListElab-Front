@@ -8,8 +8,8 @@ import {QuestionsService} from '../questions.service';
 import {LoginService} from '../../login/login.service';
 
 import {ApiResponse} from '../../shared/models/api-response.model';
-import {emptyQuestion, Question} from '../questions.model';
 
+import * as fromQuestionsModels from '../questions.model';
 import * as fromRoutesConstants  from '../../shared/constants/routes.contants';
 
 
@@ -20,7 +20,7 @@ import * as fromRoutesConstants  from '../../shared/constants/routes.contants';
 })
 export class QuestionsListComponent implements OnInit {
 
-  questions: Question[] = [];
+  questions: fromQuestionsModels.Question[] = [];
   hasError: any;
   isLoading: boolean;
 
@@ -51,16 +51,16 @@ export class QuestionsListComponent implements OnInit {
   }
 
   onQuestionNew() {
-    this.questionsService.selectedQuestion = emptyQuestion;
+    this.questionsService.selectedQuestion = fromQuestionsModels.emptyQuestion;
     this.router.navigate([fromRoutesConstants.QUESTOES_CRIAR]);
   }
 
-  onQuestionSelected(question: Question) {
+  onQuestionSelected(question: fromQuestionsModels.Question) {
     this.questionsService.selectedQuestion = question;
     this.router.navigate([fromRoutesConstants.QUESTOES_EDITAR]);
   }
 
-  onDeleted(question: Question) {
+  onDeleted(question: fromQuestionsModels.Question) {
     Swal.fire({
       title: 'Você tem certeza?',
       text: 'A operação não poderá ser revertida!',

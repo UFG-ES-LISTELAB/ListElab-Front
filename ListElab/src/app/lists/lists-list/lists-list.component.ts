@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
 
-import {List} from "../lists.model";
 import {ListsService} from "../lists.service";
 import {LoginService} from "../../login/login.service";
 import {ApiResponse} from "../../shared/models/api-response.model";
@@ -18,7 +17,7 @@ import {LISTAS_EDITAR} from "../../shared/constants/routes.contants";
 })
 export class ListsListComponent implements OnInit {
 
-  lists: List[] = [];
+  lists: fromListsModels.List[] = [];
   hasError: any;
   isLoading: boolean;
 
@@ -48,7 +47,7 @@ export class ListsListComponent implements OnInit {
     this.router.navigate([fromRoutesConstants.LISTAS_CRIAR]);
   }
 
-  onListSelected(list: List) {
+  onListSelected(list: fromListsModels.List) {
     this.listsService.selectedList = list;
     this.router.navigate([LISTAS_EDITAR]);
   }

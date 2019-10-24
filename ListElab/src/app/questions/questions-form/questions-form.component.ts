@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {emptyQuestion, PalavraChave, Question} from '../questions.model';
+
 import {QuestionsService} from '../questions.service';
+import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
+import * as fromQuestionsModels from '../questions.model';
 
 export const emptyRespostaEsperada = {
   descricao: '',
@@ -22,7 +23,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   isLoading: boolean;
 
   // Dados
-  question: Question;
+  question: fromQuestionsModels.Question;
   questionForm: FormGroup;
 
   get palavrasChaves() {
@@ -37,7 +38,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
       this.question = this.questionService.selectedQuestion
-      : this.question = emptyQuestion;
+      : this.question = fromQuestionsModels.emptyQuestion;
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
@@ -81,7 +82,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     this.isLoading = true;
-    const question: Question = {
+    const question: fromQuestionsModels.Question = {
       enunciado: form.enunciado,
       areaDeConhecimento: parseInt(form.areaDeConhecimento),
       nivelDificuldade: form.nivelDificuldade,
@@ -104,7 +105,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   updateQuestion(form: any) {
     this.isLoading = true;
-    const question: Question = {
+    const question: fromQuestionsModels.Question = {
       id: form.id,
       enunciado: form.enunciado,
       areaDeConhecimento: parseInt(form.areaDeConhecimento),
@@ -128,7 +129,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  addPalavraChave(palavraChave: PalavraChave = emptyRespostaEsperada): void {
+  addPalavraChave(palavraChave: fromQuestionsModels.PalavraChave = emptyRespostaEsperada): void {
     if (this.palavrasChaves.length < 5) {
       this.palavrasChaves.push(
         this.fb.group({
