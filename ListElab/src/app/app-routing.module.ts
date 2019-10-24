@@ -12,7 +12,7 @@ const routes: Routes = [
     redirectTo: ROUTES.questoes.base
   },
   {
-    path: ROUTES.login.base,
+    path: ROUTES.login,
     loadChildren: () => import('./login/login.module').then(m => m.LoginModule)
   },
   {

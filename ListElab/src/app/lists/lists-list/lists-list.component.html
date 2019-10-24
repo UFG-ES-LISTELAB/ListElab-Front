@@ -5,7 +5,8 @@
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-12">
-<!--      <app-questions-search-->
+      <app-lists-search></app-lists-search>
+      <!--      <app-questions-search-->
 <!--        (questionNew)="onQuestionNew()"-->
 <!--        (submitted)="onFormSubmit($event)">-->
 <!--      </app-questions-search>-->
@@ -14,17 +15,18 @@
 </div>
 
 <div class="container">
+  <app-lists-card></app-lists-card>
 <!--  <app-questions-card *ngFor="let question of questions;"-->
 <!--                      [hidden]="isLoading"-->
 <!--                      [question]="question"-->
 <!--                      (deleted)="onDeleted($event)"-->
 <!--                      (selected)="onQuestionSelected($event)"></app-questions-card>-->
 
-<!--  <div *ngIf="!isLoading && questions.length === 0">-->
-<!--    <mat-card>-->
-<!--      <span>Nenhuma questão encontrada</span>-->
-<!--    </mat-card>-->
-<!--  </div>-->
+  <div *ngIf="!isLoading && questions.length === 0">
+    <mat-card>
+      <span>Nenhuma questão encontrada</span>
+    </mat-card>
+  </div>
 
   <div class="loading__block" *ngIf="isLoading && !hasError">
     <mat-spinner></mat-spinner>

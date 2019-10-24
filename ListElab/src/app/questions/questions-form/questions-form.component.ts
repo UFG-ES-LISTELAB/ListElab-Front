@@ -96,7 +96,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       tags: [],
       usuario: form.autor,
     };
-    this.questionService.createOne(question).subscribe(success => {
+    this.questionService.create(question).subscribe(success => {
       this.isLoading = false;
       this.router.navigate([QUESTOES_LISTAR]);
     }, error => this.isLoading = false);
@@ -120,7 +120,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       tags: [],
       usuario: form.autor,
     };
-    this.questionService.updateQuestion(question).subscribe(success => {
+    this.questionService.update(question).subscribe(success => {
       this.isLoading = false;
       this.router.navigate([QUESTOES_LISTAR]);
     }, error => {

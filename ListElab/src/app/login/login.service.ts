@@ -14,6 +14,10 @@ export interface LoginResponse extends ApiResponse {
 import {LocalStorageService} from '../shared/services/local-storage.service';
 import {NotificationService} from "../shared/services/notification.service";
 
+import {environment} from "../../environments/environment";
+import * as fromAPIConstants from "../shared/constants/api.constants";
+import * as fromROUTESConstants from "../shared/constants/routes.contants";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -28,7 +32,7 @@ export class LoginService {
               private router: Router) {}
 
   login(login: any): Observable<any> {
-    return this.http.post(`http://sifo.tech/api/Usuario/login`, login).pipe(
+    return this.http.post(`${environment.api}/${fromAPIConstants.API_LOGIN_ENTRAR}`, login).pipe(
       tap((response: ApiResponse) => {
         if(response.sucesso) {
           this.localStorageService.setItem('token', `Bearer ${response.resultado}`);
@@ -42,7 +46,7 @@ export class LoginService {
   logout(): void {
     this.localStorageService.clear();
     this.onLogout.next();
-    this.router.navigate(['/login']);
+    this.router.navigate([`/${fromROUTESConstants.LOGIN}`]);
     this.notificationService.success('Você saiu com sucesso!');
   }
 

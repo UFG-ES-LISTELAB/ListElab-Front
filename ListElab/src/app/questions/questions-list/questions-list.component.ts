@@ -2,13 +2,15 @@ import Swal from "sweetalert2";
 
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
-
 import {Router} from '@angular/router';
+
 import {QuestionsService} from '../questions.service';
 import {LoginService} from '../../login/login.service';
+
 import {ApiResponse} from '../../shared/models/api-response.model';
 import {emptyQuestion, Question} from '../questions.model';
-import {QUESTOES_CRIAR, QUESTOES_EDITAR} from '../../shared/constants/routes.contants';
+
+import * as fromRoutesConstants  from '../../shared/constants/routes.contants';
 
 
 @Component({
@@ -32,18 +34,10 @@ export class QuestionsListComponent implements OnInit {
     this.searchQuestions();
   }
 
-  handleLogin() {
-    this.hasError = null;
-    this.loginService.login(
-      { email: 'professor@ufg.br', password: 123456 })
-      .subscribe(
-        (x: ApiResponse) => {}, error => { this.hasError = error; });
-  }
-
   searchQuestions(params = {}) {
     this.isLoading = true;
     this.hasError = null;
-    this.questionsService.getQuestions(params)
+    this.questionsService.getAll(params)
       .subscribe((response: ApiResponse) => {
         this.questions = response.resultado;
         this.isLoading = false;
@@ -58,12 +52,12 @@ export class QuestionsListComponent implements OnInit {
 
   onQuestionNew() {
     this.questionsService.selectedQuestion = emptyQuestion;
-    this.router.navigate([QUESTOES_CRIAR]);
+    this.router.navigate([fromRoutesConstants.QUESTOES_CRIAR]);
   }
 
   onQuestionSelected(question: Question) {
     this.questionsService.selectedQuestion = question;
-    this.router.navigate([QUESTOES_EDITAR]);
+    this.router.navigate([fromRoutesConstants.QUESTOES_EDITAR]);
   }
 
   onDeleted(question: Question) {
@@ -79,7 +73,7 @@ export class QuestionsListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.isLoading = true;
-        this.questionsService.deleteQuestion(question.id).subscribe(response => {
+        this.questionsService.delete(question.id).subscribe(response => {
           this.isLoading = false;
           this.questions = this.questions.filter(x => x.id !== question.id);
           Swal.fire(

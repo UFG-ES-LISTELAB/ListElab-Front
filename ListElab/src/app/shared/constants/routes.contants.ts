@@ -1,16 +1,14 @@
 export const ROUTES = {
   questoes: {
     base: 'questoes',
-    listar: 'listar',
     criar: 'criar',
     editar: 'editar'
   },
   listas: {
     base: 'listas'
   },
-  login: {
-    base: 'login'
-  },
+  login: 'login',
+  logout: 'logout'
 };
 
 // Questões Module
@@ -19,4 +17,8 @@ export const QUESTOES_CRIAR   =   `${ROUTES.questoes.base}/${ROUTES.questoes.cri
 export const QUESTOES_EDITAR  =   `${ROUTES.questoes.base}/${ROUTES.questoes.editar}`;
 
 // Login Module
-export const LOGIN = `${ROUTES.login.base}`;
+export const LOGIN = `${ROUTES.login}`;
+export const LOGOUT = `${ROUTES.logout}`;
+
+// Listas Listar
+export const LISTAS_LISTAR = `${ROUTES.listas.base}/`;

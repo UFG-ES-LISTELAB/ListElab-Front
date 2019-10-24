@@ -4,8 +4,9 @@ import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
 import {Question} from './questions.model';
+import {API} from "../shared/constants/api.constants";
 
-const QUESTAO_DISCURSIVA = 'QuestaoDiscursiva';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +17,24 @@ export class QuestionsService {
 
   constructor(private http: HttpClient) {}
 
-  getQuestions(params?): Observable<any> {
-    return this.http.get(`${environment.api}/${QUESTAO_DISCURSIVA}`);
+  getAll(params?): Observable<any> {
+    return this.http.get(`${environment.api}/${API.questoes.base}`);
   }
 
-  getQuestion(id, params?): Observable<any> {
-    return this.http.get(`${environment.api}/${QUESTAO_DISCURSIVA}/${id}`);
+  getOne(id, params?): Observable<any> {
+    return this.http.get(`${environment.api}/${API.questoes.base}/${id}`);
   }
 
-  createOne(question: Question): Observable<any> {
-    return this.http.post(`${environment.api}/${QUESTAO_DISCURSIVA}`, question);
+  create(question: Question): Observable<any> {
+    return this.http.post(`${environment.api}/${API.questoes.base}`, question);
   }
 
-  updateQuestion(question: Question): Observable<any> {
-    return this.http.put(`${environment.api}/${QUESTAO_DISCURSIVA}`, question);
+  update(question: Question): Observable<any> {
+    return this.http.put(`${environment.api}/${API.questoes.base}`, question);
   }
 
-  deleteQuestion(id): Observable<any> {
-    return this.http.delete(`${environment.api}/${QUESTAO_DISCURSIVA}/${id}`);
+  delete(id): Observable<any> {
+    return this.http.delete(`${environment.api}/${API.questoes.base}/${id}`);
   }
 
 }
