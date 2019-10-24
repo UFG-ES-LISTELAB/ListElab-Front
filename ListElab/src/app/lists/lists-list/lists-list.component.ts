@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListsListComponent implements OnInit {
 
+  isLoading: boolean;
+  hasError: boolean;
+
   constructor() { }
 
   ngOnInit() {
