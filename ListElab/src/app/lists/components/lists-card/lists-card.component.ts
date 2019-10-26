@@ -21,4 +21,7 @@ export class ListsCardComponent implements OnInit {
 
   }
 
+  onSelect(list: List) {
+    this.selected.emit(list);
+  }
 }

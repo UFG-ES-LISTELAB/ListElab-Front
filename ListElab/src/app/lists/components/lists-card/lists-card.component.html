@@ -2,7 +2,7 @@
 
   <div class="row">
     <div class="col-md-3 col-sm-12 item">
-      <span>Tipo</span>
+      <span>Titulo</span>
       <span>{{ list.titulo }}</span>
     </div>
     <div class="col-md-3 col-sm-12 item">
@@ -14,32 +14,23 @@
       <span>{{ list.areaDeConhecimento }}</span>
     </div>
     <div class="col-md-2 col-sm-12 item">
-      <span>Tempo de Resposta</span>
+      <span>Disciplina</span>
       <span>{{ list.disciplina }}</span>
     </div>
     <div class="col-md-1 col-sm-12 item--menu"
          [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </div>
-    <div class="col-md-12 col-sm-12 item">
-      <span>Enunciado</span>
-      <span>
-<!--        {{ list.enunciado }}-->
-      </span>
-    </div>
-    <div class="col-md-6 col-sm-12 item">
-      <span>Autor</span>
-<!--      <span>{{ list.usuario }}</span>-->
-    </div>
     <div class="col-md-5 col-sm-12 item">
       <span>Tags</span>
-      <span>{{ list.tags }}</span>
+      <span *ngFor="let tag of list.tags">{{ tag }}</span>
     </div>
+
   </div>
 
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent>
-<!--      <button mat-menu-item type="button" (click)="onSelect()">Detalhes</button>-->
+      <button mat-menu-item type="button" (click)="onSelect(list)">Detalhes</button>
 <!--      <button mat-menu-item type="button" (click)="onDelete()">Eliminar</button>-->
     </ng-template>
   </mat-menu>

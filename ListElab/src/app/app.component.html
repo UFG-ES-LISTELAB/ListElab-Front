@@ -11,22 +11,22 @@
       </mat-list-item>
 
       <mat-list-item class="sidenav__list--item"
-                     *ngIf="isAuthenticated" (click)="logout()">
-        <mat-icon>home</mat-icon><span>Logout</span>
-      </mat-list-item>
-
-      <mat-list-item class="sidenav__list--item"
                      routerLinkActive="active"
                      *ngIf="isAuthenticated"
                      [routerLink]="[routes.questoes.base]">
-        <mat-icon>question_answer</mat-icon><span>Questões</span>
+        <mat-icon>chat_bubble_outline</mat-icon><span>Questões</span>
       </mat-list-item>
 
       <mat-list-item class="sidenav__list--item"
                      routerLinkActive="active"
                      *ngIf="isAuthenticated"
                      [routerLink]="[routes.listas.base]">
-        <mat-icon>vertical_split</mat-icon><span>Listas</span>
+        <mat-icon>library_books</mat-icon><span>Listas</span>
+      </mat-list-item>
+
+      <mat-list-item class="sidenav__list--item"
+                     *ngIf="isAuthenticated" (click)="logout()">
+        <span>Sair</span>
       </mat-list-item>
 
     </mat-nav-list>
