@@ -1,27 +1,33 @@
 export interface Question {
-  id?: string;
-  tipo?: number;
+  id?: string | null;
+  tipo?: number | null;
   enunciado?: string;
-  areaDeConhecimento?: number;
-  nivelDificuldade?: any;
-  disciplina?: number;
-  respostaEsperada?: RespostaEsperada;
+  nivelDificuldade?: number | null;
   tags?: string[];
+  areaDeConhecimento?: number | null;
+  disciplina?: number | null;
+  usuario?: string;
+}
+
+export interface DiscursiveQuestion extends Question {
+  respostaEsperada?: ExpectedAnswer;
   tempoMaximoDeResposta?: number;
-  // autor?: any;
-  usuario?: any;
 }
 
-export interface RespostaEsperada {
-  palavrasChaves: PalavraChave[];
+export interface ObjectiveQuestion extends Question {
+
 }
 
-export interface PalavraChave {
-  descricao: string;
-  peso: number;
+export interface ExpectedAnswer {
+  palavrasChaves?: Keyword[];
 }
 
-export const emptyQuestion: Question = {
+export interface Keyword {
+  descricao?: string;
+  peso?: number;
+}
+
+export const emptyQuestion: DiscursiveQuestion = {
   id: null,
   tipo: 0,
   enunciado: '',

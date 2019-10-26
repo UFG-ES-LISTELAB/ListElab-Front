@@ -23,7 +23,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   isLoading: boolean;
 
   // Dados
-  question: fromQuestionsModels.Question;
+  question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
 
   get palavrasChaves() {
@@ -55,7 +55,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     });
 
     if (this.question && this.question.respostaEsperada ) {
-      const { palavrasChaves } = this.question.respostaEsperada;
+      const palavrasChaves = this.question.respostaEsperada.palavrasChaves;
       if (palavrasChaves.length > 0) {
         palavrasChaves.map(palavraChave => {
           this.addPalavraChave(palavraChave);
@@ -64,12 +64,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  returnToList() {
-    this.router.navigate([QUESTOES_LISTAR]);
-  }
-
   ngOnDestroy() {
     this.questionService.selectedQuestion = null;
+  }
+
+  returnToList() {
+    this.router.navigate([QUESTOES_LISTAR]);
   }
 
   submitted() {
@@ -82,7 +82,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     this.isLoading = true;
-    const question: fromQuestionsModels.Question = {
+    const question: fromQuestionsModels.DiscursiveQuestion = {
       enunciado: form.enunciado,
       areaDeConhecimento: parseInt(form.areaDeConhecimento),
       nivelDificuldade: form.nivelDificuldade,
@@ -105,7 +105,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   updateQuestion(form: any) {
     this.isLoading = true;
-    const question: fromQuestionsModels.Question = {
+    const question: fromQuestionsModels.DiscursiveQuestion = {
       id: form.id,
       enunciado: form.enunciado,
       areaDeConhecimento: parseInt(form.areaDeConhecimento),
@@ -129,7 +129,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  addPalavraChave(palavraChave: fromQuestionsModels.PalavraChave = emptyRespostaEsperada): void {
+  addPalavraChave(palavraChave: fromQuestionsModels.Keyword = emptyRespostaEsperada): void {
     if (this.palavrasChaves.length < 5) {
       this.palavrasChaves.push(
         this.fb.group({
