@@ -1,8 +1,6 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Router} from '@angular/router';
-import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
-import {LoginService} from '../../../login/login.service';
+
 
 @Component({
   selector: 'app-questions-search',

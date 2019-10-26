@@ -6,7 +6,10 @@
   <div class="row">
     <div class="col-md-12">
 
-      <app-lists-search></app-lists-search>
+      <app-lists-search
+        (listNew)="onNew()"
+        (submitted)="onSearch($event)">
+      </app-lists-search>
 
     </div>
   </div>
@@ -14,18 +17,20 @@
 
 <div class="container mt-4 mb-4">
 
-  {{ lists | json }}
+  <app-lists-card *ngFor="let list of lists"
+                  [list]="list"
+                  (selected)="onSelected($event)"
+                  (deleted)="onRemoved($event)"></app-lists-card>
 
-  <app-lists-card *ngFor="let list of lists;"></app-lists-card>
-
-  <div *ngIf="!isLoading && lists.length === 0">
-    <mat-card>
-      <span>Nenhuma questão encontrada</span>
-    </mat-card>
-  </div>
 
   <div class="loading__block" *ngIf="isLoading && !hasError">
     <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!isLoading && lists.length === 0">
+    <mat-card>
+      <span>Nenhuma Lista Encontrada.</span>
+    </mat-card>
   </div>
 
   <div *ngIf="hasError">

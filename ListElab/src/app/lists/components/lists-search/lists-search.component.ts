@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 @Component({
@@ -8,15 +8,25 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class ListsSearchComponent implements OnInit {
 
-  listsSearchForm: FormGroup;
+  @Output() submitted = new EventEmitter();
+  @Output() listNew = new EventEmitter();
+
+  searchForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.listsSearchForm = this.fb.group({
-
+    this.searchForm = this.fb.group({
     });
   }
 
   ngOnInit() {
+  }
+
+  onListNew() {
+    this.listNew.emit();
+  }
+
+  onSearch() {
+    this.submitted.emit(this.searchForm.value);
   }
 
 }

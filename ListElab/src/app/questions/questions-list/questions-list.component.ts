@@ -46,7 +46,7 @@ export class QuestionsListComponent implements OnInit {
       });
   }
 
-  onFormSubmit(searchForm) {
+  onSearch(searchForm) {
     this.searchQuestions(searchForm);
   }
 

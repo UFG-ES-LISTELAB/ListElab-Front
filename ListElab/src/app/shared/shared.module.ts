@@ -18,6 +18,7 @@ import {
   MatSnackBarModule
 } from '@angular/material';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const MATERIAL_MODULES = [
   MatToolbarModule,
@@ -33,7 +34,8 @@ const MATERIAL_MODULES = [
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

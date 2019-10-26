@@ -8,7 +8,66 @@ import {ApiResponse} from "../../shared/models/api-response.model";
 
 import * as fromRoutesConstants from "../../shared/constants/routes.contants";
 import * as fromListsModels from "../lists.model";
-import {LISTAS_EDITAR} from "../../shared/constants/routes.contants";
+
+/*
+
+CAM046
+Busca por Pronta para Aplicação
+dropbox {Sim, Não}
+Não
+Sim
+
+CAM047
+Busca por Título
+Texto
+Não
+Sim
+
+CAM048
+Busca por Tipos
+Dropbox {discursiva}
+Não
+Sim
+
+CAM049
+Busca por Dificuldade
+Dropbox {1-5}
+Não
+Sim
+
+CAM050
+Busca por Áreas de conhecimento
+Texto com auto-complete
+Não
+Sim
+
+CAM051
+Busca por Disciplinas
+Texto com auto-complete
+Não
+Sim
+
+CAM052
+Busca por Autor da Lista
+Texto com auto-complete
+Não
+Sim
+
+CAM053
+Busca por Tags
+Texto
+Não
+Sim
+
+CAM054
+Listas
+Cartão (Cartão de Lista)
+Não
+Não
+
+ */
+
+
 
 @Component({
   selector: 'app-lists-list',
@@ -42,20 +101,28 @@ export class ListsListComponent implements OnInit {
     });
   }
 
-  onListNew() {
+  onSearch(searchForm) {
+
+  }
+
+  onNew() {
     this.listsService.selectedList = fromListsModels.emptyList;
     this.router.navigate([fromRoutesConstants.LISTAS_CRIAR]);
   }
 
-  onListSelected(list: fromListsModels.List) {
+  onSelected(list: fromListsModels.List) {
     this.listsService.selectedList = list;
-    this.router.navigate([LISTAS_EDITAR]);
+    this.router.navigate([fromRoutesConstants.LISTAS_EDITAR]);
+  }
+
+  onRemoved(list: fromListsModels.List) {
+
   }
 
   // onFormSubmit(searchForm) {
   //   this.searchQuestions(searchForm);
   // }
-  //
+
   // onDeleted(question: Question) {
   //   Swal.fire({
   //     title: 'Você tem certeza?',
