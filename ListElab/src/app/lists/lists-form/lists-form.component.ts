@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 
 import {LISTAS_LISTAR, QUESTOES_LISTAR} from "../../shared/constants/routes.contants";
+import {FormBuilder, FormGroup} from "@angular/forms";
 
 
 
@@ -16,9 +17,13 @@ export class ListsFormComponent implements OnInit {
   hasError: boolean;
   screenTitle: string;
 
-  constructor(private router: Router) { }
+  listForm: FormGroup;
+
+  constructor(private fb: FormBuilder,
+              private router: Router) { }
 
   ngOnInit() {
+    this.listForm = this.fb.group({});
   }
 
   returnToList() {
