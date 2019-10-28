@@ -10,7 +10,7 @@ jobs:
     - stage: build docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-      - docker build --no-cache -t $DOCKER_USERNAME/listelab-web .
+      - docker build --no-cache -t $DOCKER_USERNAME/listelab-web ./ListElab/
       - docker images
       - docker tag $DOCKER_USERNAME/listelab-web $DOCKER_USERNAME/listelab-web
       - docker push $DOCKER_USERNAME/listelab-web
