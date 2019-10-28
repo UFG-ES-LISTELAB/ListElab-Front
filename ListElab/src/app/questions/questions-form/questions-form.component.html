@@ -74,11 +74,11 @@
             </div>
           </div>
 
-          <div formArrayName="palavrasChaves">
+          <div formArrayName="respostaEsperada">
 
             <div class="row"
-                 *ngFor="let palavraChave of questionForm.get('palavrasChaves').controls; let palavraIndex = index;"
-                 [formGroupName]="palavraIndex">
+                 *ngFor="let respostaEsperada of getRespostaEsperadaControls(); let resEsperadaIndex = index;"
+                 [formGroupName]="resEsperadaIndex">
 
               <div class="col-md-4" >
                 <mat-form-field class="full-width font-size--12" appearance="outline">
@@ -96,7 +96,7 @@
                 <button mat-icon-button
                         type="button"
                         matTooltip="Remover uma Resposta Esperada"
-                        (click)="removePalavraChave(palavraIndex)">
+                        (click)="removeRespostaEsperada(resEsperadaIndex)">
                   <mat-icon>remove</mat-icon>
                 </button>
               </div>
@@ -110,7 +110,7 @@
                       color="accent"
                       type="button"
                       matTooltip="Adicionar Nova Resposta Esperada"
-                      *ngIf="this.palavrasChaves.length < 5 && questionForm.valid" (click)="addPalavraChave()">
+                      *ngIf="this.respostasEsperadas.length < 5 && questionForm.valid" (click)="addRespostaEsperada()">
                 <mat-icon>add</mat-icon>
               </button>
             </div>

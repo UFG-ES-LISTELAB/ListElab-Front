@@ -26,8 +26,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
 
-  get palavrasChaves() {
-    return this.questionForm.get('palavrasChaves') as FormArray;
+  get respostasEsperadas() {
+    return this.questionForm.get('respostaEsperada') as FormArray;
+  }
+
+  getRespostaEsperadaControls() {
+    return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
   }
 
   constructor(private router: Router,
@@ -50,15 +54,15 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplina: 0,
-      palavrasChaves: this.fb.array([]),
+      respostaEsperada: this.fb.array([]),
       autor: this.question.usuario,
     });
 
     if (this.question && this.question.respostaEsperada ) {
-      const palavrasChaves = this.question.respostaEsperada.palavrasChaves;
-      if (palavrasChaves.length > 0) {
-        palavrasChaves.map(palavraChave => {
-          this.addPalavraChave(palavraChave);
+      const respostasEsperadas = this.question.respostaEsperada;
+      if (respostasEsperadas.length > 0) {
+        respostasEsperadas.map(respostaEsperada => {
+          this.addRespostaEsperada(respostaEsperada);
         });
       }
     }
@@ -84,16 +88,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const question: fromQuestionsModels.DiscursiveQuestion = {
       enunciado: form.enunciado,
-      areaDeConhecimento: parseInt(form.areaDeConhecimento),
+      areaDeConhecimento: form.codAreaDeConhecimento,
       nivelDificuldade: form.nivelDificuldade,
-      disciplina: 0,
+      disciplina: form.codDisciplina,
       tipo: form.tipo,
       tempoMaximoDeResposta: 0,
-      respostaEsperada: {
-        palavrasChaves: [
-          ...form.palavrasChaves
-        ],
-      },
+      respostaEsperada: [
+        ...form.respostaEsperada
+      ],
       tags: [],
       usuario: form.autor,
     };
@@ -108,16 +110,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     const question: fromQuestionsModels.DiscursiveQuestion = {
       id: form.id,
       enunciado: form.enunciado,
-      areaDeConhecimento: parseInt(form.areaDeConhecimento),
+      areaDeConhecimento: form.codAreaDeConhecimento,
       nivelDificuldade: form.nivelDificuldade,
-      disciplina: 0,
+      disciplina: form.codDisciplina,
       tipo: form.tipo,
       tempoMaximoDeResposta: 0,
-      respostaEsperada: {
-        palavrasChaves: [
-          ...form.palavrasChaves
-        ],
-      },
+      respostaEsperada: [
+        ...form.respostaEsperada
+      ],
       tags: [],
       usuario: form.autor,
     };
@@ -129,18 +129,18 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  addPalavraChave(palavraChave: fromQuestionsModels.Keyword = emptyRespostaEsperada): void {
-    if (this.palavrasChaves.length < 5) {
-      this.palavrasChaves.push(
+  addRespostaEsperada(respostaEsperada: fromQuestionsModels.ExpectedAnswer = emptyRespostaEsperada): void {
+    if (this.respostasEsperadas.length < 5) {
+      this.respostasEsperadas.push(
         this.fb.group({
-          descricao:  [palavraChave.descricao, Validators.required ],
-          peso:       [palavraChave.peso, Validators.required]
+          descricao:  [respostaEsperada.descricao, Validators.required ],
+          peso:       [respostaEsperada.peso, Validators.required]
         })
       );
     }
   }
 
-  removePalavraChave(palavraIndex) {
-    this.palavrasChaves.removeAt(palavraIndex);
+  removeRespostaEsperada(resEsperadaIndex) {
+    this.respostasEsperadas.removeAt(resEsperadaIndex);
   }
 }
