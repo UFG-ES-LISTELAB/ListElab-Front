@@ -1,7 +1,12 @@
 .sidenav__container {
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
 }
 
 .sidenav__list--item span {
   margin: 0 20px;
+}
+
+.active {
+  background-color: #f7f7f7;
 }

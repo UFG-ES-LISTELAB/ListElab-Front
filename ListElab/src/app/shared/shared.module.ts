@@ -8,8 +8,17 @@ import {
   MatToolbarModule,
   MatTableModule,
   MatPaginatorModule,
+  MatCardModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatTooltipModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const MATERIAL_MODULES = [
   MatToolbarModule,
@@ -18,6 +27,15 @@ const MATERIAL_MODULES = [
   MatInputModule,
   MatTableModule,
   MatPaginatorModule,
+  MatCardModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatTooltipModule,
+  MatSnackBarModule,
+  MatCheckboxModule
 ];
 
 @NgModule({
