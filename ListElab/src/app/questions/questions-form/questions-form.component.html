@@ -26,13 +26,28 @@
             <div class="col-md-6">
               <mat-form-field class="full-width font-size--12"  appearance="outline">
                 <mat-label>Tipo</mat-label>
-                <input matInput type="text" formControlName="tipo">
+                <mat-select formControlName="tipo">
+                  <mat-option value="0">Discursiva</mat-option>
+                  <mat-option value="1">Objetiva</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field class="full-width font-size--12"  appearance="outline">
                 <mat-label>Área de Conhecimento</mat-label>
-                <input matInput type="text" formControlName="areaDeConhecimento">
+                <mat-select formControlName="areaDeConhecimento">
+                  <mat-option value="10301003">Teoria da Computação</mat-option>
+                  <mat-option value="10302000">Matemática da computação</mat-option>
+                  <mat-option value="10303006">Metodologias da computação</mat-option>
+                  <mat-option value="10304002">Sistemas da computação</mat-option>
+                  <mat-option value="10300007">Ciência da computação</mat-option>
+                  <mat-option value="10301046">Lógica e semântica de programas</mat-option>
+                  <mat-option value="10303014">Linguagens de programação</mat-option>
+                  <mat-option value="10303022">Engenharia de Software</mat-option>
+                  <mat-option value="10303030">Banco de Dados</mat-option>
+                  <mat-option value="10303049">Sistemas de informação</mat-option>
+                  <mat-option value="10304029">Arquitetura de Sistemas de Informação</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </div>
@@ -41,7 +56,13 @@
             <div class="col-md-6">
               <mat-form-field class="full-width font-size--12" appearance="outline">
                 <mat-label>Dificuldade</mat-label>
-                <input matInput type="text" autocomplete="off" formControlName="nivelDificuldade">
+                <mat-select formControlName="nivelDificuldade">
+                  <mat-option value="1">Muito Fácil</mat-option>
+                  <mat-option value="2">Fácil</mat-option>
+                  <mat-option value="3">Médio</mat-option>
+                  <mat-option value="4">Difícil</mat-option>
+                  <mat-option value="5">Muito difícil</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
             <div class="col-md-6">
