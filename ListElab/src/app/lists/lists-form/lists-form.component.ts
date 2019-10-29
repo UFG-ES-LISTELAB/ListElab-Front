@@ -29,4 +29,8 @@ export class ListsFormComponent implements OnInit {
   returnToList() {
     this.router.navigate([LISTAS_LISTAR]);
   }
+
+  submit() {
+    console.log(this.listForm.value);
+  }
 }

@@ -35,7 +35,7 @@ export class LoginService {
     return this.http.post(`${environment.api}/${fromAPIConstants.API_LOGIN_ENTRAR}`, login).pipe(
       tap((response: ApiResponse) => {
         if(response.sucesso) {
-          this.localStorageService.setItem('token', `Bearer ${response.resultado}`);
+          this.localStorageService.setItem('token', `Bearer ${response.resultado.token}`);
           this.onLogin.next();
         }
         return response;

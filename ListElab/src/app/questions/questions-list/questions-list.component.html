@@ -2,6 +2,10 @@
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
 </div>
 
+<div *ngIf="isListEditing">
+  <app-lists-questions></app-lists-questions>
+</div>
+
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-12">

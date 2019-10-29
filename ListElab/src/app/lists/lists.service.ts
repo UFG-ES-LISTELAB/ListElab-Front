@@ -5,6 +5,7 @@ import {environment} from "../../environments/environment";
 
 import {API} from "../shared/constants/api.constants";
 import * as fromListsModels from "./lists.model";
+import * as fromQuestionsModels from '../questions/questions.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +14,7 @@ export class ListsService {
 
   selectedList: fromListsModels.List;
 
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   getAll(params?): Observable<any> {
     return this.http.get(`${environment.api}/${API.listas.base}`);
