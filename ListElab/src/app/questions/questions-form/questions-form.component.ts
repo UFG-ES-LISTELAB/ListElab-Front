@@ -76,6 +76,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   submitted() {
+    debugger;
     if (!this.question.id) {
       this.createQuestion(this.questionForm.value);
     } else {
@@ -91,7 +92,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       nivelDificuldade: form.nivelDificuldade,
       disciplina: form.codDisciplina,
       tipo: form.tipo,
-      tempoMaximoDeResposta: 0,
+      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
