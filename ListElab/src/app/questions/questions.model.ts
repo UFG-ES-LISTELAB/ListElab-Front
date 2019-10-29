@@ -4,13 +4,13 @@ export interface Question {
   enunciado?: string;
   nivelDificuldade?: number | null;
   tags?: string[];
-  areaDeConhecimento?: number | null;
-  disciplina?: number | null;
+  areaDeConhecimento?: KnowlegdeArea | null;
+  disciplina?: Discipline | null;
   usuario?: string;
 }
 
 export interface DiscursiveQuestion extends Question {
-  respostaEsperada?: ExpectedAnswer;
+  respostaEsperada?: ExpectedAnswer[];
   tempoMaximoDeResposta?: number;
 }
 
@@ -19,19 +19,28 @@ export interface ObjectiveQuestion extends Question {
 }
 
 export interface ExpectedAnswer {
-  palavrasChaves?: Keyword[];
-}
-
-export interface Keyword {
   descricao?: string;
   peso?: number;
+}
+
+export interface Discipline {
+  codigo: string;
+  descricao: string;
+}
+
+export interface KnowlegdeArea {
+  codigo: string;
+  descricao: string;
 }
 
 export const emptyQuestion: DiscursiveQuestion = {
   id: null,
   tipo: 0,
   enunciado: '',
-  areaDeConhecimento: 0,
+  areaDeConhecimento: {
+    codigo: "",
+    descricao: ""
+  },
   nivelDificuldade: 0,
   tempoMaximoDeResposta: 0,
 };

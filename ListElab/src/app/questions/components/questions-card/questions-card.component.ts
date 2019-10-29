@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Question} from '../../questions.model';
+import {DiscursiveQuestion, Question} from '../../questions.model';
 import {Router} from '@angular/router';
 import {QuestionsService} from '../../questions.service';
 
@@ -13,7 +13,7 @@ import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
 })
 export class QuestionsCardComponent implements OnInit {
 
-  @Input() question: Question;
+  @Input() question: DiscursiveQuestion;
   @Output() selected = new EventEmitter();
   @Output() deleted = new EventEmitter<Question>();
 
