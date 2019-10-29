@@ -54,8 +54,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplina: 0,
-      respostaEsperada: this.fb.array([]),
-      autor: this.question.usuario,
+      respostaEsperada: this.fb.array([])
     });
 
     if (this.question && this.question.respostaEsperada ) {
