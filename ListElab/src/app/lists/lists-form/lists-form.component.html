@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <form [formGroup]="listForm">
+        <form [formGroup]="listForm" (ngSubmit)="submit()">
 
           <div class="row">
             <div class="col-md-12">
@@ -67,6 +67,14 @@
                 <mat-label>Disciplina</mat-label>
                 <input matInput type="text">
               </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <button class="full-width"
+                matTooltip="Salvar Lista"
+                mat-raised-button color="primary" [disabled]="listForm.invalid">Salvar</button>
             </div>
           </div>
 

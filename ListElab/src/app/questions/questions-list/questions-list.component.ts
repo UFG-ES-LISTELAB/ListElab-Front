@@ -23,6 +23,7 @@ export class QuestionsListComponent implements OnInit {
   questions: fromQuestionsModels.Question[] = [];
   hasError: any;
   isLoading: boolean;
+  isListEditing: boolean;
 
   constructor(private fb: FormBuilder,
               private router: Router,
@@ -30,7 +31,9 @@ export class QuestionsListComponent implements OnInit {
               private questionsService: QuestionsService) {}
 
   ngOnInit() {
+    this.isListEditing = true;
     this.isLoading = true;
+
     this.searchQuestions();
   }
 
