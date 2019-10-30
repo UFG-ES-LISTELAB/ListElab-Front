@@ -43,14 +43,15 @@ export class ListsFormComponent implements OnInit {
     this.selectedList.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
     this.listForm = this.fb.group({
-      id: null,
-      titulo: '',
-      descricao: '',
-      nivelDificuldade: null,
-      areaDeConhecimento: null,
-      disciplina_cod: '',
+      id: this.selectedList.id ? this.selectedList.id : null,
+      titulo: this.selectedList.titulo,
+      nivelDificuldade: this.selectedList.nivelDificuldade,
+      areaDeConhecimentoId: this.selectedList.areaDeConhecimento ? this.selectedList.areaDeConhecimento.codigo : "",
+      disciplinaId: this.selectedList.disciplina ? this.selectedList.disciplina.codigo : "",
       tags: [],
-      discursivas: [],
+      discursivas: [
+        ...this.selectedList.discursivas
+      ],
       objetivas: [],
       author: 'professor@ufg.br'
     });
@@ -65,18 +66,23 @@ export class ListsFormComponent implements OnInit {
     const form = this.listForm.value;
 
     const result = {
+      id: form.id,
       titulo: form.titulo,
-      descricao: form.descricao,
       nivelDificuldade: form.nivelDificuldade,
+      areaDeConhecimento: {
+        codigo: form.areaDeConhecimentoId
+      },
       disciplina: {
-        id: form.disciplina_cod
+        codigo: form.disciplinaId
       },
       author: "professor@ufg.br",
       discursivas: [...this.selectedQuestions] };
 
-    this.listsService.create(result).subscribe(x =>
-      this.router.navigate(['/listas'])
-    );
+    console.log(result);
+
+    // this.listsService.create(result).subscribe(x =>
+    //   this.router.navigate(['/listas'])
+    // );
   }
 
   getQuestions() {
