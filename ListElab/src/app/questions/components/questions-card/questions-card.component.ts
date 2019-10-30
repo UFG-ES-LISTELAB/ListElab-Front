@@ -1,10 +1,10 @@
 import Swal from 'sweetalert2';
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+
 import {DiscursiveQuestion, Question} from '../../questions.model';
 import {Router} from '@angular/router';
 import {QuestionsService} from '../../questions.service';
-
-import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
+import {ListsService} from "../../../lists/lists.service";
 
 @Component({
   selector: 'app-questions-card',
@@ -14,17 +14,18 @@ import {QUESTOES_CRIAR} from '../../../shared/constants/routes.contants';
 export class QuestionsCardComponent implements OnInit {
 
   @Input() question: DiscursiveQuestion;
-  @Output() selected = new EventEmitter();
+  @Output() detail = new EventEmitter<Question>();
   @Output() deleted = new EventEmitter<Question>();
 
   constructor(private router: Router,
+              private listsService: ListsService,
               private questionService: QuestionsService) { }
 
   ngOnInit() {
   }
 
-  onSelect() {
-    this.selected.emit(this.question);
+  onDetail() {
+    this.detail.emit(this.question);
   }
 
   onDelete() {

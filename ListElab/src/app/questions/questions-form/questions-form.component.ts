@@ -41,7 +41,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
-      this.question = this.questionService.selectedQuestion
+          this.question = this.questionService.selectedQuestion
       : this.question = fromQuestionsModels.emptyQuestion;
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';

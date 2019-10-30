@@ -9,7 +9,6 @@ export class UiService {
 
   toggleSidebar(): void {
     this.sidebarOpened = !this.sidebarOpened;
-    console.log(this.sidebarOpened);
   }
 
 }

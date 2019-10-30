@@ -6,6 +6,7 @@ import {environment} from "../../environments/environment";
 import {API} from "../shared/constants/api.constants";
 import * as fromListsModels from "./lists.model";
 import * as fromQuestionsModels from '../questions/questions.model';
+import {Question} from "../questions/questions.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ import * as fromQuestionsModels from '../questions/questions.model';
 export class ListsService {
 
   selectedList: fromListsModels.List;
+  questionsList: Question[];
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +26,7 @@ export class ListsService {
     return this.http.get(`${environment.api}/${API.listas.base}/${id}`);
   }
 
-  create(list: fromListsModels.List): Observable<any> {
+  create(list: any): Observable<any> {
     return this.http.post(`${environment.api}/${API.listas.base}`, list);
   }
 
@@ -35,4 +37,5 @@ export class ListsService {
   delete(id): Observable<any> {
     return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
   }
+
 }

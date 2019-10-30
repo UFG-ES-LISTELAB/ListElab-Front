@@ -1,4 +1,4 @@
-<mat-card class="mat-elevation-z8 full-width" style="margin-bottom: 20px">
+<mat-card class="mat-elevation-z8 full-width mb-3">
 
   <div class="row">
     <div class="col-md-3 col-sm-12 item">
@@ -23,9 +23,7 @@
     </div>
     <div class="col-md-12 col-sm-12 item">
       <span>Enunciado</span>
-      <span>
-        {{ question.enunciado }}
-      </span>
+      <span>{{ question.enunciado }}</span>
     </div>
     <div class="col-md-6 col-sm-12 item">
       <span>Autor</span>
@@ -39,7 +37,9 @@
 
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent>
-      <button mat-menu-item type="button" (click)="onSelect()">Detalhes</button>
+
+      <button mat-menu-item type="button" (click)="onDetail()">Detalhes</button>
+
       <button mat-menu-item type="button" (click)="onDelete()">Eliminar</button>
     </ng-template>
   </mat-menu>

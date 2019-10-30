@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-list',
-  templateUrl: './lists.component.html',
-  styleUrls: ['./lists.component.scss']
+  template: `      
+      <app-toolbar></app-toolbar>
+      <router-outlet></router-outlet>
+  `
 })
 export class ListsComponent implements OnInit {
 

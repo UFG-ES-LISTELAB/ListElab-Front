@@ -11,11 +11,11 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
-      <span>{{ list.areaDeConhecimento }}</span>
+      <span>{{ list.areaDeConhecimento | json }}</span>
     </div>
     <div class="col-md-2 col-sm-12 item">
       <span>Disciplina</span>
-      <span>{{ list.disciplina }}</span>
+      <span>{{ list.disciplina.descricao }}</span>
     </div>
     <div class="col-md-1 col-sm-12 item--menu"
          [matMenuTriggerFor]="menu">

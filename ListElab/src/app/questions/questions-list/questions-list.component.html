@@ -2,10 +2,6 @@
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
 </div>
 
-<div *ngIf="isListEditing">
-  <app-lists-questions></app-lists-questions>
-</div>
-
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-12">
@@ -23,7 +19,8 @@
                       [hidden]="isLoading"
                       [question]="question"
                       (deleted)="onDeleted($event)"
-                      (selected)="onQuestionSelected($event)"></app-questions-card>
+                      (selected)="onSelect($event)"
+                      (detail)="onQuestionDetail($event)"></app-questions-card>
 
   <div *ngIf="!isLoading && questions.length === 0">
     <mat-card>
@@ -41,6 +38,5 @@
     </mat-card>
   </div>
 
-  <br>
 </div>
 
