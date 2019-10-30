@@ -8,6 +8,7 @@ import {ApiResponse} from "../../shared/models/api-response.model";
 
 import * as fromRoutesConstants from "../../shared/constants/routes.contants";
 import * as fromListsModels from "../lists.model";
+import Swal from "sweetalert2";
 
 
 @Component({
@@ -57,7 +58,31 @@ export class ListsListComponent implements OnInit {
   }
 
   onRemoved(list: fromListsModels.List) {
-
+    Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'A operação não poderá ser revertida!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.isLoading = true;
+        this.listsService.delete(list.id).subscribe(response => {
+          this.isLoading = false;
+          this.lists = this.lists.filter(x => x.id !== list.id);
+          Swal.fire(
+            'Removida!',
+            'Sua questão foi removida.',
+            'success'
+          );
+        }, error => {
+          this.isLoading = false;
+        });
+      }
+    });
   }
 
 }

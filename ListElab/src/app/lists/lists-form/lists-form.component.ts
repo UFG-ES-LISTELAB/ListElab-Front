@@ -66,7 +66,6 @@ export class ListsFormComponent implements OnInit {
     const form = this.listForm.value;
 
     const result = {
-      id: form.id,
       titulo: form.titulo,
       nivelDificuldade: form.nivelDificuldade,
       areaDeConhecimento: {
@@ -75,14 +74,14 @@ export class ListsFormComponent implements OnInit {
       disciplina: {
         codigo: form.disciplinaId
       },
-      author: form.usuario,
+      usuario: form.usuario,
       discursivas: [...this.selectedDiscursivas ]
     };
 
     if (!this.selectedList.id) {
       this.listsService.create(result).subscribe(x => console.log(x));
     } else {
-      this.listsService.update(result).subscribe(x => console.log(x));
+      this.listsService.update(Object.assign({}, result, { id: form.id })).subscribe(x => console.log(x));
     }
     // this.router.navigate(['/listas']);
   }

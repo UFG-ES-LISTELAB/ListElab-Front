@@ -45,6 +45,6 @@ export const emptyQuestion: DiscursiveQuestion = {
     codigo: "",
     descricao: ""
   },
-  nivelDificuldade: 0,
+  nivelDificuldade: 1,
   tempoMaximoDeResposta: 0,
 };
