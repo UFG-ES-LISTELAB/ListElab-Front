@@ -3,10 +3,14 @@ import {Router} from "@angular/router";
 
 import {LISTAS_LISTAR, QUESTOES_LISTAR} from "../../shared/constants/routes.contants";
 import {FormBuilder, FormGroup} from "@angular/forms";
+
 import {ListsService} from "../lists.service";
-import {Question} from "../../questions/questions.model";
+import * as fromListsModels from '../../lists/lists.model';
+import * as fromQuestionsModels from '../../questions/questions.model';
+
 import {QuestionsService} from "../../questions/questions.service";
 import {ApiResponse} from "../../shared/models/api-response.model";
+import {List} from '../lists.model';
 
 
 
@@ -22,8 +26,10 @@ export class ListsFormComponent implements OnInit {
   screenTitle: string;
   listForm: FormGroup;
 
-  questions: Question[];
-  selectedQuestions: Question[] = [];
+  selectedList: List;
+
+  questions: fromQuestionsModels.Question[];
+  selectedQuestions: fromQuestionsModels.Question[] = [];
 
   constructor(private fb: FormBuilder,
               private questionsService: QuestionsService,
@@ -31,6 +37,11 @@ export class ListsFormComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    this.listsService.selectedList ?
+      this.selectedList = this.listsService.selectedList
+      : this.selectedList = fromListsModels.emptyList;
+    this.selectedList.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+
     this.listForm = this.fb.group({
       id: null,
       titulo: '',
@@ -72,7 +83,7 @@ export class ListsFormComponent implements OnInit {
     this.questionsService.getAll().subscribe((x: ApiResponse) => this.questions = x.resultado);
   }
 
-  addQuestion(question: Question) {
+  addQuestion(question: fromQuestionsModels.Question) {
     console.log('selecionada');
     this.selectedQuestions.push(question);
   }
