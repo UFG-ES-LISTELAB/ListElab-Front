@@ -80,10 +80,11 @@ export class ListsFormComponent implements OnInit {
 
     if (!this.selectedList.id) {
       this.listsService.create(result).subscribe(x => console.log(x));
+      this.router.navigate(['/listas']);
     } else {
       this.listsService.update(Object.assign({}, result, { id: form.id })).subscribe(x => console.log(x));
+      this.router.navigate(['/listas']);
     }
-    // this.router.navigate(['/listas']);
   }
 
   getQuestions() {
