@@ -7,11 +7,11 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Dificuldade</span>
-      <span>{{ question.nivelDificuldade }}</span>
+      <span>{{ nivelDificuldade[question.nivelDificuldade] || '' }}</span>
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
-      <span>{{ question.areaDeConhecimento }}</span>
+      <span>{{ areaDeConhecimento[question?.areaDeConhecimento?.codigo] || '' }}</span>
     </div>
     <div class="col-md-2 col-sm-12 item">
       <span>Tempo de Resposta</span>
