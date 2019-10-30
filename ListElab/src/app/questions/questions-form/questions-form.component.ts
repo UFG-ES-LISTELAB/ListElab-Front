@@ -57,7 +57,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
       respostaEsperada: this.fb.array([]),
-      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br",
+      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
 
     if (this.question && this.question.respostaEsperada ) {
@@ -79,6 +79,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   submitted() {
+    debugger;
     if (!this.question.id) {
       this.createQuestion(this.questionForm.value);
     } else {
@@ -98,7 +99,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         codigo: form.disciplinaId
       },
       tipo: form.tipo,
-      tempoMaximoDeResposta: 0,
+      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],

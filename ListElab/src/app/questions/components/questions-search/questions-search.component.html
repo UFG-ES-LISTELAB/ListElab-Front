@@ -16,23 +16,22 @@
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
-      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
-        <input matInput type="text" formControlName="autor" placeholder="Autor" autocomplete="off">
-      </mat-form-field>
-
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Dificuldade</mat-label>
         <mat-select formControlName="nivelDificuldade">
-          <mat-option>Fácil</mat-option>
-          <mat-option>Tranquilo</mat-option>
-          <mat-option>Dificil</mat-option>
+          <mat-option value="1">Muito Fácil</mat-option>
+          <mat-option value="2">Fácil</mat-option>
+          <mat-option value="3">Médio</mat-option>
+          <mat-option value="4">Difícil</mat-option>
+          <mat-option value="5">Muito difícil</mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Tipo</mat-label>
         <mat-select formControlName="tipo">
-          <mat-option>Discursiva</mat-option>
+          <mat-option value="0">Discursiva</mat-option>
+          <mat-option value="1">Objetiva</mat-option>
         </mat-select>
       </mat-form-field>
 
