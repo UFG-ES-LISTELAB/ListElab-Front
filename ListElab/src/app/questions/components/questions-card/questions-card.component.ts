@@ -5,6 +5,8 @@ import {DiscursiveQuestion, Question} from '../../questions.model';
 import {Router} from '@angular/router';
 import {QuestionsService} from '../../questions.service';
 import {ListsService} from "../../../lists/lists.service";
+import { AreaDeConhecimento } from '../../../shared/models/areaDeConhecimento';
+import { NivelDificuldade } from '../../../shared/models/nivelDificuldade';
 
 @Component({
   selector: 'app-questions-card',
@@ -13,6 +15,8 @@ import {ListsService} from "../../../lists/lists.service";
 })
 export class QuestionsCardComponent implements OnInit {
 
+  areaDeConhecimento = AreaDeConhecimento;
+  nivelDificuldade = NivelDificuldade;
   @Input() question: DiscursiveQuestion;
   @Output() detail = new EventEmitter<Question>();
   @Output() deleted = new EventEmitter<Question>();

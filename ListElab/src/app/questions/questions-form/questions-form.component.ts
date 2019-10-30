@@ -79,7 +79,6 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   submitted() {
-    debugger;
     if (!this.question.id) {
       this.createQuestion(this.questionForm.value);
     } else {
