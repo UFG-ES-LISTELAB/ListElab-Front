@@ -8,65 +8,7 @@ import {ApiResponse} from "../../shared/models/api-response.model";
 
 import * as fromRoutesConstants from "../../shared/constants/routes.contants";
 import * as fromListsModels from "../lists.model";
-
-/*
-
-CAM046
-Busca por Pronta para Aplicação
-dropbox {Sim, Não}
-Não
-Sim
-
-CAM047
-Busca por Título
-Texto
-Não
-Sim
-
-CAM048
-Busca por Tipos
-Dropbox {discursiva}
-Não
-Sim
-
-CAM049
-Busca por Dificuldade
-Dropbox {1-5}
-Não
-Sim
-
-CAM050
-Busca por Áreas de conhecimento
-Texto com auto-complete
-Não
-Sim
-
-CAM051
-Busca por Disciplinas
-Texto com auto-complete
-Não
-Sim
-
-CAM052
-Busca por Autor da Lista
-Texto com auto-complete
-Não
-Sim
-
-CAM053
-Busca por Tags
-Texto
-Não
-Sim
-
-CAM054
-Listas
-Cartão (Cartão de Lista)
-Não
-Não
-
- */
-
+import Swal from "sweetalert2";
 
 
 @Component({
@@ -116,39 +58,31 @@ export class ListsListComponent implements OnInit {
   }
 
   onRemoved(list: fromListsModels.List) {
-
+    Swal.fire({
+      title: 'Você tem certeza?',
+      text: 'A operação não poderá ser revertida!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sim',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        this.isLoading = true;
+        this.listsService.delete(list.id).subscribe(response => {
+          this.isLoading = false;
+          this.lists = this.lists.filter(x => x.id !== list.id);
+          Swal.fire(
+            'Removida!',
+            'Sua questão foi removida.',
+            'success'
+          );
+        }, error => {
+          this.isLoading = false;
+        });
+      }
+    });
   }
-
-  // onFormSubmit(searchForm) {
-  //   this.searchQuestions(searchForm);
-  // }
-
-  // onDeleted(question: Question) {
-  //   Swal.fire({
-  //     title: 'Você tem certeza?',
-  //     text: 'A operação não poderá ser revertida!',
-  //     type: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#3085d6',
-  //     cancelButtonColor: '#d33',
-  //     confirmButtonText: 'Sim',
-  //     cancelButtonText: 'Cancelar',
-  //   }).then((result) => {
-  //     if (result.value) {
-  //       this.isLoading = true;
-  //       this.questionsService.deleteQuestion(question.id).subscribe(response => {
-  //         this.isLoading = false;
-  //         this.questions = this.questions.filter(x => x.id !== question.id);
-  //         Swal.fire(
-  //           'Removida!',
-  //           'Sua questão foi removida.',
-  //           'success'
-  //         );
-  //       }, error => {
-  //         this.isLoading = false;
-  //       });
-  //     }
-  //   });
-  // }
 
 }

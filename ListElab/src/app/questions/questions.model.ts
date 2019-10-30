@@ -24,13 +24,13 @@ export interface ExpectedAnswer {
 }
 
 export interface Discipline {
-  codigo: string;
-  descricao: string;
+  codigo?: string;
+  descricao?: string;
 }
 
 export interface KnowlegdeArea {
-  codigo: string;
-  descricao: string;
+  codigo?: string;
+  descricao?: string;
 }
 
 export const emptyQuestion: DiscursiveQuestion = {
@@ -41,6 +41,10 @@ export const emptyQuestion: DiscursiveQuestion = {
     codigo: "",
     descricao: ""
   },
-  nivelDificuldade: 0,
+  disciplina: {
+    codigo: "",
+    descricao: ""
+  },
+  nivelDificuldade: 1,
   tempoMaximoDeResposta: 0,
 };

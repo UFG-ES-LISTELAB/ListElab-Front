@@ -13,7 +13,7 @@ export class ListsCardComponent implements OnInit {
 
   @Input() list: List;
   @Output() selected = new EventEmitter();
-  @Output() deleted = new EventEmitter<List>();
+  @Output() deleted = new EventEmitter();
 
   constructor() { }
 
@@ -23,5 +23,9 @@ export class ListsCardComponent implements OnInit {
 
   onSelect(list: List) {
     this.selected.emit(list);
+  }
+
+  onDelete(list: List) {
+    this.deleted.emit(list);
   }
 }

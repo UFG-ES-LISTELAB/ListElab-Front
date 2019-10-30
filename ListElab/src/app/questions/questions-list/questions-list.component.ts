@@ -6,11 +6,13 @@ import {Router} from '@angular/router';
 
 import {QuestionsService} from '../questions.service';
 import {LoginService} from '../../login/login.service';
+import {ListsService} from '../../lists/lists.service';
 
 import {ApiResponse} from '../../shared/models/api-response.model';
 
 import * as fromQuestionsModels from '../questions.model';
 import * as fromRoutesConstants  from '../../shared/constants/routes.contants';
+import {Question} from "../questions.model";
 
 
 @Component({
@@ -28,6 +30,7 @@ export class QuestionsListComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router,
               private loginService: LoginService,
+              private listsService: ListsService,
               private questionsService: QuestionsService) {}
 
   ngOnInit() {
@@ -58,7 +61,7 @@ export class QuestionsListComponent implements OnInit {
     this.router.navigate([fromRoutesConstants.QUESTOES_CRIAR]);
   }
 
-  onQuestionSelected(question: fromQuestionsModels.Question) {
+  onQuestionDetail(question: fromQuestionsModels.Question) {
     this.questionsService.selectedQuestion = question;
     this.router.navigate([fromRoutesConstants.QUESTOES_EDITAR]);
   }
@@ -89,5 +92,9 @@ export class QuestionsListComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSelect(question: Question) {
+
   }
 }

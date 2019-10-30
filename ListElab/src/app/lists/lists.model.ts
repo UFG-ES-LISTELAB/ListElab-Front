@@ -1,14 +1,15 @@
-import {DiscursiveQuestion, ObjectiveQuestion } from "../questions/questions.model";
+import {Discipline, DiscursiveQuestion, KnowlegdeArea, ObjectiveQuestion} from "../questions/questions.model";
 
 export interface List {
   id: string | null;
   titulo: string;
-  areaDeConhecimento: number | null;
+  areaDeConhecimento: KnowlegdeArea | null;
   nivelDificuldade: number | null;
-  disciplina: number | null;
+  disciplina: Discipline | null;
   tags: string[];
   discursivas: DiscursiveQuestion[];
   objetivas: ObjectiveQuestion[];
+  usuario: string;
 }
 
 export const emptyList: List = {
@@ -19,5 +20,6 @@ export const emptyList: List = {
   disciplina: null,
   tags: [],
   discursivas: [],
-  objetivas: []
+  objetivas: [],
+  usuario: ""
 };

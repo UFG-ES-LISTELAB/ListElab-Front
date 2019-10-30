@@ -41,20 +41,23 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
-      this.question = this.questionService.selectedQuestion
+          this.question = this.questionService.selectedQuestion
       : this.question = fromQuestionsModels.emptyQuestion;
+
+    console.log(this.questionService.selectedQuestion);
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
     this.questionForm = this.fb.group({
       id: this.question.id,
       tipo: this.question.tipo,
-      areaDeConhecimento: this.question.areaDeConhecimento,
+      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
       tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
-      disciplina: 0,
-      respostaEsperada: this.fb.array([])
+      disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
+      respostaEsperada: this.fb.array([]),
+      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
 
     if (this.question && this.question.respostaEsperada ) {
@@ -88,9 +91,13 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const question: fromQuestionsModels.DiscursiveQuestion = {
       enunciado: form.enunciado,
-      areaDeConhecimento: form.codAreaDeConhecimento,
+      areaDeConhecimento: {
+        codigo: form.areaDeConhecimentoId
+      },
       nivelDificuldade: form.nivelDificuldade,
-      disciplina: form.codDisciplina,
+      disciplina: {
+        codigo: form.disciplinaId
+      },
       tipo: form.tipo,
       tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
@@ -100,6 +107,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       usuario: form.autor,
     };
     this.questionService.create(question).subscribe(success => {
+      console.log(success);
       this.isLoading = false;
       this.router.navigate([QUESTOES_LISTAR]);
     }, error => this.isLoading = false);
@@ -110,9 +118,13 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     const question: fromQuestionsModels.DiscursiveQuestion = {
       id: form.id,
       enunciado: form.enunciado,
-      areaDeConhecimento: form.codAreaDeConhecimento,
+      areaDeConhecimento: {
+        codigo: form.areaDeConhecimentoId
+      },
       nivelDificuldade: form.nivelDificuldade,
-      disciplina: form.codDisciplina,
+      disciplina: {
+        codigo: form.disciplinaId
+      },
       tipo: form.tipo,
       tempoMaximoDeResposta: 0,
       respostaEsperada: [
@@ -123,6 +135,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     };
     this.questionService.update(question).subscribe(success => {
       this.isLoading = false;
+      console.log(success);
       this.router.navigate([QUESTOES_LISTAR]);
     }, error => {
       return this.isLoading = false;

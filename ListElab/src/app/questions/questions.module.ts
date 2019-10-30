@@ -22,13 +22,15 @@ import {ListsModule} from "../lists/lists.module";
     QuestionsListComponent,
     QuestionsCardComponent,
   ],
+  exports: [
+    QuestionsCardComponent
+  ],
   imports: [
     CommonModule,
     QuestionsRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    ListsModule,
   ]
 })
 export class QuestionsModule { }
