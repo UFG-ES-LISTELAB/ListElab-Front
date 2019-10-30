@@ -11,6 +11,7 @@ import { QuestionsSearchComponent } from './components/questions-search/question
 import { QuestionsFormComponent } from './questions-form/questions-form.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
 import { QuestionsCardComponent } from './components/questions-card/questions-card.component';
+import {ListsModule} from "../lists/lists.module";
 
 
 @NgModule({
@@ -20,6 +21,9 @@ import { QuestionsCardComponent } from './components/questions-card/questions-ca
     QuestionsFormComponent,
     QuestionsListComponent,
     QuestionsCardComponent,
+  ],
+  exports: [
+    QuestionsCardComponent
   ],
   imports: [
     CommonModule,

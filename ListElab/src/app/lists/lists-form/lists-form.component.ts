@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 
-import {LISTAS_LISTAR, QUESTOES_LISTAR} from "../../shared/constants/routes.contants";
+import {LISTAS_LISTAR} from "../../shared/constants/routes.contants";
 import {FormBuilder, FormGroup} from "@angular/forms";
+
+import {ListsService} from "../lists.service";
+import * as fromListsModels from '../../lists/lists.model';
+import * as fromQuestionsModels from '../../questions/questions.model';
+
+import {QuestionsService} from "../../questions/questions.service";
+import {ApiResponse} from "../../shared/models/api-response.model";
+import {List} from '../lists.model';
+import {Question} from '../../questions/questions.model';
 
 
 
@@ -13,20 +22,76 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class ListsFormComponent implements OnInit {
 
-  isLoading: boolean;
-  hasError: boolean;
+  isLoading: boolean = false;
+  hasError = null;
   screenTitle: string;
-
   listForm: FormGroup;
 
+  selectedList: List;
+  selectedDiscursivas: Question[];
+  questions: fromQuestionsModels.Question[];
+
   constructor(private fb: FormBuilder,
+              private questionsService: QuestionsService,
+              private listsService: ListsService,
               private router: Router) { }
 
   ngOnInit() {
-    this.listForm = this.fb.group({});
+    this.listsService.selectedList ?
+      this.selectedList = this.listsService.selectedList
+      : this.selectedList = fromListsModels.emptyList;
+    this.selectedList.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+
+    this.getQuestions();
+
+    this.listForm = this.fb.group({
+      id: this.selectedList.id ? this.selectedList.id : null,
+      titulo: this.selectedList.titulo,
+      nivelDificuldade: this.selectedList.nivelDificuldade,
+      areaDeConhecimentoId: this.selectedList.areaDeConhecimento ? this.selectedList.areaDeConhecimento.codigo : "",
+      disciplinaId: this.selectedList.disciplina ? this.selectedList.disciplina.codigo : "",
+      tags: [],
+      objetivas: [],
+      usuario: this.selectedList.usuario ? this.selectedList.usuario : "professor@ufg.br"
+    });
+
+    this.selectedDiscursivas = this.selectedList.discursivas.length === 0 ? [] : [...this.selectedList.discursivas];
   }
 
   returnToList() {
     this.router.navigate([LISTAS_LISTAR]);
+  }
+
+  submit() {
+    const form = this.listForm.value;
+
+    const result = {
+      titulo: form.titulo,
+      nivelDificuldade: form.nivelDificuldade,
+      areaDeConhecimento: {
+        codigo: form.areaDeConhecimentoId
+      },
+      disciplina: {
+        codigo: form.disciplinaId
+      },
+      usuario: form.usuario,
+      discursivas: [...this.selectedDiscursivas ]
+    };
+
+    if (!this.selectedList.id) {
+      this.listsService.create(result).subscribe(x => console.log(x));
+      this.router.navigate(['/listas']);
+    } else {
+      this.listsService.update(Object.assign({}, result, { id: form.id })).subscribe(x => console.log(x));
+      this.router.navigate(['/listas']);
+    }
+  }
+
+  getQuestions() {
+    this.questionsService.getAll().subscribe((x: ApiResponse) => this.questions = x.resultado);
+  }
+
+  addQuestion(question: fromQuestionsModels.Question) {
+    this.selectedDiscursivas.push(question);
   }
 }

@@ -10,6 +10,7 @@ import {ListsComponent} from "./lists.component";
 import {ListsSearchComponent} from './components/lists-search/lists-search.component';
 import {ListsCardComponent} from './components/lists-card/lists-card.component';
 import {ListsFormComponent} from './lists-form/lists-form.component';
+import {QuestionsModule} from "../questions/questions.module";
 
 
 
@@ -19,13 +20,15 @@ import {ListsFormComponent} from './lists-form/lists-form.component';
     ListsComponent,
     ListsSearchComponent,
     ListsCardComponent,
-    ListsFormComponent
+    ListsFormComponent,
   ],
+  exports: [],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
     ListsRoutingModule,
+    QuestionsModule,
   ]
 })
 export class ListsModule {

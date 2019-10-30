@@ -19,7 +19,8 @@
                       [hidden]="isLoading"
                       [question]="question"
                       (deleted)="onDeleted($event)"
-                      (selected)="onQuestionSelected($event)"></app-questions-card>
+                      (selected)="onSelect($event)"
+                      (detail)="onQuestionDetail($event)"></app-questions-card>
 
   <div *ngIf="!isLoading && questions.length === 0">
     <mat-card>
@@ -37,6 +38,5 @@
     </mat-card>
   </div>
 
-  <br>
 </div>
 

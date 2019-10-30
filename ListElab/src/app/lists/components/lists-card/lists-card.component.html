@@ -11,11 +11,11 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
-      <span>{{ list.areaDeConhecimento }}</span>
+      <span>{{ list.areaDeConhecimento | json }}</span>
     </div>
     <div class="col-md-2 col-sm-12 item">
       <span>Disciplina</span>
-      <span>{{ list.disciplina }}</span>
+      <span>{{ list.disciplina.descricao }}</span>
     </div>
     <div class="col-md-1 col-sm-12 item--menu"
          [matMenuTriggerFor]="menu">
@@ -30,8 +30,8 @@
 
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent>
-      <button mat-menu-item type="button" (click)="onSelect(list)">Detalhes</button>
-<!--      <button mat-menu-item type="button" (click)="onDelete()">Eliminar</button>-->
+      <button mat-menu-item type="button" (click)="onSelect(list)">Alterar</button>
+      <button mat-menu-item type="button" (click)="onDelete(list)">Eliminar</button>
     </ng-template>
   </mat-menu>
 
