@@ -30,7 +30,7 @@ export class ListsService {
     return this.http.post(`${environment.api}/${API.listas.base}`, list);
   }
 
-  update(list: fromListsModels.List): Observable<any> {
+  update(list: any): Observable<any> {
     return this.http.put(`${environment.api}/${API.listas.base}`, list);
   }
 

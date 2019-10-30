@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 
-import {LISTAS_LISTAR, QUESTOES_LISTAR} from "../../shared/constants/routes.contants";
+import {LISTAS_LISTAR} from "../../shared/constants/routes.contants";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 import {ListsService} from "../lists.service";
@@ -11,6 +11,7 @@ import * as fromQuestionsModels from '../../questions/questions.model';
 import {QuestionsService} from "../../questions/questions.service";
 import {ApiResponse} from "../../shared/models/api-response.model";
 import {List} from '../lists.model';
+import {Question} from '../../questions/questions.model';
 
 
 
@@ -27,9 +28,8 @@ export class ListsFormComponent implements OnInit {
   listForm: FormGroup;
 
   selectedList: List;
-
+  selectedDiscursivas: Question[];
   questions: fromQuestionsModels.Question[];
-  selectedQuestions: fromQuestionsModels.Question[] = [];
 
   constructor(private fb: FormBuilder,
               private questionsService: QuestionsService,
@@ -42,6 +42,8 @@ export class ListsFormComponent implements OnInit {
       : this.selectedList = fromListsModels.emptyList;
     this.selectedList.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
+    this.getQuestions();
+
     this.listForm = this.fb.group({
       id: this.selectedList.id ? this.selectedList.id : null,
       titulo: this.selectedList.titulo,
@@ -49,13 +51,11 @@ export class ListsFormComponent implements OnInit {
       areaDeConhecimentoId: this.selectedList.areaDeConhecimento ? this.selectedList.areaDeConhecimento.codigo : "",
       disciplinaId: this.selectedList.disciplina ? this.selectedList.disciplina.codigo : "",
       tags: [],
-      discursivas: [
-        ...this.selectedList.discursivas
-      ],
       objetivas: [],
-      author: 'professor@ufg.br'
+      usuario: this.selectedList.usuario ? this.selectedList.usuario : "professor@ufg.br"
     });
-    this.getQuestions();
+
+    this.selectedDiscursivas = this.selectedList.discursivas.length === 0 ? [] : [...this.selectedList.discursivas];
   }
 
   returnToList() {
@@ -75,14 +75,16 @@ export class ListsFormComponent implements OnInit {
       disciplina: {
         codigo: form.disciplinaId
       },
-      author: "professor@ufg.br",
-      discursivas: [...this.selectedQuestions] };
+      author: form.usuario,
+      discursivas: [...this.selectedDiscursivas ]
+    };
 
-    console.log(result);
-
-    // this.listsService.create(result).subscribe(x =>
-    //   this.router.navigate(['/listas'])
-    // );
+    if (!this.selectedList.id) {
+      this.listsService.create(result).subscribe(x => console.log(x));
+    } else {
+      this.listsService.update(result).subscribe(x => console.log(x));
+    }
+    // this.router.navigate(['/listas']);
   }
 
   getQuestions() {
@@ -90,7 +92,6 @@ export class ListsFormComponent implements OnInit {
   }
 
   addQuestion(question: fromQuestionsModels.Question) {
-    console.log('selecionada');
-    this.selectedQuestions.push(question);
+    this.selectedDiscursivas.push(question);
   }
 }

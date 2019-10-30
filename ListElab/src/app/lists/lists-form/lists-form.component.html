@@ -64,10 +64,10 @@
           <div class="row">
             <div class="col-md-12 mb-4">
               <h4>Questões Selecionadas</h4>
-              <mat-card class="mb-3" *ngFor="let question of selectedQuestions">
+              <mat-card class="mb-3" *ngFor="let question of selectedDiscursivas">
                 {{ question.enunciado }}
               </mat-card>
-              <mat-card class="mb-3" *ngIf="selectedQuestions.length < 1">
+              <mat-card class="mb-3" *ngIf="selectedDiscursivas.length <= 0">
                 Nenhuma questão selecionada!
               </mat-card>
             </div>

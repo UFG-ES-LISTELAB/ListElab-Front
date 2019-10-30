@@ -9,6 +9,7 @@ export interface List {
   tags: string[];
   discursivas: DiscursiveQuestion[];
   objetivas: ObjectiveQuestion[];
+  usuario: string;
 }
 
 export const emptyList: List = {
@@ -19,5 +20,6 @@ export const emptyList: List = {
   disciplina: null,
   tags: [],
   discursivas: [],
-  objetivas: []
+  objetivas: [],
+  usuario: ""
 };
