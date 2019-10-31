@@ -11,20 +11,20 @@
     </div>
     <div class="col-md-3 col-sm-12 item">
       <span>Área de Conhecimento</span>
-      <span>{{ list.areaDeConhecimento | json }}</span>
+      <span>{{ list.areaDeConhecimento?.descricao }}</span>
     </div>
-    <div class="col-md-2 col-sm-12 item">
+    <!--<div class="col-md-2 col-sm-12 item">
       <span>Disciplina</span>
       <span>{{ list.disciplina.descricao }}</span>
-    </div>
+    </div>-->
     <div class="col-md-1 col-sm-12 item--menu"
          [matMenuTriggerFor]="menu">
       <mat-icon>more_vert</mat-icon>
     </div>
-    <div class="col-md-5 col-sm-12 item">
+    <!--<div class="col-md-5 col-sm-12 item">
       <span>Tags</span>
       <span *ngFor="let tag of list.tags">{{ tag }}</span>
-    </div>
+    </div>-->
 
   </div>
 
