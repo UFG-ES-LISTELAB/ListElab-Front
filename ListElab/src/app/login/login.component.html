@@ -1,0 +1,31 @@
+<app-toolbar></app-toolbar>
+<div class="container">
+
+  <form class="login__form" [formGroup]="loginForm" (ngSubmit)="submitted()">
+
+    <h2 class="login__form--title">Login</h2>
+
+    <div class="login__form--inputs">
+
+      <mat-form-field class="full-width" appearance="outline">
+        <input matInput placeholder="Login" formControlName="email">
+        <mat-error *ngIf="loginForm.get('email').hasError('required')">Campo obrigatório</mat-error>
+        <mat-error *ngIf="loginForm.get('email').hasError('email')">Digite seu e-mail para entrar.</mat-error>
+        <mat-error *ngIf="loginForm.get('email').hasError('emailOrPasswordInvalid')">Login ou Senha incorretos</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <input matInput type="password" placeholder="Password" formControlName="password">
+        <mat-error *ngIf="loginForm.get('password').hasError('required')">Campo obrigatório</mat-error>
+        <mat-error *ngIf="loginForm.get('password').hasError('emailOrPasswordInvalid')">Login ou Senha incorretos</mat-error>
+      </mat-form-field>
+
+      <button class="full-width" [disabled]="loginForm.invalid || isLoading"
+              mat-raised-button color="primary">
+        <mat-icon *ngIf="isLoading">hourglass_empty</mat-icon>Entrar
+      </button>
+
+    </div>
+  </form>
+
+</div>

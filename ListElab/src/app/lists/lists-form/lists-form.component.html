@@ -1,0 +1,133 @@
+<div *ngIf="isLoading">
+  <mat-progress-bar></mat-progress-bar>
+</div>
+
+<div class="container">
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <button (click)="returnToList()" mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+
+    <div class="col-md-6 mt-2 mb-2" *ngIf="!isLoading">
+      <mat-card>
+
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <h4>{{screenTitle}} Lista</h4>
+          </div>
+        </div>
+
+        <form [formGroup]="listForm" (ngSubmit)="submit()">
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Titulo</mat-label>
+                <input matInput formControlName="titulo" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Dificuldade</mat-label>
+                <mat-select formControlName="nivelDificuldade">
+                  <mat-option value="1">Muito Fácil</mat-option>
+                  <mat-option value="2">Fácil</mat-option>
+                  <mat-option value="3">Médio</mat-option>
+                  <mat-option value="4">Difícil</mat-option>
+                  <mat-option value="5">Muito difícil</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Área de Conhecimento</mat-label>
+                <mat-select formControlName="areaDeConhecimentoId">
+                  <mat-option value="10301003">Teoria da Computação</mat-option>
+                  <mat-option value="10302000">Matemática da computação</mat-option>
+                  <mat-option value="10303006">Metodologias da computação</mat-option>
+                  <mat-option value="10304002">Sistemas da computação</mat-option>
+                  <mat-option value="10300007">Ciência da computação</mat-option>
+                  <mat-option value="10301046">Lógica e semântica de programas</mat-option>
+                  <mat-option value="10303014">Linguagens de programação</mat-option>
+                  <mat-option value="10303022">Engenharia de Software</mat-option>
+                  <mat-option value="10303030">Banco de Dados</mat-option>
+                  <mat-option value="10303049">Sistemas de informação</mat-option>
+                  <mat-option value="10304029">Arquitetura de Sistemas de Informação</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Disciplina</mat-label>
+                <input matInput type="text" formControlName="disciplinaId">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <h4>Questões Selecionadas</h4>
+              <mat-card class="mb-3" *ngFor="let question of selectedDiscursivas">
+                {{ question.enunciado }}
+              </mat-card>
+              <mat-card class="mb-3" *ngIf="selectedDiscursivas.length <= 0">
+                Nenhuma questão selecionada!
+              </mat-card>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <button class="full-width"
+                      matTooltip="Salvar Lista"
+                      mat-raised-button color="primary" [disabled]="listForm.invalid">Salvar
+              </button>
+            </div>
+          </div>
+
+        </form>
+
+      </mat-card>
+    </div>
+
+    <div class="col-md-6 mt-2 mb-2">
+      <h4 class="mb-3">Selecionar Questão:</h4>
+      <mat-card  class="mb-3" *ngFor="let question of questions;">
+        {{ question.enunciado }} -
+        <span style="cursor: pointer" (click)="addQuestion(question)">Selecionar</span>
+      </mat-card>
+    </div>
+
+    <div class="col-md-6 mt-2 mb-2">
+      <div *ngIf="isLoading && !hasError" style="display: flex; justify-content: center; align-items: center;">
+        <mat-spinner></mat-spinner>
+      </div>
+
+      <div *ngIf="hasError">
+        <mat-card>
+          <span>Não foi possível acessar os dados.</span>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
+</div>

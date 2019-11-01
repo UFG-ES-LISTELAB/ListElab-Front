@@ -1,0 +1,156 @@
+<div *ngIf="isLoading">
+  <mat-progress-bar></mat-progress-bar>
+</div>
+
+<div class="container">
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <button (click)="returnToList()" mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-md-12" *ngIf="!isLoading">
+      <mat-card>
+        <div class="row mb-4">
+          <div class="col-md-12">
+            <h4>{{screenTitle}} Questão</h4>
+          </div>
+        </div>
+
+        <form [formGroup]="questionForm" (ngSubmit)="submitted()">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12"  appearance="outline">
+                <mat-label>Tipo</mat-label>
+                <mat-select formControlName="tipo">
+                  <mat-option [value]="0">Discursiva</mat-option>
+                  <mat-option [value]="1">Objetiva</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12"  appearance="outline">
+                <mat-label>Área de Conhecimento</mat-label>
+                <mat-select formControlName="areaDeConhecimentoId">
+                  <mat-option [value]="'10301003'">Teoria da Computação</mat-option>
+                  <mat-option [value]="'10302000'">Matemática da computação</mat-option>
+                  <mat-option [value]="'10303006'">Metodologias da computação</mat-option>
+                  <mat-option [value]="'10304002'">Sistemas da computação</mat-option>
+                  <mat-option [value]="'10300007'">Ciência da computação</mat-option>
+                  <mat-option [value]="'10301046'">Lógica e semântica de programas</mat-option>
+                  <mat-option [value]="'10303014'">Linguagens de programação</mat-option>
+                  <mat-option [value]="'10303022'">Engenharia de Software</mat-option>
+                  <mat-option [value]="'10303030'">Banco de Dados</mat-option>
+                  <mat-option [value]="'10303049'">Sistemas de informação</mat-option>
+                  <mat-option [value]="'10304029'">Arquitetura de Sistemas de Informação</mat-option>
+                </mat-select>
+
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Dificuldade</mat-label>
+                <mat-select formControlName="nivelDificuldade">
+                  <mat-option [value]="1">Muito Fácil</mat-option>
+                  <mat-option [value]="2">Fácil</mat-option>
+                  <mat-option [value]="3">Médio</mat-option>
+                  <mat-option [value]="4">Difícil</mat-option>
+                  <mat-option [value]="5">Muito difícil</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Tempo máximo de resolução</mat-label>
+                <input matInput type="text" autocomplete="off" formControlName="tempoMaximoDeResposta">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Enunciado</mat-label>
+                <textarea matInput rows="5" formControlName="enunciado"></textarea>
+              </mat-form-field>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Respostas Esperadas</h4>
+            </div>
+          </div>
+
+          <div formArrayName="respostaEsperada">
+
+            <div class="row"
+                 *ngFor="let respostaEsperada of getRespostaEsperadaControls(); let resEsperadaIndex = index;"
+                 [formGroupName]="resEsperadaIndex">
+
+              <div class="col-md-4" >
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <mat-label>Descrição</mat-label>
+                  <input matInput type="text" formControlName="descricao" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <mat-label>Peso</mat-label>
+                  <input matInput type="number" formControlName="peso" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-1">
+                <button mat-icon-button
+                        type="button"
+                        matTooltip="Remover uma Resposta Esperada"
+                        (click)="removeRespostaEsperada(resEsperadaIndex)">
+                  <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6" style="text-align: center">
+              <button mat-mini-fab
+                      color="accent"
+                      type="button"
+                      matTooltip="Adicionar Nova Resposta Esperada"
+                      *ngIf="this.respostasEsperadas.length < 5 && questionForm.valid" (click)="addRespostaEsperada()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <br>
+
+          <div class="row">
+            <div class="col-md-12">
+              <button class="full-width"
+                      matTooltip="Salvar Questão"
+                      mat-raised-button color="primary" [disabled]="questionForm.invalid">Salvar</button>
+            </div>
+          </div>
+
+        </form>
+
+      </mat-card>
+    </div>
+
+    <div class="col-md-12" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+
+</div>

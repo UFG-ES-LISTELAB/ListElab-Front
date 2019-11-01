@@ -1,0 +1,61 @@
+<div class="row mb-2">
+  <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-start; align-items: center;">
+    <h3 style="text-transform: capitalize">Questões</h3>
+  </div>
+  <div class="col-md-6 col-sm-6" style="display: flex; justify-content: flex-end; align-items: center;">
+    <button mat-raised-button [color]="'primary'" type="button" (click)="onQuestionNew()">Nova Questão</button>
+  </div>
+</div>
+
+<mat-card class="mt-2 mb-2">
+  <form [formGroup]="searchForm" (ngSubmit)="onFormSubmitted()">
+
+    <div class="row">
+      <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12" appearance="outline">
+        <input matInput type="text" formControlName="buscar" placeholder="Buscar" autocomplete="off">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <mat-label>Dificuldade</mat-label>
+        <mat-select formControlName="nivelDificuldade">
+          <mat-option value="1">Muito Fácil</mat-option>
+          <mat-option value="2">Fácil</mat-option>
+          <mat-option value="3">Médio</mat-option>
+          <mat-option value="4">Difícil</mat-option>
+          <mat-option value="5">Muito difícil</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="tipo">
+          <mat-option value="0">Discursiva</mat-option>
+          <mat-option value="1">Objetiva</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="areaDeConhecimento" placeholder="Área de Conhecimento" autocomplete="off">
+      </mat-form-field>
+
+<!--      <mat-form-field class="col-md-3 col-sm-12 full-width font-size&#45;&#45;12"  appearance="outline">-->
+<!--        <input matInput type="text" formControlName="disciplina" placeholder="Disciplina" autocomplete="off">-->
+<!--      </mat-form-field>-->
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="tempoMaximoDeResposta" placeholder="Tempo máximo de resposta" autocomplete="off">
+      </mat-form-field>
+
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+        <input matInput type="text" formControlName="tags" placeholder="Tags" autocomplete="off">
+      </mat-form-field>
+
+      <div class="col-md-12" style="display: flex; justify-content: flex-end;">
+        <button mat-raised-button [color]="'accent'">Buscar</button>
+      </div>
+    </div>
+
+  </form>
+
+</mat-card>
