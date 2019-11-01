@@ -7,6 +7,7 @@ import {QuestionsService} from '../../questions.service';
 import {ListsService} from "../../../lists/lists.service";
 import { AreaDeConhecimento } from '../../../shared/models/areaDeConhecimento';
 import { NivelDificuldade } from '../../../shared/models/nivelDificuldade';
+import { Tipo } from '../../../shared/models/tipo';
 
 @Component({
   selector: 'app-questions-card',
@@ -17,6 +18,8 @@ export class QuestionsCardComponent implements OnInit {
 
   areaDeConhecimento = AreaDeConhecimento;
   nivelDificuldade = NivelDificuldade;
+  tipo = Tipo;
+  
   @Input() question: DiscursiveQuestion;
   @Output() detail = new EventEmitter<Question>();
   @Output() deleted = new EventEmitter<Question>();
