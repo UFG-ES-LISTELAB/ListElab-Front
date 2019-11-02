@@ -7,7 +7,6 @@ import {Question} from './questions.model';
 import {API} from "../shared/constants/api.constants";
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -15,10 +14,24 @@ export class QuestionsService {
 
   selectedQuestion: Question;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
-  getAll(params?): Observable<any> {
-    return this.http.get(`${environment.api}/${API.questoes.base}`);
+  getAll(params?: Question): Observable<any> {
+    return this.http.post(`${environment.api}/${API.questoes.base}/consulte`, {
+      tipo: 0,
+      areaDeConhecimento: {
+        codigo: "string",
+        descricao: "string"
+      },
+      nivelDificuldade: 1,
+      disciplina: {
+        codigo: "string",
+        descricao: "string"
+      },
+      tempoMaximoDeResposta: 0,
+      usuario: "string"
+    });
   }
 
   getOne(id, params?): Observable<any> {
