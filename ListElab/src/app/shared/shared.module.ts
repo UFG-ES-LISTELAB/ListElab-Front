@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+
+import {ToolbarComponent} from './components/toolbar/toolbar.component';
 
 import {
   MatButtonModule,
@@ -15,10 +17,10 @@ import {
   MatProgressBarModule,
   MatProgressSpinnerModule,
   MatTooltipModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatCheckboxModule,
+  MatAutocompleteModule
 } from '@angular/material';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import {MatCheckboxModule} from "@angular/material/checkbox";
 
 const MATERIAL_MODULES = [
   MatToolbarModule,
@@ -35,7 +37,8 @@ const MATERIAL_MODULES = [
   MatProgressSpinnerModule,
   MatTooltipModule,
   MatSnackBarModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({
@@ -50,4 +53,5 @@ const MATERIAL_MODULES = [
     ToolbarComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}

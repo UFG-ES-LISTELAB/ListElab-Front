@@ -1,7 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-
 import {List} from "../../lists.model";
-import {SelectionModel} from "@angular/cdk/collections";
 
 
 @Component({

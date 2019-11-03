@@ -18,14 +18,11 @@ export class QuestionsSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      buscar: [''],
-      autor: [''],
-      nivelDificuldade: [''],
       tipo: [''],
-      areaDeConhecimento: [''],
+      nivelDificuldadeId: [''],
       tempoMaximoDeResposta: [''],
-      tags: ['']
-      // disciplina: [''],
+      areaDeConhecimentoId: [''],
+      disciplinaId: [''],
     });
   }
 
