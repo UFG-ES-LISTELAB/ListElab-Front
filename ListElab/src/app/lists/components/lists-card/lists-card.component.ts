@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {List} from "../../lists.model";
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { List } from "../../lists.model";
+import { NivelDificuldade } from '../../../shared/models/nivelDificuldade';
 
 @Component({
   selector: 'app-lists-card',
@@ -8,6 +8,7 @@ import {List} from "../../lists.model";
   styleUrls: ['./lists-card.component.scss']
 })
 export class ListsCardComponent implements OnInit {
+  nivelDificuldade = NivelDificuldade
 
   @Input() list: List;
   @Output() selected = new EventEmitter();
