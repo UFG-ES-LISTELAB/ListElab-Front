@@ -36,11 +36,10 @@ export class QuestionsListComponent implements OnInit {
   ngOnInit() {
     this.isListEditing = true;
     this.isLoading = true;
-
     this.searchQuestions();
   }
 
-  searchQuestions(params = {}) {
+  searchQuestions(params?) {
     this.isLoading = true;
     this.hasError = null;
     this.questionsService.getAll(params)
@@ -94,7 +93,4 @@ export class QuestionsListComponent implements OnInit {
     });
   }
 
-  onSelect(question: Question) {
-
-  }
 }

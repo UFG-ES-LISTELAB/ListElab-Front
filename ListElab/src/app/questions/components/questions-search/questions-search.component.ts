@@ -20,9 +20,9 @@ export class QuestionsSearchComponent implements OnInit {
     this.searchForm = this.fb.group({
       tipo: [''],
       nivelDificuldadeId: [''],
+      tempoMaximoDeResposta: [''],
       areaDeConhecimentoId: [''],
       disciplinaId: [''],
-      tempoMaximoDeResposta: [''],
     });
   }
 
