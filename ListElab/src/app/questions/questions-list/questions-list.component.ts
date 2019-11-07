@@ -92,5 +92,8 @@ export class QuestionsListComponent implements OnInit {
       }
     });
   }
+  onSelect(question: fromQuestionsModels.Question) {
+    //TODO: Implementar, pois estava dando erro de build.
+  }
 
 }
