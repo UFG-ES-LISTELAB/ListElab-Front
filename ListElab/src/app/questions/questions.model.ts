@@ -48,3 +48,12 @@ export const emptyQuestion: DiscursiveQuestion = {
   nivelDificuldade: 1,
   tempoMaximoDeResposta: 0,
 };
+
+export interface QuestionFiltersDto {
+  tipo: number;
+  nivelDificuldadeId: number;
+  areaDeConhecimentoId: string;
+  disciplinaId: string;
+  tempoMaximoDeResposta: number;
+  usuario: string;
+}

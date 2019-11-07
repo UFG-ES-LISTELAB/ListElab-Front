@@ -54,7 +54,7 @@ export class ListsFormComponent implements OnInit {
       objetivas: [],
       usuario: this.selectedList.usuario ? this.selectedList.usuario : "professor@ufg.br"
     });
-
+    debugger;
     this.selectedDiscursivas = this.selectedList.discursivas.length === 0 ? [] : [...this.selectedList.discursivas];
   }
 

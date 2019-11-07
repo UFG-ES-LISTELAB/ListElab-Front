@@ -125,7 +125,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         codigo: form.disciplinaId
       },
       tipo: form.tipo,
-      tempoMaximoDeResposta: 0,
+      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
