@@ -57,4 +57,8 @@ export class QuestionsService {
     return this.http.delete(`${environment.api}/${API.questoes.base}/${id}`);
   }
 
+  gellAllDisciplinas() : Observable<any> {
+    return this.http.get(`${environment.api}/api/Disciplina`);
+  }
+
 }
