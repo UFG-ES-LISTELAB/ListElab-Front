@@ -25,6 +25,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   // Dados
   question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
+  disciplinas: fromQuestionsModels.Discipline[] = [
+    {codigo: '1', descricao: 'Técnicas avanças em construção de software'},
+    {codigo: '2', descricao: 'Banco de dados'},
+    {codigo: '3', descricao: 'Integração 2'}
+  ];
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
