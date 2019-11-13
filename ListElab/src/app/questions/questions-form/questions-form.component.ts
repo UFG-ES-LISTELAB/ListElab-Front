@@ -5,7 +5,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {QuestionsService} from '../questions.service';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
-
+import {ApiResponse} from '../../shared/models/api-response.model';
 export const emptyRespostaEsperada = {
   descricao: '',
   peso: 0
@@ -25,11 +25,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   // Dados
   question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
-  disciplinas: fromQuestionsModels.Discipline[] = [
-    {codigo: '1', descricao: 'Técnicas avanças em construção de software'},
-    {codigo: '2', descricao: 'Banco de dados'},
-    {codigo: '3', descricao: 'Integração 2'}
-  ];
+  disciplinas: fromQuestionsModels.Discipline[] = []
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
@@ -42,14 +38,21 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private questionService: QuestionsService,
               private fb: FormBuilder) { }
-
+  
+  getDisciplinas(): void {
+    this.questionService.gellAllDisciplinas().subscribe((response: ApiResponse) => {
+      this.disciplinas = response.resultado;
+      this.isLoading = false;
+    }, error => console.log("Deu erro!"));
+  }
+  
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
           this.question = this.questionService.selectedQuestion
       : this.question = fromQuestionsModels.emptyQuestion;
-
-    console.log(this.questionService.selectedQuestion);
+      
+    this.getDisciplinas();
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
