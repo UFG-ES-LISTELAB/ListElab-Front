@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
-import {Question, QuestionFiltersDto} from './questions.model';
+import {Question, QuestionFiltersDto, Discipline} from './questions.model';
 import {API} from "../shared/constants/api.constants";
 
 
@@ -55,6 +55,10 @@ export class QuestionsService {
 
   delete(id): Observable<any> {
     return this.http.delete(`${environment.api}/${API.questoes.base}/${id}`);
+  }
+
+  gellAllDisciplinas() : Observable<any> {
+    return this.http.get(`${environment.api}/${API.disciplinas.base}`);
   }
 
 }
