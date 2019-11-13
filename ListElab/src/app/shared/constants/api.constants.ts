@@ -9,6 +9,9 @@ export const API = {
   listas: {
     base: 'Lista'
   },
+  disciplinas: {
+    base: 'Disciplina'
+  }
 };
 
 // ***************
