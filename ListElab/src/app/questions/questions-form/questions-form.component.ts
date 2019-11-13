@@ -51,7 +51,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.questionService.selectedQuestion ?
           this.question = this.questionService.selectedQuestion
       : this.question = fromQuestionsModels.emptyQuestion;
-      
+
     this.getDisciplinas();
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
@@ -96,6 +96,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     this.isLoading = true;
+    debugger;
+    console.log(form);
     const question: fromQuestionsModels.DiscursiveQuestion = {
       enunciado: form.enunciado,
       areaDeConhecimento: {
