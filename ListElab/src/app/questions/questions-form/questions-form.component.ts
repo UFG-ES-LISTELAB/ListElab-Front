@@ -25,7 +25,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   // Dados
   question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
-  disciplinas: fromQuestionsModels.Discipline[] = []
+  disciplinas: fromQuestionsModels.Discipline[] = [];
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
@@ -38,14 +38,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
               private questionService: QuestionsService,
               private fb: FormBuilder) { }
-  
+
   getDisciplinas(): void {
     this.questionService.gellAllDisciplinas().subscribe((response: ApiResponse) => {
       this.disciplinas = response.resultado;
       this.isLoading = false;
     }, error => console.log("Deu erro!"));
   }
-  
+
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
@@ -56,17 +56,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
-    this.questionForm = this.fb.group({
-      id: this.question.id,
-      tipo: this.question.tipo,
-      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
-      tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
-      nivelDificuldade: this.question.nivelDificuldade,
-      enunciado: [this.question.enunciado, [Validators.required] ],
-      disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
-      respostaEsperada: this.fb.array([]),
-      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
-    });
+    this.initForm();
 
     if (this.question && this.question.respostaEsperada ) {
       const respostasEsperadas = this.question.respostaEsperada;
@@ -80,6 +70,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.questionService.selectedQuestion = null;
+  }
+
+  initForm() {
+    this.questionForm = this.fb.group({
+      id: this.question.id,
+      tipoQuestao: this.question.tipo,
+      areaDeConhecimento: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
+      tempoEsperadoResposta: this.question.tempoEsperadoResposta,
+      nivelDificuldade: this.question.nivelDificuldade,
+      enunciado: [this.question.enunciado, [Validators.required] ],
+      disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
+      respostaEsperada: this.fb.array([]),
+      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
+    });
   }
 
   returnToList() {

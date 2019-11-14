@@ -36,23 +36,36 @@ export class QuestionsListComponent implements OnInit {
   ngOnInit() {
     this.isListEditing = true;
     this.isLoading = true;
-    this.searchQuestions();
+    this.onSearch();
   }
 
-  searchQuestions(params?) {
+  onSearch(params?) {
     this.isLoading = true;
     this.hasError = null;
-    this.questionsService.getAll(params)
-      .subscribe((response: ApiResponse) => {
-        this.questions = response.resultado;
-        this.isLoading = false;
-      }, error => {
-        this.hasError = error;
-      });
-  }
+    console.log(JSON.stringify(params));
+    // {"tipoQuestao":0,"nivelDificuldade":"","tempoMaximoDeResposta":"","areaDeConhecimento":"","disciplina":""}
+    if(params) {
 
-  onSearch(searchForm) {
-    this.searchQuestions(searchForm);
+      // let send = {};
+      // if(params.tipoQuestao && params.tipoQuestao >= 0) {
+      //   send = { ...send, tipoQuestao: params.tipoQuestao };
+      // }
+
+      // this.questionsService.getWithParams(send).subscribe((response: ApiResponse) => {
+      //   this.questions = response.resultado;
+      //   this.isLoading = false;
+      // }, error => {
+      //   this.hasError = error;
+      // });
+    } else {
+      this.questionsService.getAll()
+        .subscribe((response: ApiResponse) => {
+          this.questions = response.resultado;
+          this.isLoading = false;
+        }, error => {
+          this.hasError = error;
+        });
+    }
   }
 
   onQuestionNew() {

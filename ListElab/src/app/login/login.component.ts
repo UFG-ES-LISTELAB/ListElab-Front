@@ -40,15 +40,22 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.loginHttp.login(this.loginForm.value)
       .subscribe(resposta => {
-        if(!resposta.sucesso) {
-          this.isLoading = false;
-          this.loginForm.reset();
-          this.loginForm.get('email').setErrors({ 'emailOrPasswordInvalid': true });
-          this.loginForm.get('password').setErrors({ 'emailOrPasswordInvalid': true });
-        } else {
+        // if(!resposta.sucesso) {
+        //   this.isLoading = false;
+        //   this.loginForm.reset();
+        //   this.loginForm.get('email').setErrors({ 'emailOrPasswordInvalid': true });
+        //   this.loginForm.get('password').setErrors({ 'emailOrPasswordInvalid': true });
+        // } else {
           this.isLoading = false;
           this.router.navigate([ROUTES.questoes.base]);
           this.notificationService.success('Autenticado com sucesso!');
+        // }
+      }, error => {
+        this.isLoading = false;
+        this.loginForm.reset();
+
+        if(error.status === 400) {
+          this.notificationService.error('Falha ao tentar acessar o Servidor. Tente mais tarde.');
         }
       });
   }

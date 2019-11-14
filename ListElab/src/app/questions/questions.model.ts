@@ -12,6 +12,7 @@ export interface Question {
 export interface DiscursiveQuestion extends Question {
   respostaEsperada?: ExpectedAnswer[];
   tempoMaximoDeResposta?: number;
+  tempoEsperadoResposta?: number;
 }
 
 export interface ObjectiveQuestion extends Question {

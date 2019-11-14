@@ -18,7 +18,7 @@
 
       <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Tipo</mat-label>
-        <mat-select formControlName="tipo">
+        <mat-select formControlName="tipoQuestao">
           <mat-option></mat-option>
           <mat-option [value]="0">Discursiva</mat-option>
           <mat-option [value]="1">Objetiva</mat-option>
@@ -27,7 +27,7 @@
 
       <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Dificuldade</mat-label>
-        <mat-select formControlName="nivelDificuldadeId">
+        <mat-select formControlName="nivelDificuldade">
           <mat-option></mat-option>
           <mat-option [value]="1">Muito Fácil</mat-option>
           <mat-option [value]="2">Fácil</mat-option>
@@ -39,12 +39,12 @@
 
       <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Tempo Máximo de Resposta</mat-label>
-        <input matInput type="number" formControlName="tempoMaximoDeResposta" placeholder="Tempo máximo de resposta" autocomplete="off">
+        <input matInput type="number" formControlName="tempoRespostaEsperado" placeholder="Tempo máximo de resposta" autocomplete="off">
       </mat-form-field>
 
       <mat-form-field class="col-md-6 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Área de Conhecimento</mat-label>
-        <mat-select formControlName="areaDeConhecimentoId">
+        <mat-select formControlName="areaDeConhecimento">
           <mat-option></mat-option>
           <mat-option [value]="'10301003'">Teoria da Computação</mat-option>
           <mat-option [value]="'10302000'">Matemática da computação</mat-option>
