@@ -18,11 +18,14 @@ export class QuestionsSearchComponent implements OnInit {
 
   ngOnInit() {
     this.searchForm = this.fb.group({
-      tipoQuestao: [],
-      nivelDificuldade: [''],
-      tempoRespostaEsperado: [''],
+      enunciado: [''],
+      tags: [''],
       areaDeConhecimento: [''],
       disciplina: [''],
+      tipoQuestao: [],
+      tempoRespostaEsperado: [''],
+      nivelDificuldade: [''],
+      autor: ['']
     });
   }
 
@@ -31,7 +34,8 @@ export class QuestionsSearchComponent implements OnInit {
   }
 
   onFormSubmitted() {
-    this.submitted.emit(this.searchForm.value);
+    console.log(this.searchForm.value);
+    // this.submitted.emit(this.searchForm.value);
   }
 
 }

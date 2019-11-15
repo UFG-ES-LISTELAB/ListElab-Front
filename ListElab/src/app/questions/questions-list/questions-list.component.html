@@ -2,18 +2,19 @@
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
 </div>
 
-<div class="container mt-4">
+<div class="container-fluid pb-5n">
   <div class="row">
     <div class="col-md-12">
       <app-questions-search
         (questionNew)="onQuestionNew()"
         (submitted)="onSearch($event)">
       </app-questions-search>
+
     </div>
   </div>
 </div>
 
-<div class="container mt-4">
+<div class="container-fluid mt-4">
 
   <app-questions-card *ngFor="let question of questions;"
                       [hidden]="isLoading"
