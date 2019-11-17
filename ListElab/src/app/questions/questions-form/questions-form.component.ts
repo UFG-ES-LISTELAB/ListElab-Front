@@ -26,6 +26,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
   disciplinas: fromQuestionsModels.Discipline[] = [];
+  areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
@@ -46,6 +47,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }, error => console.log("Deu erro!"));
   }
 
+  getAreasDeConhecimento() : void {
+    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+      this.areasDeConhecimento = response.resultado;
+    }, error => console.log("Deu erro!"));
+  }
+
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
@@ -53,7 +60,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       : this.question = fromQuestionsModels.emptyQuestion;
 
     this.getDisciplinas();
-
+    this.getAreasDeConhecimento();
+    
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
     this.initForm();
