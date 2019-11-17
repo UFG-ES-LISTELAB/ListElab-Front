@@ -36,17 +36,9 @@
               <mat-form-field class="full-width font-size--12"  appearance="outline">
                 <mat-label>Área de Conhecimento</mat-label>
                 <mat-select formControlName="areaDeConhecimentoId">
-                  <mat-option [value]="'10301003'">Teoria da Computação</mat-option>
-                  <mat-option [value]="'10302000'">Matemática da computação</mat-option>
-                  <mat-option [value]="'10303006'">Metodologias da computação</mat-option>
-                  <mat-option [value]="'10304002'">Sistemas da computação</mat-option>
-                  <mat-option [value]="'10300007'">Ciência da computação</mat-option>
-                  <mat-option [value]="'10301046'">Lógica e semântica de programas</mat-option>
-                  <mat-option [value]="'10303014'">Linguagens de programação</mat-option>
-                  <mat-option [value]="'10303022'">Engenharia de Software</mat-option>
-                  <mat-option [value]="'10303030'">Banco de Dados</mat-option>
-                  <mat-option [value]="'10303049'">Sistemas de informação</mat-option>
-                  <mat-option [value]="'10304029'">Arquitetura de Sistemas de Informação</mat-option>
+                  <mat-option *ngFor="let areaDeConhecimento of areasDeConhecimento" [value]="'areaDeConhecimento.codigo'">
+                    {{areaDeConhecimento.descricao}}
+                  </mat-option>
                 </mat-select>
 
               </mat-form-field>
@@ -97,6 +89,7 @@
 
           </div>
 
+          <!--COMPONENTE PARA INSERIR A RESPOSTA ESPERADA DE QUESTÕES DISCURSIVAS-->
           <div class="row">
             <div class="col-md-12">
               <h4>Respostas Esperadas</h4>
@@ -104,11 +97,9 @@
           </div>
 
           <div formArrayName="respostaEsperada">
-
             <div class="row"
                  *ngFor="let respostaEsperada of getRespostaEsperadaControls(); let resEsperadaIndex = index;"
                  [formGroupName]="resEsperadaIndex">
-
               <div class="col-md-4" >
                 <mat-form-field class="full-width font-size--12" appearance="outline">
                   <mat-label>Descrição</mat-label>
@@ -129,7 +120,6 @@
                   <mat-icon>remove</mat-icon>
                 </button>
               </div>
-
             </div>
           </div>
 
@@ -146,7 +136,45 @@
           </div>
 
           <br>
-
+          <!--COMPONENTE PARA INSERIR AS TAGS DE QUESTÕES-->
+          <div class="row">
+            <div class="col-md-12">
+              <h4>Tags para Questão Atual</h4>
+            </div>
+          </div>
+            
+          <div formArrayName="tagsQuestao">
+            <div class="row"
+                *ngFor="let tagQuestao of getTagsQuestaoControls(); let resTagIndex = index;"
+                [formGroupName]="resTagIndex">
+              <div class="col-md-4" >
+              <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Descrição</mat-label>
+                <input matInput type="text" formControlName="descricao" autocomplete="off">
+              </mat-form-field>
+              </div>
+              <div class="col-md-1">
+              <button mat-icon-button
+                  type="button"
+                  matTooltip="Remover uma Tag"
+                  (click)="removeTag(resTagIndex)">
+                <mat-icon>remove</mat-icon>
+              </button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6" style="text-align: center">
+              <button mat-mini-fab
+                  color="accent"
+                  type="button"
+                  matTooltip="Adicionar Tag para a questão" (click)="addTag()">
+              <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+          <br>
           <div class="row">
             <div class="col-md-12">
               <button class="full-width"

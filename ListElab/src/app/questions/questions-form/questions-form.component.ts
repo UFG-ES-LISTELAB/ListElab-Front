@@ -32,8 +32,16 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     return this.questionForm.get('respostaEsperada') as FormArray;
   }
 
+  get tagsQuestao() {
+    return this.questionForm.get('tagsQuestao') as FormArray;
+  }
+
   getRespostaEsperadaControls() {
     return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
+  }
+
+  getTagsQuestaoControls() {
+    return (<FormArray>this.questionForm.get('tagsQuestao')).controls;
   }
 
   constructor(private router: Router,
@@ -61,7 +69,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
     this.getDisciplinas();
     this.getAreasDeConhecimento();
-    
+
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
     this.initForm();
@@ -90,6 +98,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
       respostaEsperada: this.fb.array([]),
+      tagsQuestao: this.fb.array([]),
       autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
   }
@@ -124,7 +133,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       respostaEsperada: [
         ...form.respostaEsperada
       ],
-      tags: [],
+      tags: [
+        ...form.tagsQuestao
+      ],
       usuario: form.autor,
     };
     this.questionService.create(question).subscribe(success => {
@@ -173,8 +184,19 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       );
     }
   }
-
   removeRespostaEsperada(resEsperadaIndex) {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
+  }
+
+  addTag(tag: string): void {
+    this.tagsQuestao.push(
+      this.fb.group({
+        descricao: [tag, Validators.required]
+      })
+    );
+  }
+
+  removeTag(resTagIndex) {
+    this.tagsQuestao.removeAt(resTagIndex);
   }
 }
