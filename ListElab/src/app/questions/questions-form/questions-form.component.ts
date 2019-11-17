@@ -75,9 +75,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   initForm() {
     this.questionForm = this.fb.group({
       id: this.question.id,
-      tipoQuestao: this.question.tipo,
-      areaDeConhecimento: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
-      tempoEsperadoResposta: this.question.tempoEsperadoResposta,
+      tipo: this.question.tipo,
+      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
+      tempoMaximoDeResposta: this.question.tempoEsperadoResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
