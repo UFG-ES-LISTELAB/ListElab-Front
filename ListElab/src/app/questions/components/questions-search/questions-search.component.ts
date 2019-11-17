@@ -1,5 +1,8 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import * as fromQuestionsModels from '../../questions.model';
+import {ApiResponse} from '../../../shared/models/api-response.model';
+import {QuestionsService} from '../../questions.service';
 
 
 @Component({
@@ -13,10 +16,28 @@ export class QuestionsSearchComponent implements OnInit {
   @Output() questionNew = new EventEmitter();
 
   searchForm: FormGroup;
+  areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
+  disciplinas: fromQuestionsModels.Discipline[] = [];
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private questionService: QuestionsService) { }
+  
+  getAreasDeConhecimento() : void {
+    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+      this.areasDeConhecimento = response.resultado;
+    }, error => console.log("Erro na obtenção das áreas de conhecimento - Pesquisa!"));
+  }
+
+  getDisciplinas(): void {
+    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+      this.disciplinas = response.resultado;
+    },  error => console.log("Erro na obtenção das disciplinas - Pesquisa!"));
+  }
 
   ngOnInit() {
+    this.getAreasDeConhecimento();
+    this.getDisciplinas();
+    
     this.searchForm = this.fb.group({
       enunciado: [''],
       tags: [''],
