@@ -11,6 +11,9 @@ export const API = {
   },
   disciplinas: {
     base: 'Disciplina'
+  },
+  areasDeConhecimento: {
+    base: 'AreaDeConhecimento'
   }
 };
 
