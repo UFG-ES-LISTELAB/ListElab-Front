@@ -24,27 +24,18 @@
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Área de Conhecimento</mat-label>
         <mat-select formControlName="areaDeConhecimento">
-          <mat-option></mat-option>
-          <mat-option [value]="'10301003'">Teoria da Computação</mat-option>
-          <mat-option [value]="'10302000'">Matemática da computação</mat-option>
-          <mat-option [value]="'10303006'">Metodologias da computação</mat-option>
-          <mat-option [value]="'10304002'">Sistemas da computação</mat-option>
-          <mat-option [value]="'10300007'">Ciência da computação</mat-option>
-          <mat-option [value]="'10301046'">Lógica e semântica de programas</mat-option>
-          <mat-option [value]="'10303014'">Linguagens de programação</mat-option>
-          <mat-option [value]="'10303022'">Engenharia de Software</mat-option>
-          <mat-option [value]="'10303030'">Banco de Dados</mat-option>
-          <mat-option [value]="'10303049'">Sistemas de informação</mat-option>
-          <mat-option [value]="'10304029'">Arquitetura de Sistemas de Informação</mat-option>
+          <mat-option *ngFor="let areaDeConhecimento of areasDeConhecimento" [value]="'areaDeConhecimento.codigo'">
+            {{areaDeConhecimento.descricao}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Disciplina</mat-label>
         <mat-select formControlName="disciplina">
-          <mat-option></mat-option>
-          <mat-option [value]="0">Discursiva</mat-option>
-          <mat-option [value]="1">Objetiva</mat-option>
+          <mat-option *ngFor="let disciplina of disciplinas" [value]="disciplina.codigo">
+            {{disciplina.descricao}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
 
