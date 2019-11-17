@@ -3,9 +3,10 @@ import {Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {QuestionsService} from '../questions.service';
+import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
-import {ApiResponse} from '../../shared/models/api-response.model';
+
 export const emptyRespostaEsperada = {
   descricao: '',
   peso: 0
@@ -80,7 +81,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       tempoEsperadoResposta: this.question.tempoEsperadoResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
-      disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
+      disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
       respostaEsperada: this.fb.array([]),
       autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
