@@ -3,9 +3,10 @@ import {Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {QuestionsService} from '../questions.service';
+import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
-import {ApiResponse} from '../../shared/models/api-response.model';
+
 export const emptyRespostaEsperada = {
   descricao: '',
   peso: 0
@@ -25,27 +26,42 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   // Dados
   question: fromQuestionsModels.DiscursiveQuestion;
   questionForm: FormGroup;
-  disciplinas: fromQuestionsModels.Discipline[] = []
+  disciplinas: fromQuestionsModels.Discipline[] = [];
+  areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
+  }
+
+  get tagsQuestao() {
+    return this.questionForm.get('tagsQuestao') as FormArray;
   }
 
   getRespostaEsperadaControls() {
     return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
   }
 
+  getTagsQuestaoControls() {
+    return (<FormArray>this.questionForm.get('tagsQuestao')).controls;
+  }
+
   constructor(private router: Router,
               private questionService: QuestionsService,
               private fb: FormBuilder) { }
-  
+
   getDisciplinas(): void {
     this.questionService.gellAllDisciplinas().subscribe((response: ApiResponse) => {
       this.disciplinas = response.resultado;
       this.isLoading = false;
     }, error => console.log("Deu erro!"));
   }
-  
+
+  getAreasDeConhecimento() : void {
+    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+      this.areasDeConhecimento = response.resultado;
+    }, error => console.log("Deu erro!"));
+  }
+
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
@@ -53,21 +69,18 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       : this.question = fromQuestionsModels.emptyQuestion;
 
     this.getDisciplinas();
+    this.getAreasDeConhecimento();
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
-    this.questionForm = this.fb.group({
-      id: this.question.id,
-      tipo: this.question.tipo,
-      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
-      tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
-      nivelDificuldade: this.question.nivelDificuldade,
-      enunciado: [this.question.enunciado, [Validators.required] ],
-      disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
-      respostaEsperada: this.fb.array([]),
-      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
-    });
+    this.initForm();
 
+    this.loadRespostasEsperadasQuestaoAtual();
+    this.loadTagsQuestaoAtual();
+    
+  }
+
+  loadRespostasEsperadasQuestaoAtual(): void {
     if (this.question && this.question.respostaEsperada ) {
       const respostasEsperadas = this.question.respostaEsperada;
       if (respostasEsperadas.length > 0) {
@@ -78,8 +91,34 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadTagsQuestaoAtual(): void {
+    if (this.question && this.question.tags) {
+      const tagsDaQuestao = this.question.tags;
+      if (tagsDaQuestao.length > 0) {
+        tagsDaQuestao.map(itemTag => {
+          this.addTag(itemTag);
+        });
+      }
+    }
+  }
+
   ngOnDestroy() {
     this.questionService.selectedQuestion = null;
+  }
+
+  initForm() {
+    this.questionForm = this.fb.group({
+      id: this.question.id,
+      tipoQuestao: this.question.tipo,
+      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
+      tempoEsperadoResposta: this.question.tempoEsperadoResposta,
+      nivelDificuldade: this.question.nivelDificuldade,
+      enunciado: [this.question.enunciado, [Validators.required] ],
+      disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
+      respostaEsperada: this.fb.array([]),
+      tagsQuestao: this.fb.array([]),
+      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
+    });
   }
 
   returnToList() {
@@ -105,14 +144,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       },
       nivelDificuldade: form.nivelDificuldade,
       disciplina: {
-        codigo: form.disciplinaId
+        codigo: form.disciplina
       },
-      tipo: form.tipo,
-      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+      tipo: form.tipoQuestao,
+      tempoMaximoDeResposta: form.tempoEsperadoResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
-      tags: [],
+      tags: form.tagsQuestao.map(item => item.descricao),
       usuario: form.autor,
     };
     this.questionService.create(question).subscribe(success => {
@@ -132,14 +171,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       },
       nivelDificuldade: form.nivelDificuldade,
       disciplina: {
-        codigo: form.disciplinaId
+        codigo: form.disciplina
       },
       tipo: form.tipo,
       tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
-      tags: [],
+      tags: form.tagsQuestao.map(item => item.descricao),
       usuario: form.autor,
     };
     this.questionService.update(question).subscribe(success => {
@@ -161,8 +200,19 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       );
     }
   }
-
   removeRespostaEsperada(resEsperadaIndex) {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
+  }
+
+  addTag(tag: string): void {
+    this.tagsQuestao.push(
+      this.fb.group({
+        descricao: [tag, Validators.required]
+      })
+    );
+  }
+
+  removeTag(resTagIndex) {
+    this.tagsQuestao.removeAt(resTagIndex);
   }
 }

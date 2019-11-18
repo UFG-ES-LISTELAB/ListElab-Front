@@ -11,9 +11,10 @@ import {ListsService} from '../../lists/lists.service';
 import {ApiResponse} from '../../shared/models/api-response.model';
 
 import * as fromQuestionsModels from '../questions.model';
-import * as fromRoutesConstants  from '../../shared/constants/routes.contants';
-import {Question} from "../questions.model";
-
+import * as fromRoutesConstants from '../../shared/constants/routes.contants';
+import {AreaDeConhecimento} from '../../shared/models/areaDeConhecimento';
+import {NivelDificuldade} from '../../shared/models/nivelDificuldade';
+import {TipoQuestao} from "../../shared/models/tipoQuestao";
 
 @Component({
   selector: 'app-questions-list',
@@ -21,6 +22,12 @@ import {Question} from "../questions.model";
   styleUrls: ['./questions-list.component.scss']
 })
 export class QuestionsListComponent implements OnInit {
+  areaDeConhecimento = AreaDeConhecimento;
+  nivelDificuldade = NivelDificuldade;
+  tipoQuestao = TipoQuestao;
+
+  // Barra de Busca
+  displayedColumns = ['tipo', 'enunciado', 'dificuldade', 'tempoMaximoDeResposta', 'menu'];
 
   questions: fromQuestionsModels.Question[] = [];
   hasError: any;
@@ -31,18 +38,19 @@ export class QuestionsListComponent implements OnInit {
               private router: Router,
               private loginService: LoginService,
               private listsService: ListsService,
-              private questionsService: QuestionsService) {}
+              private questionsService: QuestionsService) {
+  }
 
   ngOnInit() {
     this.isListEditing = true;
     this.isLoading = true;
-    this.searchQuestions();
+    this.onSearch();
   }
 
-  searchQuestions(params?) {
+  onSearch(params?) {
     this.isLoading = true;
     this.hasError = null;
-    this.questionsService.getAll(params)
+    this.questionsService.getAll()
       .subscribe((response: ApiResponse) => {
         this.questions = response.resultado;
         this.isLoading = false;
@@ -51,21 +59,19 @@ export class QuestionsListComponent implements OnInit {
       });
   }
 
-  onSearch(searchForm) {
-    this.searchQuestions(searchForm);
-  }
-
-  onQuestionNew() {
+  onNavQuestionNew() {
     this.questionsService.selectedQuestion = fromQuestionsModels.emptyQuestion;
-    this.router.navigate([fromRoutesConstants.QUESTOES_CRIAR]);
+    this.router.navigate([ fromRoutesConstants.QUESTOES_FORMULARIO ]);
   }
 
-  onQuestionDetail(question: fromQuestionsModels.Question) {
+  onNavQuestionUpdate($event, question: fromQuestionsModels.Question) {
+    $event.stopPropagation();
     this.questionsService.selectedQuestion = question;
-    this.router.navigate([fromRoutesConstants.QUESTOES_EDITAR]);
+    this.router.navigate([ fromRoutesConstants.QUESTOES_FORMULARIO, question.id ]);
   }
 
-  onDeleted(question: fromQuestionsModels.Question) {
+  onNavQuestionDelete($event, question: fromQuestionsModels.Question) {
+    $event.stopPropagation();
     Swal.fire({
       title: 'Você tem certeza?',
       text: 'A operação não poderá ser revertida!',

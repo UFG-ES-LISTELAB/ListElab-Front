@@ -10,8 +10,6 @@ import { QuestionsComponent } from './questions.component';
 import { QuestionsSearchComponent } from './components/questions-search/questions-search.component';
 import { QuestionsFormComponent } from './questions-form/questions-form.component';
 import { QuestionsListComponent } from './questions-list/questions-list.component';
-import { QuestionsCardComponent } from './components/questions-card/questions-card.component';
-import {ListsModule} from "../lists/lists.module";
 
 
 @NgModule({
@@ -20,11 +18,8 @@ import {ListsModule} from "../lists/lists.module";
     QuestionsComponent,
     QuestionsFormComponent,
     QuestionsListComponent,
-    QuestionsCardComponent,
   ],
-  exports: [
-    QuestionsCardComponent
-  ],
+  exports: [],
   imports: [
     CommonModule,
     QuestionsRoutingModule,
