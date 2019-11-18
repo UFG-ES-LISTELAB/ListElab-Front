@@ -75,11 +75,28 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
     this.initForm();
 
+    this.loadRespostasEsperadasQuestaoAtual();
+    this.loadTagsQuestaoAtual();
+    
+  }
+  
+  loadRespostasEsperadasQuestaoAtual(): void {
     if (this.question && this.question.respostaEsperada ) {
       const respostasEsperadas = this.question.respostaEsperada;
       if (respostasEsperadas.length > 0) {
         respostasEsperadas.map(respostaEsperada => {
           this.addRespostaEsperada(respostaEsperada);
+        });
+      }
+    }
+  }
+
+  loadTagsQuestaoAtual(): void {
+    if (this.question && this.question.tags) {
+      const tagsDaQuestao = this.question.tags;
+      if (tagsDaQuestao.length > 0) {
+        tagsDaQuestao.map(itemTag => {
+          this.addTag(itemTag);
         });
       }
     }
