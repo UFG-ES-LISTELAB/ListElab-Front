@@ -204,7 +204,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
   }
 
-  addTag(tag: string): void {
+  addTag(tag: string = ""): void {
     this.tagsQuestao.push(
       this.fb.group({
         descricao: [tag, Validators.required]
