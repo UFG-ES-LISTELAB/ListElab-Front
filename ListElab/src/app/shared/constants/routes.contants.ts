@@ -1,8 +1,7 @@
 export const ROUTES = {
   questoes: {
     base: 'questoes',
-    criar: 'criar',
-    editar: 'editar'
+    form: 'formulario',
   },
   listas: {
     base: 'listas',
@@ -15,8 +14,7 @@ export const ROUTES = {
 
 // Questões Module
 export const QUESTOES_LISTAR  =   `${ROUTES.questoes.base}/`;
-export const QUESTOES_CRIAR   =   `${ROUTES.questoes.base}/${ROUTES.questoes.criar}`;
-export const QUESTOES_EDITAR  =   `${ROUTES.questoes.base}/${ROUTES.questoes.editar}`;
+export const QUESTOES_FORMULARIO  =   `${ROUTES.questoes.base}/${ROUTES.questoes.form}`;
 
 // Login Module
 export const LOGIN = `${ROUTES.login}`;

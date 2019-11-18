@@ -3,9 +3,10 @@ import {Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {QuestionsService} from '../questions.service';
+import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
-import {ApiResponse} from '../../shared/models/api-response.model';
+
 export const emptyRespostaEsperada = {
   descricao: '',
   peso: 0
@@ -91,12 +92,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   initForm() {
     this.questionForm = this.fb.group({
       id: this.question.id,
-      tipo: this.question.tipo,
+      tipoQuestao: this.question.tipo,
       areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
-      tempoMaximoDeResposta: this.question.tempoEsperadoResposta,
+      tempoEsperadoResposta: this.question.tempoEsperadoResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
-      disciplinaId: this.question.disciplina ? this.question.disciplina.codigo : "",
+      disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
       respostaEsperada: this.fb.array([]),
       tagsQuestao: this.fb.array([]),
       autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
@@ -126,16 +127,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       },
       nivelDificuldade: form.nivelDificuldade,
       disciplina: {
-        codigo: form.disciplinaId
+        codigo: form.disciplina
       },
-      tipo: form.tipo,
-      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+      tipo: form.tipoQuestao,
+      tempoMaximoDeResposta: form.tempoEsperadoResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
-      tags: [
-        ...form.tagsQuestao
-      ],
+      tags: form.tagsQuestao.map(item => item.descricao),
       usuario: form.autor,
     };
     this.questionService.create(question).subscribe(success => {
@@ -155,7 +154,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       },
       nivelDificuldade: form.nivelDificuldade,
       disciplina: {
-        codigo: form.disciplinaId
+        codigo: form.disciplina
       },
       tipo: form.tipo,
       tempoMaximoDeResposta: form.tempoMaximoDeResposta,

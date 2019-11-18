@@ -10,8 +10,8 @@ import {ROUTES} from '../shared/constants/routes.contants';
 const routes: Routes = [
   { path: '', component: QuestionsComponent, children: [
       { path: '', component: QuestionsListComponent, pathMatch: 'full' },
-      { path: `${ROUTES.questoes.criar}`, component: QuestionsFormComponent },
-      { path: `${ROUTES.questoes.editar}`, component: QuestionsFormComponent },
+      { path: `${ROUTES.questoes.form}/:id`, component: QuestionsFormComponent },
+      { path: `formulario`, component: QuestionsFormComponent },
     ]},
 ];
 
