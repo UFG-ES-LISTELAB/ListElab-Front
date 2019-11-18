@@ -79,7 +79,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.loadTagsQuestaoAtual();
     
   }
-  
+
   loadRespostasEsperadasQuestaoAtual(): void {
     if (this.question && this.question.respostaEsperada ) {
       const respostasEsperadas = this.question.respostaEsperada;
@@ -178,7 +178,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       respostaEsperada: [
         ...form.respostaEsperada
       ],
-      tags: [],
+      tags: form.tagsQuestao.map(item => item.descricao),
       usuario: form.autor,
     };
     this.questionService.update(question).subscribe(success => {
