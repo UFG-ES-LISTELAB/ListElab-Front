@@ -2,7 +2,9 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import * as fromQuestionsModels from '../../questions.model';
 import {ApiResponse} from '../../../shared/models/api-response.model';
-import {QuestionsService} from '../../questions.service';
+import {DiscursiveQuestionsService} from "../../discursiveQuestions.service";
+import {DisciplinesService} from "../../../shared/services/disciplines.service";
+import {AreaConhecimentoService} from "../../../shared/services/areaConhecimento.service";
 
 
 @Component({
@@ -20,16 +22,18 @@ export class QuestionsSearchComponent implements OnInit {
   disciplinas: fromQuestionsModels.Discipline[] = [];
 
   constructor(private fb: FormBuilder,
-              private questionService: QuestionsService) { }
-  
+              private disciplinesService: DisciplinesService,
+              private areaConhecimento: AreaConhecimentoService,
+              private discursiveQuestionsService: DiscursiveQuestionsService) { }
+
   getAreasDeConhecimento() : void {
-    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+    this.areaConhecimento.getAll().subscribe((response: ApiResponse) => {
       this.areasDeConhecimento = response.resultado;
     }, error => console.log("Erro na obtenção das áreas de conhecimento - Pesquisa!"));
   }
 
   getDisciplinas(): void {
-    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+    this.areaConhecimento.getAll().subscribe((response: ApiResponse) => {
       this.disciplinas = response.resultado;
     },  error => console.log("Erro na obtenção das disciplinas - Pesquisa!"));
   }
@@ -37,7 +41,7 @@ export class QuestionsSearchComponent implements OnInit {
   ngOnInit() {
     this.getAreasDeConhecimento();
     this.getDisciplinas();
-    
+
     this.searchForm = this.fb.group({
       enunciado: [''],
       tags: [''],

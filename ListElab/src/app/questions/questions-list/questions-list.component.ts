@@ -4,7 +4,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 
-import {QuestionsService} from '../questions.service';
+import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
 import {LoginService} from '../../login/login.service';
 import {ListsService} from '../../lists/lists.service';
 
@@ -22,6 +22,7 @@ import {TipoQuestao} from "../../shared/models/tipoQuestao";
   styleUrls: ['./questions-list.component.scss']
 })
 export class QuestionsListComponent implements OnInit {
+
   areaDeConhecimento = AreaDeConhecimento;
   nivelDificuldade = NivelDificuldade;
   tipoQuestao = TipoQuestao;
@@ -38,7 +39,7 @@ export class QuestionsListComponent implements OnInit {
               private router: Router,
               private loginService: LoginService,
               private listsService: ListsService,
-              private questionsService: QuestionsService) {
+              private discursiveQuestionsService: DiscursiveQuestionsService) {
   }
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class QuestionsListComponent implements OnInit {
   onSearch(params?) {
     this.isLoading = true;
     this.hasError = null;
-    this.questionsService.getAll()
+    this.discursiveQuestionsService.getAll()
       .subscribe((response: ApiResponse) => {
         this.questions = response.resultado;
         this.isLoading = false;
@@ -60,13 +61,13 @@ export class QuestionsListComponent implements OnInit {
   }
 
   onNavQuestionNew() {
-    this.questionsService.selectedQuestion = fromQuestionsModels.emptyQuestion;
+    this.discursiveQuestionsService.selectedQuestion = fromQuestionsModels.emptyQuestion;
     this.router.navigate([ fromRoutesConstants.QUESTOES_FORMULARIO ]);
   }
 
   onNavQuestionUpdate($event, question: fromQuestionsModels.Question) {
     $event.stopPropagation();
-    this.questionsService.selectedQuestion = question;
+    this.discursiveQuestionsService.selectedQuestion = question;
     this.router.navigate([ fromRoutesConstants.QUESTOES_FORMULARIO, question.id ]);
   }
 
@@ -84,7 +85,7 @@ export class QuestionsListComponent implements OnInit {
     }).then((result) => {
       if (result.value) {
         this.isLoading = true;
-        this.questionsService.delete(question.id).subscribe(response => {
+        this.discursiveQuestionsService.delete(question.id).subscribe(response => {
           this.isLoading = false;
           this.questions = this.questions.filter(x => x.id !== question.id);
           Swal.fire(

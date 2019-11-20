@@ -8,7 +8,7 @@ import {ListsService} from "../lists.service";
 import * as fromListsModels from '../../lists/lists.model';
 import * as fromQuestionsModels from '../../questions/questions.model';
 
-import {QuestionsService} from "../../questions/questions.service";
+import {DiscursiveQuestionsService} from "../../questions/discursiveQuestions.service";
 import {ApiResponse} from "../../shared/models/api-response.model";
 import {List} from '../lists.model';
 import {Question} from '../../questions/questions.model';
@@ -32,7 +32,7 @@ export class ListsFormComponent implements OnInit {
   questions: fromQuestionsModels.Question[];
 
   constructor(private fb: FormBuilder,
-              private questionsService: QuestionsService,
+              private questionsService: DiscursiveQuestionsService,
               private listsService: ListsService,
               private router: Router) { }
 

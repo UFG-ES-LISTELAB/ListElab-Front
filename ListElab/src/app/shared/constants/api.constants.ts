@@ -4,7 +4,8 @@ export const API = {
     login: 'login'
   },
   questoes: {
-    base: 'QuestaoDiscursiva',
+    discursiva: 'QuestaoDiscursiva',
+    multiplaEscolha: 'QuestaoMultiplaEscolha',
   },
   listas: {
     base: 'Lista'

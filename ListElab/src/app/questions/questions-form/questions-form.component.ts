@@ -2,10 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import {QuestionsService} from '../questions.service';
+import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
 import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
+import {DisciplinesService} from "../../shared/services/disciplines.service";
+import {AreaConhecimentoService} from "../../shared/services/areaConhecimento.service";
 
 export const emptyRespostaEsperada = {
   descricao: '',
@@ -46,21 +48,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router,
-              private questionService: QuestionsService,
+              private disciplinesService: DisciplinesService,
+              private areaConhecimentoService: AreaConhecimentoService,
+              private questionService: DiscursiveQuestionsService,
               private fb: FormBuilder) { }
-
-  getDisciplinas(): void {
-    this.questionService.gellAllDisciplinas().subscribe((response: ApiResponse) => {
-      this.disciplinas = response.resultado;
-      this.isLoading = false;
-    }, error => console.log("Deu erro!"));
-  }
-
-  getAreasDeConhecimento() : void {
-    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
-      this.areasDeConhecimento = response.resultado;
-    }, error => console.log("Deu erro!"));
-  }
 
   ngOnInit() {
     this.isLoading = false;
@@ -77,7 +68,19 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
-    
+  }
+
+  getDisciplinas(): void {
+    this.disciplinesService.getAll().subscribe((response: ApiResponse) => {
+      this.disciplinas = response.resultado;
+      this.isLoading = false;
+    }, error => console.log("Deu erro!"));
+  }
+
+  getAreasDeConhecimento() : void {
+    this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
+      this.areasDeConhecimento = response.resultado;
+    }, error => console.log("Deu erro!"));
   }
 
   loadRespostasEsperadasQuestaoAtual(): void {
@@ -111,7 +114,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       id: this.question.id,
       tipoQuestao: this.question.tipo,
       areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
-      tempoEsperadoResposta: this.question.tempoEsperadoResposta,
+      tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
@@ -147,7 +150,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         codigo: form.disciplina
       },
       tipo: form.tipoQuestao,
-      tempoMaximoDeResposta: form.tempoEsperadoResposta,
+      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
