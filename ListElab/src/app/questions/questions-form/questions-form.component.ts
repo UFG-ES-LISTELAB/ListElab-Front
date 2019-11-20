@@ -53,19 +53,6 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
               private questionService: DiscursiveQuestionsService,
               private fb: FormBuilder) { }
 
-  getDisciplinas(): void {
-    this.disciplinesService.getAll().subscribe((response: ApiResponse) => {
-      this.disciplinas = response.resultado;
-      this.isLoading = false;
-    }, error => console.log("Deu erro!"));
-  }
-
-  getAreasDeConhecimento() : void {
-    this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
-      this.areasDeConhecimento = response.resultado;
-    }, error => console.log("Deu erro!"));
-  }
-
   ngOnInit() {
     this.isLoading = false;
     this.questionService.selectedQuestion ?
@@ -81,7 +68,19 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
+  }
 
+  getDisciplinas(): void {
+    this.disciplinesService.getAll().subscribe((response: ApiResponse) => {
+      this.disciplinas = response.resultado;
+      this.isLoading = false;
+    }, error => console.log("Deu erro!"));
+  }
+
+  getAreasDeConhecimento() : void {
+    this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
+      this.areasDeConhecimento = response.resultado;
+    }, error => console.log("Deu erro!"));
   }
 
   loadRespostasEsperadasQuestaoAtual(): void {
@@ -115,7 +114,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       id: this.question.id,
       tipoQuestao: this.question.tipo,
       areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
-      tempoEsperadoResposta: this.question.tempoEsperadoResposta,
+      tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
       disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
@@ -151,7 +150,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         codigo: form.disciplina
       },
       tipo: form.tipoQuestao,
-      tempoMaximoDeResposta: form.tempoEsperadoResposta,
+      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
       respostaEsperada: [
         ...form.respostaEsperada
       ],
