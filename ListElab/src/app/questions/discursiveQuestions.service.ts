@@ -44,5 +44,9 @@ export class DiscursiveQuestionsService {
   gellAllDisciplinas() : Observable<any> {
     return this.http.get(`${environment.api}/${API.disciplinas.base}`);
   }
+  
+  getAllAreaDeconhecimento(): Observable<any> {
+    return this.http.get(`${environment.api}/${API.areasDeConhecimento.base}`);
+  }
 
 }
