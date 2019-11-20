@@ -3,8 +3,8 @@ import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-questions',
-  templateUrl: './questions.component.html',
-  styleUrls: ['./questions.component.scss']
+  template: '<app-toolbar></app-toolbar>\n' +
+            '<router-outlet></router-outlet>',
 })
 export class QuestionsComponent {
 }

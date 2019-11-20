@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import {QuestionsService} from '../questions.service';
+import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
 import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
@@ -37,7 +37,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router,
-              private questionService: QuestionsService,
+              private questionService: DiscursiveQuestionsService,
               private fb: FormBuilder) { }
 
   getDisciplinas(): void {
