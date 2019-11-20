@@ -17,14 +17,14 @@ jobs:
     - stage: build dev docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-      - docker build --no-cache -t $DOCKER_USERNAME/listelab-web:dev ./ListElab/
+      - docker build --no-cache -t $DOCKER_USERNAME/listelab-web:dev .
       - docker images
       - docker tag $DOCKER_USERNAME/listelab-web:dev $DOCKER_USERNAME/listelab-web:dev
       - docker push $DOCKER_USERNAME/listelab-web:dev
     - stage: build prod docker image
       script:
       - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-      - docker build --no-cache -t $DOCKER_USERNAME/listelab-web ./ListElab/
+      - docker build --no-cache -t $DOCKER_USERNAME/listelab-web .
       - docker images
       - docker tag $DOCKER_USERNAME/listelab-web $DOCKER_USERNAME/listelab-web
       - docker push $DOCKER_USERNAME/listelab-web
