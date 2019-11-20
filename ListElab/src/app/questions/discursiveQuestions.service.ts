@@ -41,12 +41,12 @@ export class DiscursiveQuestionsService {
     return this.http.delete(`${environment.api}/${API.questoes.discursiva}/${id}`);
   }
 
-  gellAllDisciplinas() : Observable<any> {
-    return this.http.get(`${environment.api}/${API.disciplinas.base}`);
-  }
-  
-  getAllAreaDeconhecimento(): Observable<any> {
-    return this.http.get(`${environment.api}/${API.areasDeConhecimento.base}`);
-  }
+  // gellAllDisciplinas() : Observable<any> {
+  //   return this.http.get(`${environment.api}/${API.disciplinas.base}`);
+  // }
+
+  // getAllAreaDeconhecimento(): Observable<any> {
+  //   return this.http.get(`${environment.api}/${API.areasDeConhecimento.base}`);
+  // }
 
 }

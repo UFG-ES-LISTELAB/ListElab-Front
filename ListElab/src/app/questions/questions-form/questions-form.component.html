@@ -129,7 +129,7 @@
                       color="accent"
                       type="button"
                       matTooltip="Adicionar Nova Resposta Esperada"
-                      *ngIf="this.respostasEsperadas.length < 5 && questionForm.valid" (click)="addRespostaEsperada()">
+                      *ngIf="this.respostasEsperadas.length < 5" (click)="addRespostaEsperada()">
                 <mat-icon>add</mat-icon>
               </button>
             </div>
@@ -142,7 +142,7 @@
               <h4>Tags para Questão Atual</h4>
             </div>
           </div>
-            
+
           <div formArrayName="tagsQuestao">
             <div class="row"
                 *ngFor="let tagQuestao of getTagsQuestaoControls(); let resTagIndex = index;"
@@ -163,7 +163,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="row">
             <div class="col-md-6" style="text-align: center">
               <button mat-mini-fab

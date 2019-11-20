@@ -6,6 +6,8 @@ import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
 import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
+import {DisciplinesService} from "../../shared/services/disciplines.service";
+import {AreaConhecimentoService} from "../../shared/services/areaConhecimento.service";
 
 export const emptyRespostaEsperada = {
   descricao: '',
@@ -46,18 +48,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router,
+              private disciplinesService: DisciplinesService,
+              private areaConhecimentoService: AreaConhecimentoService,
               private questionService: DiscursiveQuestionsService,
               private fb: FormBuilder) { }
 
   getDisciplinas(): void {
-    this.questionService.gellAllDisciplinas().subscribe((response: ApiResponse) => {
+    this.disciplinesService.getAll().subscribe((response: ApiResponse) => {
       this.disciplinas = response.resultado;
       this.isLoading = false;
     }, error => console.log("Deu erro!"));
   }
 
   getAreasDeConhecimento() : void {
-    this.questionService.getAllAreaDeconhecimento().subscribe((response: ApiResponse) => {
+    this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
       this.areasDeConhecimento = response.resultado;
     }, error => console.log("Deu erro!"));
   }
@@ -77,7 +81,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
-    
+
   }
 
   loadRespostasEsperadasQuestaoAtual(): void {

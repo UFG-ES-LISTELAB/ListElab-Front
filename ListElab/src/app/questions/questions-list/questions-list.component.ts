@@ -22,6 +22,7 @@ import {TipoQuestao} from "../../shared/models/tipoQuestao";
   styleUrls: ['./questions-list.component.scss']
 })
 export class QuestionsListComponent implements OnInit {
+
   areaDeConhecimento = AreaDeConhecimento;
   nivelDificuldade = NivelDificuldade;
   tipoQuestao = TipoQuestao;
