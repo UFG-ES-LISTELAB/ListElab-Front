@@ -39,12 +39,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     return this.questionForm.get('tagsQuestao') as FormArray;
   }
 
+  get alternativasMultiplaEscolha() {
+    return this.questionForm.get('alternativasMultiplaEscolha') as FormArray;
+  }
+
   getRespostaEsperadaControls() {
     return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
   }
 
   getTagsQuestaoControls() {
     return (<FormArray>this.questionForm.get('tagsQuestao')).controls;
+  }
+
+  getAlternativasMultiplaEscolhaControls() {
+    return (<FormArray>this.questionForm.get('alternativasMultiplaEscolha')).controls;
   }
 
   constructor(private router: Router,
@@ -105,6 +113,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadAlternativas(): void {
+    
+  }
+
   ngOnDestroy() {
     this.questionService.selectedQuestion = null;
   }
@@ -120,6 +132,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
       respostaEsperada: this.fb.array([]),
       tagsQuestao: this.fb.array([]),
+      alternativasMultiplaEscolha: this.fb.array([]),
       autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
   }
@@ -203,6 +216,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       );
     }
   }
+  
   removeRespostaEsperada(resEsperadaIndex) {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
   }
@@ -217,5 +231,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   removeTag(resTagIndex) {
     this.tagsQuestao.removeAt(resTagIndex);
+  }
+
+  addAlternativa(alternativa: string = ""): void {
+    debugger;
+    this.alternativasMultiplaEscolha.push(
+      this.fb.group({
+        descricao: [alternativa, Validators.required]
+      })
+    )
   }
 }
