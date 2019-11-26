@@ -20,7 +20,8 @@ import {
   MatSnackBarModule,
   MatCheckboxModule,
   MatAutocompleteModule,
-  MatFormFieldModule
+  MatFormFieldModule,
+  MatRadioModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
@@ -30,6 +31,7 @@ const MATERIAL_MODULES = [
   MatInputModule,
   MatFormFieldModule,
   MatTableModule,
+  MatRadioModule,
   MatPaginatorModule,
   MatCardModule,
   MatMenuModule,

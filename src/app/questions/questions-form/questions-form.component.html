@@ -100,7 +100,9 @@
               <div class="row" *ngFor="let alternativa of getAlternativasMultiplaEscolhaControls(); let alternativaIndex = index;"
                   [formGroupName]="alternativaIndex">
                 <div class="col-md-1">
-                  <mat-label>{{alternativaIndex}}</mat-label>
+                  <mat-label>{{alternativaIndex === 0 ? 'A)' : 
+                    alternativaIndex === 1 ? 'B)' : alternativaIndex === 2 ? 'C)' : alternativaIndex === 3 ? 'D)' : alternativaIndex === 4 ? 'E)' : ''
+                  }}</mat-label>
                 </div>
                 <div class="col-md-4" >
                   <mat-form-field class="full-width font-size--12" appearance="outline">
@@ -109,10 +111,11 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-2">
-                  <mat-form-field class="full-width font-size--12" appearance="outline">
+                  <!-- <h4>Lugar do radio button</h4> -->
+                  <div class="full-width font-size--12" appearance="outline">
                     <mat-label>Alternativa correta</mat-label>
-                    <!--<mat-radio-button value="true"></mat-radio-button>-->
-                  </mat-form-field>
+                    <mat-radio-button type="radio" formControlName="alternativaCorreta" [value]="alternativaIndex"></mat-radio-button>
+                  </div>
                 </div>
                 <div class="col-md-1">
                   <button mat-icon-button

@@ -216,7 +216,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       );
     }
   }
-  
+
   removeRespostaEsperada(resEsperadaIndex) {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
   }
@@ -233,11 +233,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.tagsQuestao.removeAt(resTagIndex);
   }
 
-  addAlternativa(alternativa: string = ""): void {
+  addAlternativa(alternativa: string = "", ): void {
     debugger;
     this.alternativasMultiplaEscolha.push(
       this.fb.group({
-        descricao: [alternativa, Validators.required]
+        descricao: [alternativa, Validators.required], 
+        alternativaCorreta: ""
       })
     )
   }
