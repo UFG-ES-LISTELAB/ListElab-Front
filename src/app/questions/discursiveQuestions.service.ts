@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
-import {Question, QuestionFiltersDto, Discipline} from './questions.model';
+import {Question} from './questions.model';
 import {API} from "../shared/constants/api.constants";
 
 
@@ -16,13 +16,12 @@ export class DiscursiveQuestionsService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<any> {
-    return this.http.get(`${environment.api}/${API.questoes.discursiva}`);
+  filters(params?): Observable<any> {
+    return this.http.get(`${environment.api}/Questao/filtro`, { params });
   }
 
-  getWithParams(params): Observable<any> {
-    console.log(params);
-    return this.http.get(`${environment.api}/${API.questoes.discursiva}/filtro`, { params });
+  getAll(): Observable<any> {
+    return this.http.get(`${environment.api}/${API.questoes.discursiva}`);
   }
 
   getOne(id, params?): Observable<any> {

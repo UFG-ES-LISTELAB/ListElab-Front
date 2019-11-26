@@ -23,19 +23,8 @@ export class QuestionsSearchComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
               private disciplinesService: DisciplinesService,
-              private areaConhecimento: AreaConhecimentoService,
-              private discursiveQuestionsService: DiscursiveQuestionsService) { }
-
-  getAreasDeConhecimento() : void {
-    this.areaConhecimento.getAll().subscribe((response: ApiResponse) => {
-      this.areasDeConhecimento = response.resultado;
-    }, error => console.log("Erro na obtenção das áreas de conhecimento - Pesquisa!"));
-  }
-
-  getDisciplinas(): void {
-    this.areaConhecimento.getAll().subscribe((response: ApiResponse) => {
-      this.disciplinas = response.resultado;
-    },  error => console.log("Erro na obtenção das disciplinas - Pesquisa!"));
+              private areaConhecimentoService: AreaConhecimentoService,
+              private discursiveQuestionsService: DiscursiveQuestionsService) {
   }
 
   ngOnInit() {
@@ -44,14 +33,30 @@ export class QuestionsSearchComponent implements OnInit {
 
     this.searchForm = this.fb.group({
       enunciado: [''],
-      tags: [''],
+      nivelDificuldade: [],
       areaDeConhecimento: [''],
+      tipo: [null],
       disciplina: [''],
-      tipoQuestao: [],
-      tempoRespostaEsperado: [''],
-      nivelDificuldade: [''],
-      autor: ['']
+      tempoEsperadoResposta: [0],
+      usuario: [''],
+      tags: ['']
     });
+  }
+
+  getAreasDeConhecimento(): void {
+    this.areaConhecimentoService.getAll()
+      .subscribe((response: ApiResponse) => {
+        this.areasDeConhecimento = response.resultado;
+      }, error =>
+        console.log("Erro na obtenção das áreas de conhecimento - Pesquisa!"));
+  }
+
+  getDisciplinas(): void {
+    this.disciplinesService.getAll()
+      .subscribe((response: ApiResponse) => {
+        this.disciplinas = response.resultado;
+      }, error =>
+        console.log("Erro na obtenção das disciplinas - Pesquisa!"));
   }
 
   onQuestionNew() {
@@ -59,8 +64,7 @@ export class QuestionsSearchComponent implements OnInit {
   }
 
   onFormSubmitted() {
-    console.log(this.searchForm.value);
-    // this.submitted.emit(this.searchForm.value);
+    this.submitted.emit(this.searchForm.value);
   }
 
 }
