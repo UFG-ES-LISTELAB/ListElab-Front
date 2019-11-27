@@ -234,12 +234,15 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   addAlternativa(alternativa: string = "", ): void {
-    debugger;
     this.alternativasMultiplaEscolha.push(
       this.fb.group({
         descricao: [alternativa, Validators.required], 
         alternativaCorreta: ""
       })
     )
+  }
+
+  removeAlternativa(alternativaIndex): void {
+    this.alternativasMultiplaEscolha.removeAt(alternativaIndex);
   }
 }

@@ -111,10 +111,8 @@
                   </mat-form-field>
                 </div>
                 <div class="col-md-2">
-                  <!-- <h4>Lugar do radio button</h4> -->
                   <div class="full-width font-size--12" appearance="outline">
-                    <mat-label>Alternativa correta</mat-label>
-                    <mat-radio-button type="radio" formControlName="alternativaCorreta" [value]="alternativaIndex"></mat-radio-button>
+                    <mat-radio-button></mat-radio-button>
                   </div>
                 </div>
                 <div class="col-md-1">
@@ -139,7 +137,6 @@
                 </button>
               </div>
             </div>
-            
           </div>
           <!--COMPONENTE PARA INSERIR A RESPOSTA ESPERADA DE QUESTÕES DISCURSIVAS-->
           <div *ngIf="questionForm.get('tipoQuestao').value === 0">
@@ -188,7 +185,6 @@
               </div>
             </div>
           </div>
-          
           <br>
           <!--COMPONENTE PARA INSERIR AS TAGS DE QUESTÕES-->
           <div class="row">

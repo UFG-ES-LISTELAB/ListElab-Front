@@ -12,6 +12,7 @@
   <form [formGroup]="searchForm" (ngSubmit)="onFormSubmitted()">
 
     <div class="row">
+
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
         <input matInput type="text" formControlName="enunciado" placeholder="Enunciado" autocomplete="off">
         <mat-icon matSuffix>search</mat-icon>
@@ -24,7 +25,9 @@
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Área de Conhecimento</mat-label>
         <mat-select formControlName="areaDeConhecimento">
-          <mat-option *ngFor="let areaDeConhecimento of areasDeConhecimento" [value]="'areaDeConhecimento.codigo'">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let areaDeConhecimento of areasDeConhecimento"
+                      [value]="areaDeConhecimento.codigo">
             {{areaDeConhecimento.descricao}}
           </mat-option>
         </mat-select>
@@ -33,15 +36,17 @@
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Disciplina</mat-label>
         <mat-select formControlName="disciplina">
-          <mat-option *ngFor="let disciplina of disciplinas" [value]="disciplina.codigo">
+          <mat-option></mat-option>
+          <mat-option *ngFor="let disciplina of disciplinas"
+                      [value]="disciplina.codigo">
             {{disciplina.descricao}}
           </mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
         <mat-label>Tipo</mat-label>
-        <mat-select formControlName="tipoQuestao">
+        <mat-select formControlName="tipo">
           <mat-option></mat-option>
           <mat-option [value]="0">Discursiva</mat-option>
           <mat-option [value]="1">Objetiva</mat-option>
@@ -50,10 +55,12 @@
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Tempo Máximo de Resposta</mat-label>
-        <input matInput type="number" formControlName="tempoRespostaEsperado" placeholder="Tempo máximo de resposta" autocomplete="off">
+        <input matInput type="number" formControlName="tempoEsperadoResposta"
+               placeholder="Tempo esperado de resposta" autocomplete="off">
       </mat-form-field>
 
-      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
+      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"
+                      appearance="outline">
         <mat-label>Dificuldade</mat-label>
         <mat-select formControlName="nivelDificuldade">
           <mat-option></mat-option>
@@ -67,21 +74,13 @@
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12"  appearance="outline">
         <mat-label>Autor</mat-label>
-        <input matInput type="text" formControlName="autor" placeholder="Autor" autocomplete="off">
+        <input matInput type="text" formControlName="usuario" placeholder="Autor" autocomplete="off">
       </mat-form-field>
-      
-<!--      <mat-form-field class="col-md-6 col-sm-12 full-width font-size&#45;&#45;12"  appearance="outline">-->
-<!--        <mat-label>Disciplina</mat-label>-->
-<!--        <input matInput type="text" formControlName="disciplinaId" placeholder="Disciplina" autocomplete="off">-->
-<!--      </mat-form-field>-->
-
-<!--      <mat-form-field class="col-md-3 col-sm-12 full-width font-size&#45;&#45;12"  appearance="outline">-->
-<!--        <input matInput type="text" formControlName="tags" placeholder="Tags" autocomplete="off">-->
-<!--      </mat-form-field>-->
 
       <div class="col-md-12" style="display: flex; justify-content: flex-end;">
         <button mat-raised-button [color]="'accent'">Buscar</button>
       </div>
+
     </div>
 
   </form>
