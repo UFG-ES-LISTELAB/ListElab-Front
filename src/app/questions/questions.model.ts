@@ -7,16 +7,39 @@ export interface Question {
   areaDeConhecimento?: KnowlegdeArea | null;
   disciplina?: Discipline | null;
   usuario?: string;
+  tempoMaximoDeResposta?: number;
 }
 
 export interface DiscursiveQuestion extends Question {
   respostaEsperada?: ExpectedAnswer[];
-  tempoMaximoDeResposta?: number;
   tempoEsperadoResposta?: number;
 }
 
 export interface ObjectiveQuestion extends Question {
+  respostaEsperada?: AlternativeAnswer;
+}
 
+export interface TrueOrFalseQuestion extends ObjectiveQuestion {
+
+}
+
+export interface AssociationColumnsQuestion extends Question {
+  respostaEsperada?: AssociationColum;
+}
+
+export interface AssociationColum {
+  colunaPrincipal?: Column;
+  colunaAssociada: Column;
+}
+
+export interface Column {
+  letra?: string;
+  descricao: string;
+}
+
+export interface AlternativeAnswer {
+  descricao?: string;
+  correta?: boolean;
 }
 
 export interface ExpectedAnswer {

@@ -30,6 +30,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   questionForm: FormGroup;
   disciplinas: fromQuestionsModels.Discipline[] = [];
   areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
+  //Este atributo só será preenchido quando a questão for do tipo múltipla escolha
+  indiceAlternativaCorreta?: number;
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
@@ -151,30 +153,45 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     this.isLoading = true;
-    debugger;
-    console.log(form);
-    const question: fromQuestionsModels.DiscursiveQuestion = {
-      enunciado: form.enunciado,
-      areaDeConhecimento: {
-        codigo: form.areaDeConhecimentoId
-      },
-      nivelDificuldade: form.nivelDificuldade,
-      disciplina: {
-        codigo: form.disciplina
-      },
-      tipo: form.tipoQuestao,
-      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
-      respostaEsperada: [
-        ...form.respostaEsperada
-      ],
-      tags: form.tagsQuestao.map(item => item.descricao),
-      usuario: form.autor,
-    };
-    this.questionService.create(question).subscribe(success => {
-      console.log(success);
-      this.isLoading = false;
-      this.router.navigate([QUESTOES_LISTAR]);
-    }, error => this.isLoading = false);
+    switch(form.tipoQuestao) {
+      case 0: //Questões discursivas
+        const question: fromQuestionsModels.DiscursiveQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: [
+            ...form.respostaEsperada
+          ],
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
+        };
+
+        this.questionService.create(question).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => this.isLoading = false);
+        break;
+      case 1: //Questões múltipla escolha
+        
+        break;
+      case 2: //Associação de colunas
+
+        break;
+      case 3: //Verdadeiro ou falso
+
+        break;
+      default:
+        break;
+    }
+    
   }
 
   updateQuestion(form: any) {
@@ -233,16 +250,21 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.tagsQuestao.removeAt(resTagIndex);
   }
 
-  addAlternativa(alternativa: string = "", ): void {
+  addAlternativa(alternativa: string = ""): void {
+    console.log(this.alternativasMultiplaEscolha);
     this.alternativasMultiplaEscolha.push(
       this.fb.group({
-        descricao: [alternativa, Validators.required], 
-        alternativaCorreta: ""
+        descricao: [alternativa, Validators.required]
       })
     )
   }
 
   removeAlternativa(alternativaIndex): void {
     this.alternativasMultiplaEscolha.removeAt(alternativaIndex);
+  }
+
+  marcar($event, indiceAlternativaCorreta: number) {
+    console.log("Índice resposta correta: ", indiceAlternativaCorreta);
+    this.indiceAlternativaCorreta = indiceAlternativaCorreta;
   }
 }
