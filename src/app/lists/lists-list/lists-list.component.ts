@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 })
 export class ListsListComponent implements OnInit {
 
+  displayedColumns = ['titulo', 'menu'];
   lists: fromListsModels.List[] = [];
   hasError: any;
   isLoading: boolean;
@@ -52,12 +53,14 @@ export class ListsListComponent implements OnInit {
     this.router.navigate([fromRoutesConstants.LISTAS_CRIAR]);
   }
 
-  onSelected(list: fromListsModels.List) {
+  onSelected(event, list: fromListsModels.List) {
+    event.stopPropagation();
     this.listsService.selectedList = list;
     this.router.navigate([fromRoutesConstants.LISTAS_EDITAR]);
   }
 
-  onRemoved(list: fromListsModels.List) {
+  onRemoved(event, list: fromListsModels.List) {
+    event.stopPropagation();
     Swal.fire({
       title: 'Você tem certeza?',
       text: 'A operação não poderá ser revertida!',

@@ -32,6 +32,12 @@ export class QuestionsListComponent implements OnInit {
     hasError: any;
     isLoading: boolean;
 
+
+    novaLista = () => {
+        return this.listsService.novaLista;
+    };
+
+
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private loginService: LoginService,
@@ -163,4 +169,25 @@ export class QuestionsListComponent implements OnInit {
         // TODO: Implementar, pois estava dando erro de build.
     }
 
+    iniciarNovaLista() {
+        this.listsService.inicializarNovaLista();
+    }
+
+    cancelarNovaLista() {
+        this.listsService.cancelarNovaLista();
+    }
+
+    isListaInicializada(): boolean {
+        return this.listsService.isListaInicializada();
+    }
+
+    addQuestaoToNovaLista(event, questao: any) {
+        event.stopPropagation();
+
+        if(this.isListaInicializada()) {
+            this.listsService.onAddQuestaoToNovaLista(questao);
+        } else {
+            console.log('não tem lista em aberto!');
+        }
+    }
 }

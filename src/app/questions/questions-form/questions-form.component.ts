@@ -138,7 +138,6 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     this.isLoading = true;
-    debugger;
     console.log(form);
     const question: fromQuestionsModels.DiscursiveQuestion = {
       enunciado: form.enunciado,

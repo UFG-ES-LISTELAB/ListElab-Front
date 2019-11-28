@@ -47,14 +47,9 @@ export class ListsFormComponent implements OnInit {
     this.listForm = this.fb.group({
       id: this.selectedList.id ? this.selectedList.id : null,
       titulo: this.selectedList.titulo,
-      nivelDificuldade: this.selectedList.nivelDificuldade,
-      areaDeConhecimentoId: this.selectedList.areaDeConhecimento ? this.selectedList.areaDeConhecimento.codigo : "",
-      disciplinaId: this.selectedList.disciplina ? this.selectedList.disciplina.codigo : "",
-      tags: [],
-      objetivas: [],
       usuario: this.selectedList.usuario ? this.selectedList.usuario : "professor@ufg.br"
     });
-    debugger;
+
     this.selectedDiscursivas = this.selectedList.discursivas.length === 0 ? [] : [...this.selectedList.discursivas];
   }
 
@@ -75,7 +70,7 @@ export class ListsFormComponent implements OnInit {
         codigo: form.disciplinaId
       },
       usuario: form.usuario,
-      discursivas: [...this.selectedDiscursivas ]
+      questoesDiscursiva: [...this.selectedDiscursivas ]
     };
 
     if (!this.selectedList.id) {
