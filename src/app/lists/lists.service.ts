@@ -1,82 +1,90 @@
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
-import {API} from "../shared/constants/api.constants";
-import * as fromListsModels from "./lists.model";
+import {API} from '../shared/constants/api.constants';
+import * as fromListsModels from './lists.model';
 import * as fromQuestionsModels from '../questions/questions.model';
-import {Question} from "../questions/questions.model";
+import {Question} from '../questions/questions.model';
 
 interface NovaLista {
-  titulo: string;
-  questoesDiscursivas: any[],
-  questoesMultiplaEscolha: any[]
+    titulo: string;
+    questoesDiscursiva: any[];
+    questoesMultiplaEscolha: any[];
+    questoesAssociacaoDeColunas: any[];
+    questoesVerdadeiroOuFalso: any[];
+    prontaParaAplicacao: boolean;
+    usuario: string;
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ListsService {
 
-  // selectedList: fromListsModels.List;
-  // questionsList: Question[];
+    selectedList: fromListsModels.List;
+    questionsList: Question[];
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  getAll(params?): Observable<any> {
-    return this.http.get(`${environment.api}/${API.listas.base}`);
-  }
+    // Irá se tornar um novo servico daqui para baixo
 
-  getOne(id, params?): Observable<any> {
-    return this.http.get(`${environment.api}/${API.listas.base}/${id}`);
-  }
+    novaLista: NovaLista = null;
 
-  create(list: any): Observable<any> {
-    return this.http.post(`${environment.api}/${API.listas.base}`, list);
-  }
-
-  update(list: any): Observable<any> {
-    return this.http.put(`${environment.api}/${API.listas.base}`, list);
-  }
-
-  delete(id): Observable<any> {
-    return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
-  }
-
-  // Irá se tornar um novo servico daqui para baixo
-
-  novaLista: NovaLista = null;
-
-  inicializarNovaLista() {
-    this.novaLista = new class implements NovaLista {
-      titulo = "";
-      questoesDiscursivas = [];
-      questoesMultiplaEscolha = [];
+    getAll(params?): Observable<any> {
+        return this.http.get(`${environment.api}/${API.listas.base}`);
     }
-  }
 
-  cancelarNovaLista() {
-    this.novaLista = null;
-  }
-
-  isListaInicializada() {
-    return this.novaLista !== null;
-  }
-
-  onAddQuestaoToNovaLista(questao) {
-    switch(questao.tipo) {
-      case 0:
-        console.log('Discursiva');
-        this.novaLista.questoesDiscursivas.push(questao);
-        break;
-      case 1:
-        console.log('Multipla Escolha');
-        this.novaLista.questoesMultiplaEscolha.push(questao);
-        break;
-      default:
-        console.log('Não sei');
+    getOne(id, params?): Observable<any> {
+        return this.http.get(`${environment.api}/${API.listas.base}/${id}`);
     }
-  }
+
+    create(list: any): Observable<any> {
+        return this.http.post(`${environment.api}/${API.listas.base}`, list);
+    }
+
+    update(list: any): Observable<any> {
+        return this.http.put(`${environment.api}/${API.listas.base}`, list);
+    }
+
+    delete(id): Observable<any> {
+        return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
+    }
+
+    inicializarNovaLista() {
+        this.novaLista = new class implements NovaLista {
+            titulo = '';
+            questoesDiscursiva = [];
+            questoesMultiplaEscolha = [];
+            questoesAssociacaoDeColunas = [];
+            questoesVerdadeiroOuFalso = [];
+            prontaParaAplicacao: false;
+            usuario: '';
+        };
+    }
+
+    cancelarNovaLista() {
+        this.novaLista = null;
+    }
+
+    isListaInicializada() {
+        return this.novaLista !== null;
+    }
+
+    onAddQuestaoToNovaLista(questao) {
+        switch (questao.tipo) {
+            case 0:
+                console.log('Discursiva');
+                this.novaLista.questoesDiscursiva.push(questao);
+                break;
+            case 1:
+                console.log('Multipla Escolha');
+                this.novaLista.questoesMultiplaEscolha.push(questao);
+                break;
+            default:
+                console.log('Não sei');
+        }
+    }
 
 }

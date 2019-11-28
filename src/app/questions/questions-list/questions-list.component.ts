@@ -35,7 +35,7 @@ export class QuestionsListComponent implements OnInit {
 
     novaLista = () => {
         return this.listsService.novaLista;
-    };
+    }
 
 
     constructor(private formBuilder: FormBuilder,
@@ -55,7 +55,8 @@ export class QuestionsListComponent implements OnInit {
         let obj = {};
         if (params) {
             console.log(params);
-            if (params.tempoEsperadoResposta !== null && params.tempoEsperadoResposta >= 0) {
+            if (params.tempoEsperadoResposta !== null &&
+                params.tempoEsperadoResposta >= 0) {
                 obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: params.tempoEsperadoResposta.toString()});
             } else {
                 obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: '0'});
@@ -184,7 +185,7 @@ export class QuestionsListComponent implements OnInit {
     addQuestaoToNovaLista(event, questao: any) {
         event.stopPropagation();
 
-        if(this.isListaInicializada()) {
+        if (this.isListaInicializada()) {
             this.listsService.onAddQuestaoToNovaLista(questao);
         } else {
             console.log('não tem lista em aberto!');

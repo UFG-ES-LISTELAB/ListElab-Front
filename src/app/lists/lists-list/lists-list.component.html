@@ -2,27 +2,18 @@
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
 </div>
 
-<!--{{ lists | json }}-->
-
 <div class="container mt-4">
   <div class="row">
     <div class="col-md-12">
-
       <app-lists-search
         (listNew)="onNew()"
         (submitted)="onSearch($event)">
       </app-lists-search>
-
     </div>
   </div>
 </div>
 
 <div class="container mt-4 mb-4">
-
-<!--  <app-lists-card *ngFor="let list of lists"-->
-<!--                  [list]="list"-->
-<!--                  (selected)="onSelected($event)"-->
-<!--                  (deleted)="onRemoved($event)"></app-lists-card>-->
 
   <table style="width: 100%" mat-table [dataSource]="lists" class="mat-elevation-z8">
 
