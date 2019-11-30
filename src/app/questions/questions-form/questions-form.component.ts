@@ -3,6 +3,9 @@ import {Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
+import {MultiChoiceQuestionsService} from '../multiChoiceQuestions.service';
+import {TrueOrFalseQuestionsService} from '../trueOrFalseQuestions.service';
+
 import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
@@ -31,7 +34,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   disciplinas: fromQuestionsModels.Discipline[] = [];
   areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
   //Este atributo só será preenchido quando a questão for do tipo múltipla escolha
-  indiceAlternativaCorreta?: number;
+  indiceAlternativaCorreta?: number = 0;
 
   get respostasEsperadas() {
     return this.questionForm.get('respostaEsperada') as FormArray;
@@ -61,6 +64,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
               private disciplinesService: DisciplinesService,
               private areaConhecimentoService: AreaConhecimentoService,
               private questionService: DiscursiveQuestionsService,
+              private questionServiceMultipleChoice: MultiChoiceQuestionsService,
+              private questionServiceTrueOrFalse: TrueOrFalseQuestionsService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -75,7 +80,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
     this.initForm();
-
+    
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
   }
@@ -180,13 +185,65 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         }, error => this.isLoading = false);
         break;
       case 1: //Questões múltipla escolha
-        
+        const _indiceCorreta = this.indiceAlternativaCorreta;
+        const alternativasRespostaEsperada = form.alternativasMultiplaEscolha.map((item, indice) => {
+          return {
+            descricao: item.descricao,
+            correta: indice === _indiceCorreta ? true : false
+          }
+        });
+
+        const questionMultipleChoice: fromQuestionsModels.ObjectiveQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: alternativasRespostaEsperada,
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
+        }
+
+        this.questionServiceMultipleChoice.create(questionMultipleChoice).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          console.log(error);
+        });
         break;
       case 2: //Associação de colunas
-
+        
         break;
       case 3: //Verdadeiro ou falso
+        const questionTrueOrFalse: fromQuestionsModels.TrueOrFalseQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: [],
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
+        }
 
+        this.questionServiceTrueOrFalse.create(questionMultipleChoice).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          console.log(error);
+        })
         break;
       default:
         break;
@@ -196,31 +253,76 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   updateQuestion(form: any) {
     this.isLoading = true;
-    const question: fromQuestionsModels.DiscursiveQuestion = {
-      id: form.id,
-      enunciado: form.enunciado,
-      areaDeConhecimento: {
-        codigo: form.areaDeConhecimentoId
-      },
-      nivelDificuldade: form.nivelDificuldade,
-      disciplina: {
-        codigo: form.disciplina
-      },
-      tipo: form.tipo,
-      tempoMaximoDeResposta: form.tempoMaximoDeResposta,
-      respostaEsperada: [
-        ...form.respostaEsperada
-      ],
-      tags: form.tagsQuestao.map(item => item.descricao),
-      usuario: form.autor,
-    };
-    this.questionService.update(question).subscribe(success => {
-      this.isLoading = false;
-      console.log(success);
-      this.router.navigate([QUESTOES_LISTAR]);
-    }, error => {
-      return this.isLoading = false;
-    });
+    switch (form.tipoQuestao) {
+      case 0:
+        const question: fromQuestionsModels.DiscursiveQuestion = {
+          id: form.id,
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipo,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: [
+            ...form.respostaEsperada
+          ],
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor,
+        };
+
+        this.questionService.update(question).subscribe(success => {
+          this.isLoading = false;
+          console.log(success);
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          return this.isLoading = false;
+        });
+        break;
+      case 1:
+        const _indiceCorreta = this.indiceAlternativaCorreta;
+        const alternativasRespostaEsperada = form.alternativasMultiplaEscolha.map((item, indice) => {
+          return {
+            descricao: item.descricao,
+            correta: indice === _indiceCorreta ? true : false
+          }
+        });
+
+        const questionMultipleChoice: fromQuestionsModels.ObjectiveQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: alternativasRespostaEsperada,
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
+        }
+
+        this.questionServiceMultipleChoice.update(questionMultipleChoice).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          console.log(error);
+        });
+        break;
+      case 2:
+        break;
+      case 3:
+        break;
+
+      default:
+        break;
+    }
   }
 
   addRespostaEsperada(respostaEsperada: fromQuestionsModels.ExpectedAnswer = emptyRespostaEsperada): void {
