@@ -16,7 +16,7 @@ export interface DiscursiveQuestion extends Question {
 }
 
 export interface ObjectiveQuestion extends Question {
-  respostaEsperada?: AlternativeAnswer;
+  respostaEsperada?: AlternativeAnswer[];
 }
 
 export interface TrueOrFalseQuestion extends ObjectiveQuestion {
