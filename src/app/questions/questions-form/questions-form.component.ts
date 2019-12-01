@@ -105,7 +105,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = false;
-
+    debugger;
     if(this.questionAssociacaoColunaService.selectedQuestion && this.questionAssociacaoColunaService.selectedQuestion.id)
     {
       this.question = this.questionAssociacaoColunaService.selectedQuestion
@@ -117,7 +117,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     else if(this.questionServiceMultipleChoice.selectedQuestion && this.questionServiceMultipleChoice.selectedQuestion.id)
     {
       this.question = this.questionServiceMultipleChoice.selectedQuestion
-    } else {
+    }
+    else if(this.questionServiceTrueOrFalse.selectedQuestion && this.questionServiceTrueOrFalse.selectedQuestion.id) {
+      this.question = this.questionServiceTrueOrFalse.selectedQuestion;
+    }
+    else {
       this.question = fromQuestionsModels.emptyQuestionGenerica;
     }
     
@@ -174,6 +178,16 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           });
         }
       }
+
+      if (this.question.tipo === 3) {
+        const questionTrueOrFalse = this.question as fromQuestionsModels.TrueOrFalseQuestion;
+        const respostasEsperadas = questionTrueOrFalse.respostaEsperada;
+        if (respostasEsperadas.length > 0) {
+          respostasEsperadas.map(respostaEsperada => {
+            this.addVerdadeiroOuFalso(respostaEsperada);
+          })
+        }
+      }
     }
   }
 
@@ -186,10 +200,6 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
       }
     }
-  }
-
-  loadAlternativas(): void {
-
   }
 
   ngOnDestroy() {
@@ -485,7 +495,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           usuario: form.autor
         }
 
-        this.questionServiceTrueOrFalse.create(questionTrueOrFalse).subscribe(success => {
+        this.questionServiceTrueOrFalse.update(questionTrueOrFalse).subscribe(success => {
           console.log(success);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
@@ -560,7 +570,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.alternativasVerdadeiroOuFalso.push(
       this.fb.group({
         descricao: [verdadeiroOuFalso.descricao, Validators.required],
-        correta: [verdadeiroOuFalso.correta]
+        correta: [verdadeiroOuFalso.correta ? 'true' : 'false']
       })
     );
   }

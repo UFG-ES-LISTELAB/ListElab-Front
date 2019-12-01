@@ -15,6 +15,7 @@ import * as fromRoutesConstants from '../../shared/constants/routes.contants';
 import {AreaDeConhecimento} from '../../shared/models/areaDeConhecimento';
 import {NivelDificuldade} from '../../shared/models/nivelDificuldade';
 import {TipoQuestao} from '../../shared/models/tipoQuestao';
+import { TrueOrFalseQuestionsService } from '../trueOrFalseQuestions.service';
 
 @Component({
     selector: 'app-questions-list',
@@ -40,7 +41,8 @@ export class QuestionsListComponent implements OnInit {
                 private listsService: ListsService,
                 private discursiveQuestionsService: DiscursiveQuestionsService,
                 private multipleChoiceService: MultiChoiceQuestionsService,
-                private associacaoColunaService: AssociacaoColunaService) {
+                private associacaoColunaService: AssociacaoColunaService,
+                private verdadeiroOuFalsoService: TrueOrFalseQuestionsService) {
     }
 
     ngOnInit() {
@@ -132,6 +134,7 @@ export class QuestionsListComponent implements OnInit {
     onNavQuestionNew() {
         this.discursiveQuestionsService.selectedQuestion = fromQuestionsModels.emptyQuestion;
         this.associacaoColunaService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
+        this.verdadeiroOuFalsoService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
         this.router.navigate([fromRoutesConstants.QUESTOES_FORMULARIO]);
     }
 
@@ -142,6 +145,7 @@ export class QuestionsListComponent implements OnInit {
         this.discursiveQuestionsService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
         this.multipleChoiceService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
         this.associacaoColunaService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
+        this.verdadeiroOuFalsoService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
         
         // Depois eu adiciono o valor de acordo com o tipo de questão.
         switch(question.tipo)
@@ -156,6 +160,7 @@ export class QuestionsListComponent implements OnInit {
                 this.associacaoColunaService.selectedQuestion = question;
                 break;
             case 3:
+                this.verdadeiroOuFalsoService.selectedQuestion = question
                 break;
         }
         
@@ -193,31 +198,48 @@ export class QuestionsListComponent implements OnInit {
                         });
                         break;
                     case 1:
-                            this.multipleChoiceService.delete(question.id).subscribe(response => {
-                                this.isLoading = false;
-                                this.questions = this.questions.filter(x => x.id !== question.id);
-                                Swal.fire(
-                                    'Removida!',
-                                    'Sua questão foi removida.',
-                                    'success'
-                                );
-                            }, error => {
-                                this.isLoading = false;
-                            });
-                            break;
+                        this.multipleChoiceService.delete(question.id).subscribe(response => {
+                            this.isLoading = false;
+                            this.questions = this.questions.filter(x => x.id !== question.id);
+                            Swal.fire(
+                                'Removida!',
+                                'Sua questão foi removida.',
+                                'success'
+                            );
+                        }, error => {
+                            this.isLoading = false;
+                        });
+                        break;
                     case 2:
-                            this.associacaoColunaService.delete(question.id).subscribe(response => {
-                                this.isLoading = false;
-                                this.questions = this.questions.filter(x => x.id !== question.id);
-                                Swal.fire(
-                                    'Removida!',
-                                    'Sua questão foi removida.',
-                                    'success'
-                                );
-                            }, error => {
-                                this.isLoading = false;
-                            });
-                            break;
+                        this.associacaoColunaService.delete(question.id).subscribe(response => {
+                            this.isLoading = false;
+                            this.questions = this.questions.filter(x => x.id !== question.id);
+                            Swal.fire(
+                                'Removida!',
+                                'Sua questão foi removida.',
+                                'success'
+                            );
+                        }, error => {
+                            this.isLoading = false;
+                        });
+                        break;
+                    case 3:
+                        this.verdadeiroOuFalsoService.delete(question.id).subscribe(response => {
+                            this.isLoading = false;
+                            this.questions = this.questions.filter(x => x.id !== question.id);
+                            Swal.fire(
+                                'Removida!',
+                                'Questão: Verdadeiro ou falso. Removida com sucesso!',
+                                'success'
+                            );
+                        }, error => {
+                            this.isLoading = false;
+                            console.log(error);
+                        })
+                        break;
+                    default:
+                        console.log("tipo de questão inexistente!");
+                        break;
                 }
             }
         });
