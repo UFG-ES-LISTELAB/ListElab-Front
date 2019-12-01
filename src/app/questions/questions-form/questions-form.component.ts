@@ -30,6 +30,11 @@ export const emptyAssociacaoDeColuna = {
   }
 };
 
+export const emptyVerdadeiroOuFalso = {
+  descricao: '',
+  correta: false
+}
+
 @Component({
   selector: 'app-questions-form',
   templateUrl: './questions-form.component.html',
@@ -65,6 +70,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     return this.questionForm.get('associacaoColunas') as FormArray;
   }
 
+  get alternativasVerdadeiroOuFalso() {
+    return this.questionForm.get('alternativasVerdadeiroOuFalso') as FormArray;
+  }
+
   getRespostaEsperadaControls() {
     return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
   }
@@ -79,6 +88,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   getAssociacaoColunasControls() {
     return (<FormArray>this.questionForm.get('associacaoColunas')).controls;
+  }
+
+  getAlternativasVerdadeiroOuFalsoControls() {
+    return (<FormArray>this.questionForm.get('alternativasVerdadeiroOuFalso')).controls;
   }
 
   constructor(private router: Router,
@@ -196,6 +209,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       tagsQuestao: this.fb.array([]),
       alternativasMultiplaEscolha: this.fb.array([]),
       associacaoColunas: this.fb.array([]),
+      alternativasVerdadeiroOuFalso: this.fb.array([]),
       autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
   }
@@ -313,6 +327,13 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         break;
         break;
       case 3: //Verdadeiro ou falso
+        const alternativasVouF = form.alternativasVerdadeiroOuFalso.map(item => {
+          return {
+            descricao: item.descricao,
+            correta: item.correta === 'true' ? true : false
+          }
+        });
+
         const questionTrueOrFalse: fromQuestionsModels.TrueOrFalseQuestion = {
           enunciado: form.enunciado,
           areaDeConhecimento: {
@@ -324,12 +345,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           },
           tipo: form.tipoQuestao,
           tempoMaximoDeResposta: form.tempoMaximoDeResposta,
-          respostaEsperada: [],
+          respostaEsperada: alternativasVouF,
           tags: form.tagsQuestao.map(item => item.descricao),
           usuario: form.autor
         }
-
-        this.questionServiceTrueOrFalse.create(questionMultipleChoice).subscribe(success => {
+        this.questionServiceTrueOrFalse.create(questionTrueOrFalse).subscribe(success => {
           console.log(success);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
@@ -338,6 +358,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         })
         break;
       default:
+        console.log("Tipo de questão não encontrado ou inexistente!");
         break;
     }
 
@@ -448,9 +469,32 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
         break;
       case 3:
-        break;
+        const questionTrueOrFalse: fromQuestionsModels.TrueOrFalseQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: [],
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
+        }
 
+        this.questionServiceTrueOrFalse.create(questionTrueOrFalse).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          console.log(error);
+        })
+        break;
       default:
+        console.log("Tipo selecionado incorreto ou inexistente!");
         break;
     }
   }
@@ -509,8 +553,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   marcar($event, indiceAlternativaCorreta: number) {
-    console.log("Índice resposta correta: ", indiceAlternativaCorreta);
     this.indiceAlternativaCorreta = indiceAlternativaCorreta;
+  }
+
+  addVerdadeiroOuFalso(verdadeiroOuFalso: fromQuestionsModels.AlternativeAnswer = emptyVerdadeiroOuFalso): void {
+    this.alternativasVerdadeiroOuFalso.push(
+      this.fb.group({
+        descricao: [verdadeiroOuFalso.descricao, Validators.required],
+        correta: [verdadeiroOuFalso.correta]
+      })
+    );
+  }
+
+  removeVerdadeiroOuFalso(verdadeiroOuFalsoIndex): void {
+    this.alternativasVerdadeiroOuFalso.removeAt(verdadeiroOuFalsoIndex);
   }
 
   converteIndiceEmAlfabeto(indice: number) {

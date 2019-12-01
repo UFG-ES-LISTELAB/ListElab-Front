@@ -80,7 +80,7 @@
               </mat-form-field>
             </div>
           </div>
-
+          
           <div class="row">
             <div class="col-md-12">
               <mat-form-field class="full-width font-size--12" appearance="outline">
@@ -90,6 +90,7 @@
             </div>
 
           </div>
+          <!--QUESTÕES DO TIPO MÚLTIPLA ESCOLHA-->
           <div *ngIf="questionForm.get('tipoQuestao').value === 1">
             <div class="row">
               <div class="col-md-12">
@@ -101,7 +102,10 @@
                   [formGroupName]="alternativaIndex">
                 <div class="col-md-1">
                   <mat-label>{{alternativaIndex === 0 ? 'A)' : 
-                    alternativaIndex === 1 ? 'B)' : alternativaIndex === 2 ? 'C)' : alternativaIndex === 3 ? 'D)' : alternativaIndex === 4 ? 'E)' : ''
+                               alternativaIndex === 1 ? 'B)' : 
+                               alternativaIndex === 2 ? 'C)' : 
+                               alternativaIndex === 3 ? 'D)' : 
+                               alternativaIndex === 4 ? 'E)' : ''
                   }}</mat-label>
                 </div>
                 <div class="col-md-4" >
@@ -138,7 +142,7 @@
               </div>
             </div>
           </div>
-
+          <!--QUESTÕES DO TIPO ASSOCIAÇÃO DE COLUNAS-->
           <div *ngIf="questionForm.get('tipoQuestao').value === 2">
             <div class="row">
               <div class="col-md-12">
@@ -187,6 +191,61 @@
             </div>
           </div>
 
+          <!--QUESTÕES DO TIPO VERDADEIRO OU FALSO-->
+          <div *ngIf="questionForm.get('tipoQuestao').value === 3">
+            <div class="row">
+              <div class="col-md-12">
+              <h4>Afirmações (Verdadeiro ou Falso)</h4>
+              </div>
+            </div>
+            <div formArrayName="alternativasVerdadeiroOuFalso">
+              <div class="row" *ngFor="let alternativa of getAlternativasVerdadeiroOuFalsoControls(); let verdadeiroOuFalsoIndex = index;"
+                [formGroupName]="verdadeiroOuFalsoIndex">
+              <div class="col-md-1">
+                <mat-label>{{verdadeiroOuFalsoIndex === 0 ? 'A)' : 
+                       verdadeiroOuFalsoIndex === 1 ? 'B)' : 
+                       verdadeiroOuFalsoIndex === 2 ? 'C)' : 
+                       verdadeiroOuFalsoIndex === 3 ? 'D)' : 
+                       verdadeiroOuFalsoIndex === 4 ? 'E)' : ''
+                }}</mat-label>
+              </div>
+              <div class="col-md-4" >
+                <mat-form-field class="full-width font-size--12" appearance="outline">
+                <mat-label>Descrição</mat-label>
+                <input matInput type="text" formControlName="descricao" autocomplete="off">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <div class="full-width font-size--12" appearance="outline">
+                  <mat-radio-group formControlName="correta">
+                    <mat-radio-button value="true">Verdadeira</mat-radio-button>
+                    <mat-radio-button value="false">Falsa</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <button mat-icon-button
+                    type="button"
+                    matTooltip="Remover uma Resposta Esperada"
+                    (click)="removeVerdadeiroOuFalso(verdadeiroOuFalsoIndex)">
+                <mat-icon>remove</mat-icon>
+                </button>
+              </div>
+              </div>
+            </div>
+          
+            <div class="row">
+              <div class="col-md-6" style="text-align: center">
+              <button mat-mini-fab
+                  color="accent"
+                  type="button"
+                  matTooltip="Adicionar alternativa"
+                  *ngIf="this.alternativasVerdadeiroOuFalso.length < 5" (click)="addVerdadeiroOuFalso()">
+                <mat-icon>add</mat-icon>
+              </button>
+              </div>
+            </div>
+          </div>
           <!--COMPONENTE PARA INSERIR A RESPOSTA ESPERADA DE QUESTÕES DISCURSIVAS-->
           <div *ngIf="questionForm.get('tipoQuestao').value === 0">
             <div class="row">
