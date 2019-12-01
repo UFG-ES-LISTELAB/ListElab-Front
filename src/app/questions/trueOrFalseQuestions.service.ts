@@ -3,16 +3,16 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
-import {ObjectiveQuestion} from './questions.model';
+import {TrueOrFalseQuestion} from './questions.model';
 import {API} from "../shared/constants/api.constants";
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class MultiChoiceQuestionsService {
+export class TrueOrFalseQuestionsService {
 
-  selectedQuestion: ObjectiveQuestion;
+  selectedQuestion: TrueOrFalseQuestion;
 
   constructor(private http: HttpClient) {}
 
@@ -29,11 +29,11 @@ export class MultiChoiceQuestionsService {
     return this.http.get(`${environment.api}/${API.questoes.multiplaEscolha}/${id}`);
   }
 
-  create(question: ObjectiveQuestion): Observable<any> {
+  create(question: TrueOrFalseQuestion): Observable<any> {
     return this.http.post(`${environment.api}/${API.questoes.multiplaEscolha}`, question);
   }
 
-  update(question: ObjectiveQuestion): Observable<any> {
+  update(question: TrueOrFalseQuestion): Observable<any> {
     return this.http.put(`${environment.api}/${API.questoes.multiplaEscolha}`, question);
   }
 
