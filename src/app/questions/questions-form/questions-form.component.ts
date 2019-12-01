@@ -1,21 +1,33 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
-import {MultiChoiceQuestionsService} from '../multiChoiceQuestions.service';
-import {TrueOrFalseQuestionsService} from '../trueOrFalseQuestions.service';
-import {AssociacaoColunaService} from '../associacaoColunaQuestions.service';
+import { DiscursiveQuestionsService } from '../discursiveQuestions.service';
+import { MultiChoiceQuestionsService } from '../multiChoiceQuestions.service';
+import { TrueOrFalseQuestionsService } from '../trueOrFalseQuestions.service';
+import { AssociacaoColunaService } from '../associacaoColunaQuestions.service';
 
-import {ApiResponse} from '../../shared/models/api-response.model';
-import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
+import { ApiResponse } from '../../shared/models/api-response.model';
+import { QUESTOES_LISTAR } from '../../shared/constants/routes.contants';
 import * as fromQuestionsModels from '../questions.model';
-import {DisciplinesService} from "../../shared/services/disciplines.service";
-import {AreaConhecimentoService} from "../../shared/services/areaConhecimento.service";
+import { DisciplinesService } from "../../shared/services/disciplines.service";
+import { AreaConhecimentoService } from "../../shared/services/areaConhecimento.service";
+import { QuestionsModule } from '../questions.module';
 
 export const emptyRespostaEsperada = {
   descricao: '',
   peso: 0
+};
+
+export const emptyAssociacaoDeColuna = {
+  colunaPrincipal: {
+    letra: '',
+    descricao: ''
+  },
+  colunaAssociada: {
+    letra: '',
+    descricao: ''
+  }
 };
 
 @Component({
@@ -30,7 +42,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   isLoading: boolean;
 
   // Dados
-  question: fromQuestionsModels.DiscursiveQuestion;
+  question: fromQuestionsModels.Question;
   questionForm: FormGroup;
   disciplinas: fromQuestionsModels.Discipline[] = [];
   areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
@@ -70,27 +82,39 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router,
-              private disciplinesService: DisciplinesService,
-              private areaConhecimentoService: AreaConhecimentoService,
-              private questionService: DiscursiveQuestionsService,
-              private questionServiceMultipleChoice: MultiChoiceQuestionsService,
-              private questionAssociacaoColuna: AssociacaoColunaService,
-              private questionServiceTrueOrFalse: TrueOrFalseQuestionsService,
-              private fb: FormBuilder) { }
+    private disciplinesService: DisciplinesService,
+    private areaConhecimentoService: AreaConhecimentoService,
+    private questionService: DiscursiveQuestionsService,
+    private questionServiceMultipleChoice: MultiChoiceQuestionsService,
+    private questionAssociacaoColunaService: AssociacaoColunaService,
+    private questionServiceTrueOrFalse: TrueOrFalseQuestionsService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.isLoading = false;
-    this.questionService.selectedQuestion ?
-          this.question = this.questionService.selectedQuestion
-      : this.question = fromQuestionsModels.emptyQuestion;
 
+    if(this.questionAssociacaoColunaService.selectedQuestion && this.questionAssociacaoColunaService.selectedQuestion.id)
+    {
+      this.question = this.questionAssociacaoColunaService.selectedQuestion
+    }
+    else if(this.questionService.selectedQuestion && this.questionService.selectedQuestion.id)
+    {
+      this.question = this.questionService.selectedQuestion
+    }
+    else if(this.questionServiceMultipleChoice.selectedQuestion && this.questionServiceMultipleChoice.selectedQuestion.id)
+    {
+      this.question = this.questionServiceMultipleChoice.selectedQuestion
+    } else {
+      this.question = fromQuestionsModels.emptyQuestionGenerica;
+    }
+    
     this.getDisciplinas();
     this.getAreasDeConhecimento();
 
     this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
 
     this.initForm();
-    
+
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
   }
@@ -102,19 +126,40 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     }, error => console.log("Deu erro!"));
   }
 
-  getAreasDeConhecimento() : void {
+  getAreasDeConhecimento(): void {
     this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
       this.areasDeConhecimento = response.resultado;
     }, error => console.log("Deu erro!"));
   }
 
   loadRespostasEsperadasQuestaoAtual(): void {
-    if (this.question && this.question.respostaEsperada ) {
-      const respostasEsperadas = this.question.respostaEsperada;
-      if (respostasEsperadas.length > 0) {
-        respostasEsperadas.map(respostaEsperada => {
-          this.addRespostaEsperada(respostaEsperada);
-        });
+    if (this.question && this.question.id) {
+      if (this.question.tipo === 0) {
+        const questionDiscursiva = this.question as fromQuestionsModels.DiscursiveQuestion;
+        const respostasEsperadas = questionDiscursiva.respostaEsperada;
+        if (respostasEsperadas.length > 0) {
+          respostasEsperadas.map(respostaEsperada => {
+            this.addRespostaEsperada(respostaEsperada);
+          });
+        }
+      }
+      if (this.question.tipo === 1) {
+        const questionDiscursiva = this.question as fromQuestionsModels.ObjectiveQuestion;
+        const respostasEsperadas = questionDiscursiva.respostaEsperada;
+        if (respostasEsperadas.length > 0) {
+          respostasEsperadas.map(respostaEsperada => {
+            this.addAlternativa(respostaEsperada.descricao);
+          });
+        }
+      }
+      if (this.question.tipo === 2) {
+        const questionDiscursiva = this.question as fromQuestionsModels.AssociationColumnsQuestion;
+        const respostasEsperadas = questionDiscursiva.respostaEsperada;
+        if (respostasEsperadas.length > 0) {
+          respostasEsperadas.map(respostaEsperada => {
+            this.addAssociacaoColuna(respostaEsperada);
+          });
+        }
       }
     }
   }
@@ -131,7 +176,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   loadAlternativas(): void {
-    
+
   }
 
   ngOnDestroy() {
@@ -145,7 +190,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
       tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
-      enunciado: [this.question.enunciado, [Validators.required] ],
+      enunciado: [this.question.enunciado, [Validators.required]],
       disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
       respostaEsperada: this.fb.array([]),
       tagsQuestao: this.fb.array([]),
@@ -169,7 +214,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   createQuestion(form: any) {
     this.isLoading = true;
-    switch(form.tipoQuestao) {
+    switch (form.tipoQuestao) {
       case 0: //Questões discursivas
         const question: fromQuestionsModels.DiscursiveQuestion = {
           enunciado: form.enunciado,
@@ -229,43 +274,43 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
         break;
       case 2: //Associação de colunas
-      const associacaoColuna = form.associacaoColunas.map((item, indice) => {
-        return {
-          colunaPrincipal: {
-            letra: this.converteIndiceEmAlfabeto(indice),
-            descricao : item.colunaPrincipal
-          },
-          colunaAssociada: {
-            letra: this.converteIndiceEmAlfabeto(indice),
-            descricao : item.colunaAssociada
+        const associacaoColuna = form.associacaoColunas.map((item, indice) => {
+          return {
+            colunaPrincipal: {
+              letra: this.converteIndiceEmAlfabeto(indice),
+              descricao: item.colunaPrincipal
+            },
+            colunaAssociada: {
+              letra: this.converteIndiceEmAlfabeto(indice),
+              descricao: item.colunaAssociada
+            }
           }
+        });
+
+        const questionAssociacaoColuna: fromQuestionsModels.AssociationColumnsQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: associacaoColuna,
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
         }
-      });
 
-      const questionAssociacaoColuna: fromQuestionsModels.AssociationColumnsQuestion = {
-        enunciado: form.enunciado,
-        areaDeConhecimento: {
-          codigo: form.areaDeConhecimentoId
-        },
-        nivelDificuldade: form.nivelDificuldade,
-        disciplina: {
-          codigo: form.disciplina
-        },
-        tipo: form.tipoQuestao,
-        tempoMaximoDeResposta: form.tempoMaximoDeResposta,
-        respostaEsperada: associacaoColuna,
-        tags: form.tagsQuestao.map(item => item.descricao),
-        usuario: form.autor
-      }
-
-      this.questionAssociacaoColuna.create(questionAssociacaoColuna).subscribe(success => {
-        console.log(success);
-        this.isLoading = false;
-        this.router.navigate([QUESTOES_LISTAR]);
-      }, error => {
-        console.log(error);
-      });
-      break;
+        this.questionAssociacaoColunaService.create(questionAssociacaoColuna).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          console.log(error);
+        });
+        break;
         break;
       case 3: //Verdadeiro ou falso
         const questionTrueOrFalse: fromQuestionsModels.TrueOrFalseQuestion = {
@@ -295,7 +340,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       default:
         break;
     }
-    
+
   }
 
   updateQuestion(form: any) {
@@ -363,6 +408,42 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
         break;
       case 2:
+        const associacaoColuna = form.associacaoColunas.map((item, indice) => {
+          return {
+            colunaPrincipal: {
+              letra: this.converteIndiceEmAlfabeto(indice),
+              descricao: item.colunaPrincipal
+            },
+            colunaAssociada: {
+              letra: this.converteIndiceEmAlfabeto(indice),
+              descricao: item.colunaAssociada
+            }
+          }
+        });
+
+        const questionAssociacaoColuna: fromQuestionsModels.AssociationColumnsQuestion = {
+          enunciado: form.enunciado,
+          areaDeConhecimento: {
+            codigo: form.areaDeConhecimentoId
+          },
+          nivelDificuldade: form.nivelDificuldade,
+          disciplina: {
+            codigo: form.disciplina
+          },
+          tipo: form.tipoQuestao,
+          tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+          respostaEsperada: associacaoColuna,
+          tags: form.tagsQuestao.map(item => item.descricao),
+          usuario: form.autor
+        }
+
+        this.questionAssociacaoColunaService.update(questionAssociacaoColuna).subscribe(success => {
+          console.log(success);
+          this.isLoading = false;
+          this.router.navigate([QUESTOES_LISTAR]);
+        }, error => {
+          console.log(error);
+        });
         break;
       case 3:
         break;
@@ -376,8 +457,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     if (this.respostasEsperadas.length < 5) {
       this.respostasEsperadas.push(
         this.fb.group({
-          descricao:  [respostaEsperada.descricao, Validators.required ],
-          peso:       [respostaEsperada.peso, Validators.required]
+          descricao: [respostaEsperada.descricao, Validators.required],
+          peso: [respostaEsperada.peso, Validators.required]
         })
       );
     }
@@ -408,11 +489,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     )
   }
 
-  addAssociacaoColuna(colunaPrimaria: string = "", colunaSecundaria: string = ""): void {
+  addAssociacaoColuna(associacaoColuna: fromQuestionsModels.AssociationColum = emptyAssociacaoDeColuna): void {
     this.associacaoColunas.push(
       this.fb.group({
-        colunaPrincipal: [colunaPrimaria, Validators.required], 
-        colunaAssociada: [colunaSecundaria, Validators.required], 
+        colunaPrincipal: [associacaoColuna.colunaPrincipal.descricao, Validators.required],
+        colunaAssociada: [associacaoColuna.colunaAssociada.descricao, Validators.required],
       })
     )
   }
@@ -432,7 +513,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   converteIndiceEmAlfabeto(indice: number) {
     let dicionario = {
-      0 : 'A',
+      0: 'A',
       1: 'B',
       2: 'C',
       3: 'D',

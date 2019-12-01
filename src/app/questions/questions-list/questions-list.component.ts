@@ -5,6 +5,8 @@ import {FormBuilder} from '@angular/forms';
 import {Router} from '@angular/router';
 
 import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
+import {MultiChoiceQuestionsService} from '../multiChoiceQuestions.service';
+import {AssociacaoColunaService} from '../associacaoColunaQuestions.service';
 import {LoginService} from '../../login/login.service';
 import {ListsService} from '../../lists/lists.service';
 
@@ -36,7 +38,9 @@ export class QuestionsListComponent implements OnInit {
                 private router: Router,
                 private loginService: LoginService,
                 private listsService: ListsService,
-                private discursiveQuestionsService: DiscursiveQuestionsService) {
+                private discursiveQuestionsService: DiscursiveQuestionsService,
+                private multipleChoiceService: MultiChoiceQuestionsService,
+                private associacaoColunaService: AssociacaoColunaService) {
     }
 
     ngOnInit() {
@@ -99,10 +103,16 @@ export class QuestionsListComponent implements OnInit {
                                 return this.questions = Object.assign([], [...response.resultado.discursiva]);
                             case 1: // multiplaEscolha
                                 return this.questions = Object.assign([], [...response.resultado.multiplaEscolha]);
+                            case 2: // associaçãoColuna
+                                return this.questions = Object.assign([], [...response.resultado.associacaoDeColunas]);
+                            case 3: //VerdadeiroOuFalso
+                                return this.questions = [...this.questions, ...response.resultado.verdadeiroOuFalso];
                             default:
                                 this.questions = [];
                                 this.questions = [...this.questions, ...response.resultado.discursiva];
                                 this.questions = [...this.questions, ...response.resultado.multiplaEscolha];
+                                this.questions = [...this.questions, ...response.resultado.associacaoDeColunas];
+                                this.questions = [...this.questions, ...response.resultado.verdadeiroOuFalso];
                         }
                     }
                 }, error => {
@@ -113,18 +123,42 @@ export class QuestionsListComponent implements OnInit {
                 this.questions = [];
                 this.questions = [...this.questions, ...response.resultado.discursiva];
                 this.questions = [...this.questions, ...response.resultado.multiplaEscolha];
+                this.questions = [...this.questions, ...response.resultado.associacaoDeColunas];
+                this.questions = [...this.questions, ...response.resultado.verdadeiroOuFalso];
             });
         }
     }
 
     onNavQuestionNew() {
         this.discursiveQuestionsService.selectedQuestion = fromQuestionsModels.emptyQuestion;
+        this.associacaoColunaService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
         this.router.navigate([fromRoutesConstants.QUESTOES_FORMULARIO]);
     }
 
     onNavQuestionUpdate($event, question: fromQuestionsModels.Question) {
         $event.stopPropagation();
-        this.discursiveQuestionsService.selectedQuestion = question;
+        
+        // Antes eu preciso garantir que os serviços estão sem questão selecionada.
+        this.discursiveQuestionsService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
+        this.multipleChoiceService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
+        this.associacaoColunaService.selectedQuestion = fromQuestionsModels.emptyQuestionGenerica;
+        
+        // Depois eu adiciono o valor de acordo com o tipo de questão.
+        switch(question.tipo)
+        {
+            case 0:
+                this.discursiveQuestionsService.selectedQuestion = question;
+                break;
+            case 1:
+                    this.multipleChoiceService.selectedQuestion = question;
+                break;
+            case 2:
+                this.associacaoColunaService.selectedQuestion = question;
+                break;
+            case 3:
+                break;
+        }
+        
         this.router.navigate(
             [fromRoutesConstants.QUESTOES_FORMULARIO, question.id]
         );
@@ -144,17 +178,47 @@ export class QuestionsListComponent implements OnInit {
         }).then((result) => {
             if (result.value) {
                 this.isLoading = true;
-                this.discursiveQuestionsService.delete(question.id).subscribe(response => {
-                    this.isLoading = false;
-                    this.questions = this.questions.filter(x => x.id !== question.id);
-                    Swal.fire(
-                        'Removida!',
-                        'Sua questão foi removida.',
-                        'success'
-                    );
-                }, error => {
-                    this.isLoading = false;
-                });
+                switch (question.tipo){
+                    case 0:
+                        this.discursiveQuestionsService.delete(question.id).subscribe(response => {
+                            this.isLoading = false;
+                            this.questions = this.questions.filter(x => x.id !== question.id);
+                            Swal.fire(
+                                'Removida!',
+                                'Sua questão foi removida.',
+                                'success'
+                            );
+                        }, error => {
+                            this.isLoading = false;
+                        });
+                        break;
+                    case 1:
+                            this.multipleChoiceService.delete(question.id).subscribe(response => {
+                                this.isLoading = false;
+                                this.questions = this.questions.filter(x => x.id !== question.id);
+                                Swal.fire(
+                                    'Removida!',
+                                    'Sua questão foi removida.',
+                                    'success'
+                                );
+                            }, error => {
+                                this.isLoading = false;
+                            });
+                            break;
+                    case 2:
+                            this.associacaoColunaService.delete(question.id).subscribe(response => {
+                                this.isLoading = false;
+                                this.questions = this.questions.filter(x => x.id !== question.id);
+                                Swal.fire(
+                                    'Removida!',
+                                    'Sua questão foi removida.',
+                                    'success'
+                                );
+                            }, error => {
+                                this.isLoading = false;
+                            });
+                            break;
+                }
             }
         });
     }

@@ -73,6 +73,22 @@ export const emptyQuestion: DiscursiveQuestion = {
   tempoMaximoDeResposta: 0,
 };
 
+export const emptyQuestionGenerica: Question = {
+  id: null,
+  tipo: 0,
+  enunciado: '',
+  areaDeConhecimento: {
+    codigo: "",
+    descricao: ""
+  },
+  disciplina: {
+    codigo: "",
+    descricao: ""
+  },
+  nivelDificuldade: 1,
+  tempoMaximoDeResposta: 0,
+};
+
 export interface QuestionFiltersDto {
   tipo: number;
   nivelDificuldadeId: number;
