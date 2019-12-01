@@ -105,7 +105,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = false;
-    debugger;
+
     if(this.questionAssociacaoColunaService.selectedQuestion && this.questionAssociacaoColunaService.selectedQuestion.id)
     {
       this.question = this.questionAssociacaoColunaService.selectedQuestion
@@ -479,7 +479,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
         break;
       case 3:
+        const alternativasVouF = form.alternativasVerdadeiroOuFalso.map(item => {
+          return {
+            descricao: item.descricao,
+            correta: item.correta === 'true' ? true : false
+          }
+        });
         const questionTrueOrFalse: fromQuestionsModels.TrueOrFalseQuestion = {
+          id: form.id,
           enunciado: form.enunciado,
           areaDeConhecimento: {
             codigo: form.areaDeConhecimentoId
@@ -490,7 +497,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           },
           tipo: form.tipoQuestao,
           tempoMaximoDeResposta: form.tempoMaximoDeResposta,
-          respostaEsperada: [],
+          respostaEsperada: alternativasVouF,
           tags: form.tagsQuestao.map(item => item.descricao),
           usuario: form.autor
         }
