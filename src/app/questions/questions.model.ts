@@ -24,11 +24,11 @@ export interface TrueOrFalseQuestion extends ObjectiveQuestion {
 }
 
 export interface AssociationColumnsQuestion extends Question {
-  respostaEsperada?: AssociationColum;
+  respostaEsperada?: AssociationColum[];
 }
 
 export interface AssociationColum {
-  colunaPrincipal?: Column;
+  colunaPrincipal: Column;
   colunaAssociada: Column;
 }
 

@@ -5,6 +5,7 @@ import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
 import {MultiChoiceQuestionsService} from '../multiChoiceQuestions.service';
 import {TrueOrFalseQuestionsService} from '../trueOrFalseQuestions.service';
+import {AssociacaoColunaService} from '../associacaoColunaQuestions.service';
 
 import {ApiResponse} from '../../shared/models/api-response.model';
 import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
@@ -48,6 +49,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     return this.questionForm.get('alternativasMultiplaEscolha') as FormArray;
   }
 
+  get associacaoColunas() {
+    return this.questionForm.get('associacaoColunas') as FormArray;
+  }
+
   getRespostaEsperadaControls() {
     return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
   }
@@ -60,11 +65,16 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     return (<FormArray>this.questionForm.get('alternativasMultiplaEscolha')).controls;
   }
 
+  getAssociacaoColunasControls() {
+    return (<FormArray>this.questionForm.get('associacaoColunas')).controls;
+  }
+
   constructor(private router: Router,
               private disciplinesService: DisciplinesService,
               private areaConhecimentoService: AreaConhecimentoService,
               private questionService: DiscursiveQuestionsService,
               private questionServiceMultipleChoice: MultiChoiceQuestionsService,
+              private questionAssociacaoColuna: AssociacaoColunaService,
               private questionServiceTrueOrFalse: TrueOrFalseQuestionsService,
               private fb: FormBuilder) { }
 
@@ -140,6 +150,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       respostaEsperada: this.fb.array([]),
       tagsQuestao: this.fb.array([]),
       alternativasMultiplaEscolha: this.fb.array([]),
+      associacaoColunas: this.fb.array([]),
       autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
     });
   }
@@ -218,7 +229,43 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
         break;
       case 2: //Associação de colunas
-        
+      const associacaoColuna = form.associacaoColunas.map((item, indice) => {
+        return {
+          colunaPrincipal: {
+            letra: this.converteIndiceEmAlfabeto(indice),
+            descricao : item.colunaPrincipal
+          },
+          colunaAssociada: {
+            letra: this.converteIndiceEmAlfabeto(indice),
+            descricao : item.colunaAssociada
+          }
+        }
+      });
+
+      const questionAssociacaoColuna: fromQuestionsModels.AssociationColumnsQuestion = {
+        enunciado: form.enunciado,
+        areaDeConhecimento: {
+          codigo: form.areaDeConhecimentoId
+        },
+        nivelDificuldade: form.nivelDificuldade,
+        disciplina: {
+          codigo: form.disciplina
+        },
+        tipo: form.tipoQuestao,
+        tempoMaximoDeResposta: form.tempoMaximoDeResposta,
+        respostaEsperada: associacaoColuna,
+        tags: form.tagsQuestao.map(item => item.descricao),
+        usuario: form.autor
+      }
+
+      this.questionAssociacaoColuna.create(questionAssociacaoColuna).subscribe(success => {
+        console.log(success);
+        this.isLoading = false;
+        this.router.navigate([QUESTOES_LISTAR]);
+      }, error => {
+        console.log(error);
+      });
+      break;
         break;
       case 3: //Verdadeiro ou falso
         const questionTrueOrFalse: fromQuestionsModels.TrueOrFalseQuestion = {
@@ -361,12 +408,43 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     )
   }
 
+  addAssociacaoColuna(colunaPrimaria: string = "", colunaSecundaria: string = ""): void {
+    this.associacaoColunas.push(
+      this.fb.group({
+        colunaPrincipal: [colunaPrimaria, Validators.required], 
+        colunaAssociada: [colunaSecundaria, Validators.required], 
+      })
+    )
+  }
+
   removeAlternativa(alternativaIndex): void {
     this.alternativasMultiplaEscolha.removeAt(alternativaIndex);
+  }
+
+  removeAssociacaoDeColuna(colunaIndex): void {
+    this.associacaoColunas.removeAt(colunaIndex);
   }
 
   marcar($event, indiceAlternativaCorreta: number) {
     console.log("Índice resposta correta: ", indiceAlternativaCorreta);
     this.indiceAlternativaCorreta = indiceAlternativaCorreta;
+  }
+
+  converteIndiceEmAlfabeto(indice: number) {
+    let dicionario = {
+      0 : 'A',
+      1: 'B',
+      2: 'C',
+      3: 'D',
+      4: 'E',
+      5: 'F',
+      6: 'G',
+      7: 'H',
+      8: 'I',
+      9: 'J',
+      10: 'K'
+    }
+
+    return dicionario[indice];
   }
 }

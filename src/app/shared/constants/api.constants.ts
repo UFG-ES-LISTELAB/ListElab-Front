@@ -6,6 +6,7 @@ export const API = {
   questoes: {
     discursiva: 'QuestaoDiscursiva',
     multiplaEscolha: 'QuestaoMultiplaEscolha',
+    associacaoColuna: 'QuestaoAssociacaoDeColunas'
   },
   listas: {
     base: 'Lista'
