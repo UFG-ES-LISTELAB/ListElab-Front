@@ -384,6 +384,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
 
         const questionMultipleChoice: fromQuestionsModels.ObjectiveQuestion = {
+          id: form.id,
           enunciado: form.enunciado,
           areaDeConhecimento: {
             codigo: form.areaDeConhecimentoId
@@ -422,6 +423,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         });
 
         const questionAssociacaoColuna: fromQuestionsModels.AssociationColumnsQuestion = {
+          id: form.id,
           enunciado: form.enunciado,
           areaDeConhecimento: {
             codigo: form.areaDeConhecimentoId
