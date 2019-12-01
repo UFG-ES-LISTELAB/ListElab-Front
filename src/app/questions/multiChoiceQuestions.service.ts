@@ -3,7 +3,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '../../environments/environment';
-import {Question } from './questions.model';
+import {ObjectiveQuestion} from './questions.model';
 import {API} from "../shared/constants/api.constants";
 
 
@@ -12,7 +12,7 @@ import {API} from "../shared/constants/api.constants";
 })
 export class MultiChoiceQuestionsService {
 
-  selectedQuestion: Question;
+  selectedQuestion: ObjectiveQuestion;
 
   constructor(private http: HttpClient) {}
 
@@ -29,11 +29,11 @@ export class MultiChoiceQuestionsService {
     return this.http.get(`${environment.api}/${API.questoes.multiplaEscolha}/${id}`);
   }
 
-  create(question: Question): Observable<any> {
+  create(question: ObjectiveQuestion): Observable<any> {
     return this.http.post(`${environment.api}/${API.questoes.multiplaEscolha}`, question);
   }
 
-  update(question: Question): Observable<any> {
+  update(question: ObjectiveQuestion): Observable<any> {
     return this.http.put(`${environment.api}/${API.questoes.multiplaEscolha}`, question);
   }
 

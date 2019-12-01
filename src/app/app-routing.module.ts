@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
+import {AuthGuardService} from './shared/guards/routes.guard';
+
 import {ROUTES} from './shared/constants/routes.contants';
 
 
@@ -17,10 +19,12 @@ const routes: Routes = [
   },
   {
     path: ROUTES.questoes.base,
+    canActivateChild: [AuthGuardService],
     loadChildren: () => import('./questions/questions.module').then(m => m.QuestionsModule)
   },
   {
     path: ROUTES.listas.base,
+    canActivateChild: [AuthGuardService],
     loadChildren: () => import('./lists/lists.module').then(m => m.ListsModule)
   }
   // {

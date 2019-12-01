@@ -19,7 +19,9 @@ import {
   MatTooltipModule,
   MatSnackBarModule,
   MatCheckboxModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatFormFieldModule,
+  MatRadioModule
 } from '@angular/material';
 
 const MATERIAL_MODULES = [
@@ -27,7 +29,9 @@ const MATERIAL_MODULES = [
   MatButtonModule,
   MatIconModule,
   MatInputModule,
+  MatFormFieldModule,
   MatTableModule,
+  MatRadioModule,
   MatPaginatorModule,
   MatCardModule,
   MatMenuModule,
