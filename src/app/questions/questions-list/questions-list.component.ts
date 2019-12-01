@@ -33,8 +33,12 @@ export class QuestionsListComponent implements OnInit {
     isLoading: boolean;
 
 
-    novaLista = () => {
+    getNovaLista() {
         return this.listsService.novaLista;
+    }
+
+    qtdQuestoesNovaLista(): number {
+        return this.listsService.novaLista.qtdQuestoes;
     }
 
 

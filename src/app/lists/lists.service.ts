@@ -5,17 +5,28 @@ import {environment} from '../../environments/environment';
 
 import {API} from '../shared/constants/api.constants';
 import * as fromListsModels from './lists.model';
-import * as fromQuestionsModels from '../questions/questions.model';
 import {Question} from '../questions/questions.model';
 
-interface NovaLista {
-    titulo: string;
-    questoesDiscursiva: any[];
-    questoesMultiplaEscolha: any[];
-    questoesAssociacaoDeColunas: any[];
-    questoesVerdadeiroOuFalso: any[];
-    prontaParaAplicacao: boolean;
-    usuario: string;
+// titulo: string;
+// questoesDiscursiva: any[];
+// questoesMultiplaEscolha: any[];
+// questoesAssociacaoDeColunas: any[];
+// questoesVerdadeiroOuFalso: any[];
+// prontaParaAplicacao: boolean;
+// usuario: string;
+// qtdQuestoes: number;
+
+class ListaConcreta {
+    constructor(
+        public titulo = '',
+        public questoesDiscursiva = [],
+        public questoesMultiplaEscolha = [],
+        public questoesAssociacaoDeColunas = [],
+        public questoesVerdadeiroOuFalso = [],
+        public prontaParaAplicacao = false,
+        public usuario = 'professor@ufg.br',
+        public qtdQuestoes = 0
+    ) {}
 }
 
 @Injectable({
@@ -23,14 +34,13 @@ interface NovaLista {
 })
 export class ListsService {
 
+    // Nova Lista
+    novaLista: ListaConcreta = null;
+
     selectedList: fromListsModels.List;
     questionsList: Question[];
 
     constructor(private http: HttpClient) {}
-
-    // Irá se tornar um novo servico daqui para baixo
-
-    novaLista: NovaLista = null;
 
     getAll(params?): Observable<any> {
         return this.http.get(`${environment.api}/${API.listas.base}`);
@@ -52,16 +62,9 @@ export class ListsService {
         return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
     }
 
+    // Nova Lista
     inicializarNovaLista() {
-        this.novaLista = new class implements NovaLista {
-            titulo = '';
-            questoesDiscursiva = [];
-            questoesMultiplaEscolha = [];
-            questoesAssociacaoDeColunas = [];
-            questoesVerdadeiroOuFalso = [];
-            prontaParaAplicacao: false;
-            usuario: '';
-        };
+        this.novaLista = new ListaConcreta();
     }
 
     cancelarNovaLista() {
@@ -77,10 +80,12 @@ export class ListsService {
             case 0:
                 console.log('Discursiva');
                 this.novaLista.questoesDiscursiva.push(questao);
+                this.novaLista.qtdQuestoes = this.novaLista.qtdQuestoes + 1;
                 break;
             case 1:
                 console.log('Multipla Escolha');
                 this.novaLista.questoesMultiplaEscolha.push(questao);
+                this.novaLista.qtdQuestoes = this.novaLista.qtdQuestoes + 1;
                 break;
             default:
                 console.log('Não sei');
