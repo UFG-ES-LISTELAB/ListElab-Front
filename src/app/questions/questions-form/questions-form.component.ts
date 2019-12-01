@@ -1,13 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
+import * as fromQuestionsModels from '../questions.model';
+import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
 import {DiscursiveQuestionsService} from '../discursiveQuestions.service';
 import {ApiResponse} from '../../shared/models/api-response.model';
-import {QUESTOES_LISTAR} from '../../shared/constants/routes.contants';
-import * as fromQuestionsModels from '../questions.model';
-import {DisciplinesService} from "../../shared/services/disciplines.service";
-import {AreaConhecimentoService} from "../../shared/services/areaConhecimento.service";
+import {DisciplinesService} from '../../shared/services/disciplines.service';
+import {AreaConhecimentoService} from '../../shared/services/areaConhecimento.service';
 
 export const emptyRespostaEsperada = {
   descricao: '',
@@ -24,9 +24,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   // Automação da tela
   screenTitle: string;
   isLoading: boolean;
+  isEditing: boolean;
 
   // Dados
-  question: fromQuestionsModels.DiscursiveQuestion;
+  question: any;
   questionForm: FormGroup;
   disciplinas: fromQuestionsModels.Discipline[] = [];
   areasDeConhecimento: fromQuestionsModels.KnowlegdeArea[] = [];
@@ -40,47 +41,67 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   getRespostaEsperadaControls() {
-    return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
+    return (this.questionForm.get('respostaEsperada') as FormArray).controls;
   }
 
   getTagsQuestaoControls() {
-    return (<FormArray>this.questionForm.get('tagsQuestao')).controls;
+    return (this.questionForm.get('tagsQuestao') as FormArray).controls;
   }
 
   constructor(private router: Router,
+              private activatedRoute: ActivatedRoute,
               private disciplinesService: DisciplinesService,
               private areaConhecimentoService: AreaConhecimentoService,
               private questionService: DiscursiveQuestionsService,
               private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.isLoading = false;
-    this.questionService.selectedQuestion ?
-          this.question = this.questionService.selectedQuestion
-      : this.question = fromQuestionsModels.emptyQuestion;
+    this.isLoading = true;
+    this.isEditing = !!this.activatedRoute.snapshot.params.id;
 
+    if ( this.isEditing ) {
+      this.questionService.getOne(this.activatedRoute.snapshot.params.id).subscribe(question => {
+        this.question = question.resultado;
+        this.initialize();
+      });
+    } else {
+      this.question = fromQuestionsModels.emptyQuestion;
+      this.initialize();
+    }
+  }
+
+  initialize() {
+    this.isEditingOrNot();
+    this.initForm();
     this.getDisciplinas();
     this.getAreasDeConhecimento();
-
-    this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
-
-    this.initForm();
-
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
+    this.isLoading = false;
+  }
+
+  isEditingOrNot() {
+    this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
   }
 
   getDisciplinas(): void {
     this.disciplinesService.getAll().subscribe((response: ApiResponse) => {
       this.disciplinas = response.resultado;
       this.isLoading = false;
-    }, error => console.log("Deu erro!"));
+    }, error => {
+      console.error(error);
+      this.isLoading = false;
+    });
   }
 
-  getAreasDeConhecimento() : void {
+  getAreasDeConhecimento(): void {
     this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
       this.areasDeConhecimento = response.resultado;
-    }, error => console.log("Deu erro!"));
+      this.isLoading = false;
+    }, error => {
+      console.error(error);
+      this.isLoading = false;
+    });
   }
 
   loadRespostasEsperadasQuestaoAtual(): void {
@@ -113,14 +134,14 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.questionForm = this.fb.group({
       id: this.question.id,
       tipoQuestao: this.question.tipo,
-      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
+      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : '',
       tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required] ],
-      disciplina: this.question.disciplina ? this.question.disciplina.codigo : "",
+      disciplina: this.question.disciplina ? this.question.disciplina.codigo : '',
       respostaEsperada: this.fb.array([]),
       tagsQuestao: this.fb.array([]),
-      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
+      autor: this.question.usuario ? this.question.usuario : 'professor@ufg.br'
     });
   }
 
@@ -129,7 +150,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   submitted() {
-    if (!this.question.id) {
+    if (this.isEditing) {
       this.createQuestion(this.questionForm.value);
     } else {
       this.updateQuestion(this.questionForm.value);
@@ -202,11 +223,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       );
     }
   }
+
   removeRespostaEsperada(resEsperadaIndex) {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
   }
 
-  addTag(tag: string = ""): void {
+  addTag(tag: string = ''): void {
     this.tagsQuestao.push(
       this.fb.group({
         descricao: [tag, Validators.required]

@@ -32,16 +32,6 @@ export class QuestionsListComponent implements OnInit {
     hasError: any;
     isLoading: boolean;
 
-
-    getNovaLista() {
-        return this.listsService.novaLista;
-    }
-
-    qtdQuestoesNovaLista(): number {
-        return this.listsService.novaLista.qtdQuestoes;
-    }
-
-
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private loginService: LoginService,
@@ -50,7 +40,12 @@ export class QuestionsListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getNovaLista();
         this.onSearch();
+    }
+
+    getNovaLista() {
+        return this.listsService.novaLista;
     }
 
     onSearch(params?) {
@@ -135,7 +130,7 @@ export class QuestionsListComponent implements OnInit {
 
     onNavQuestionUpdate($event, question: fromQuestionsModels.Question) {
         $event.stopPropagation();
-        this.discursiveQuestionsService.selectedQuestion = question;
+        // this.discursiveQuestionsService.selectedQuestion = question;
         this.router.navigate(
             [fromRoutesConstants.QUESTOES_FORMULARIO, question.id]
         );
@@ -170,8 +165,8 @@ export class QuestionsListComponent implements OnInit {
         });
     }
 
-    onSelect(question: fromQuestionsModels.Question) {
-        // TODO: Implementar, pois estava dando erro de build.
+    onNavBackToList() {
+        this.router.navigate(['/listas/formulario' ]);
     }
 
     iniciarNovaLista() {

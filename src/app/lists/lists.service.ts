@@ -64,7 +64,7 @@ export class ListsService {
 
     // Nova Lista
     inicializarNovaLista() {
-        this.novaLista = new ListaConcreta();
+        return this.novaLista = new ListaConcreta();
     }
 
     cancelarNovaLista() {

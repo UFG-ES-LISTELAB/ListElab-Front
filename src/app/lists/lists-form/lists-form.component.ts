@@ -1,92 +1,108 @@
-import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnChanges, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
-import {LISTAS_LISTAR} from "../../shared/constants/routes.contants";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {LISTAS_LISTAR} from '../../shared/constants/routes.contants';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
-import {ListsService} from "../lists.service";
-import * as fromListsModels from '../../lists/lists.model';
-import * as fromQuestionsModels from '../../questions/questions.model';
-
-import {DiscursiveQuestionsService} from "../../questions/discursiveQuestions.service";
-import {ApiResponse} from "../../shared/models/api-response.model";
-import {List} from '../lists.model';
-import {Question} from '../../questions/questions.model';
-
+import {ListsService} from '../lists.service';
 
 
 @Component({
-  selector: 'app-lists-form',
-  templateUrl: './lists-form.component.html',
-  styleUrls: ['./lists-form.component.scss']
+    selector: 'app-lists-form',
+    templateUrl: './lists-form.component.html',
+    styleUrls: ['./lists-form.component.scss']
 })
 export class ListsFormComponent implements OnInit {
 
-  isLoading: boolean = false;
-  hasError = null;
-  screenTitle: string;
-  listForm: FormGroup;
+    isLoading = false;
+    isEditing = false;
+    hasError = null;
+    screenTitle = '';
 
-  selectedList: List;
-  selectedDiscursivas: Question[];
-  questions: fromQuestionsModels.Question[];
+    list: any;
+    listForm: FormGroup;
 
-  constructor(private fb: FormBuilder,
-              private questionsService: DiscursiveQuestionsService,
-              private listsService: ListsService,
-              private router: Router) { }
+    constructor(private fb: FormBuilder,
+                private activatedRoute: ActivatedRoute,
+                private listsService: ListsService,
+                private router: Router) {}
 
-  ngOnInit() {
-    this.listsService.selectedList ?
-      this.selectedList = this.listsService.selectedList
-      : this.selectedList = fromListsModels.emptyList;
-    this.selectedList.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+    ngOnInit() {
+        this.isLoading = true;
+        this.isEditing = !!this.activatedRoute.snapshot.params.id;
 
-    this.getQuestions();
-
-    this.listForm = this.fb.group({
-      id: this.selectedList.id ? this.selectedList.id : null,
-      titulo: this.selectedList.titulo,
-      usuario: this.selectedList.usuario ? this.selectedList.usuario : "professor@ufg.br"
-    });
-
-    this.selectedDiscursivas = this.selectedList.discursivas.length === 0 ? [] : [...this.selectedList.discursivas];
-  }
-
-  returnToList() {
-    this.router.navigate([LISTAS_LISTAR]);
-  }
-
-  submit() {
-    const form = this.listForm.value;
-
-    const result = {
-      titulo: form.titulo,
-      nivelDificuldade: form.nivelDificuldade,
-      areaDeConhecimento: {
-        codigo: form.areaDeConhecimentoId
-      },
-      disciplina: {
-        codigo: form.disciplinaId
-      },
-      usuario: form.usuario,
-      questoesDiscursiva: [...this.selectedDiscursivas ]
-    };
-
-    if (!this.selectedList.id) {
-      this.listsService.create(result).subscribe(x => console.log(x));
-      this.router.navigate(['/listas']);
-    } else {
-      this.listsService.update(Object.assign({}, result, { id: form.id })).subscribe(x => console.log(x));
-      this.router.navigate(['/listas']);
+        if ( this.isEditing ) {
+            this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
+                this.list = list.resultado;
+                this.initialize();
+            });
+        } else {
+            if (this.listsService.isListaInicializada()) {
+                this.list = this.listsService.novaLista;
+            } else {
+                this.list = this.listsService.inicializarNovaLista();
+            }
+            this.initialize();
+        }
     }
-  }
 
-  getQuestions() {
-    this.questionsService.getAll().subscribe((x: ApiResponse) => this.questions = x.resultado);
-  }
+    initialize() {
+        this.isEditingOrNot();
+        this.initForm();
+        this.list = this.getNovalista();
+        this.isLoading = false;
+    }
 
-  addQuestion(question: fromQuestionsModels.Question) {
-    this.selectedDiscursivas.push(question);
-  }
+    isEditingOrNot() {
+        this.list.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+    }
+
+    getNovalista() {
+        return this.listsService.novaLista;
+    }
+
+    initForm() {
+        this.listForm = this.fb.group({
+            id: this.list.id ? this.list.id : null,
+            titulo: this.list.titulo,
+            prontaParaAplicacao: false,
+            usuario: this.list.usuario ?
+                this.list.usuario :
+                'professor@ufg.br'
+        });
+    }
+
+    returnToList(): void {
+        if (!this.isEditing) {
+            this.listsService.cancelarNovaLista();
+        }
+        this.router.navigate([LISTAS_LISTAR]);
+    }
+
+    submit() {
+        const form = this.listForm.value;
+        const result = {
+            titulo: form.titulo,
+            prontaParaAplicacao: form.prontaParaAplicacao,
+            usuario: form.usuario
+        };
+        if (!this.isEditing) {
+            this.router.navigate(['/listas']);
+        } else {
+            this.router.navigate(['/listas', form.id]);
+        }
+    }
+
+    navAddQuestions() {
+        this.listsService.create(this.listForm).subscribe(list => {
+            this.list = list;
+        });
+        this.router.navigate(['/questoes']);
+    }
+
+    saveList() {
+        this.listsService.create(this.list).subscribe(x => {
+            console.log(x);
+        });
+    }
 }
