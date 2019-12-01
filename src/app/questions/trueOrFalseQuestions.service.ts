@@ -17,28 +17,28 @@ export class TrueOrFalseQuestionsService {
   constructor(private http: HttpClient) {}
 
   getAll(): Observable<any> {
-    return this.http.get(`${environment.api}/${API.questoes.multiplaEscolha}`);
+    return this.http.get(`${environment.api}/${API.questoes.verdadeiroOuFalso}`);
   }
 
   getWithParams(params): Observable<any> {
     console.log(params);
-    return this.http.get(`${environment.api}/${API.questoes.multiplaEscolha}/filtro`, { params });
+    return this.http.get(`${environment.api}/${API.questoes.verdadeiroOuFalso}/filtro`, { params });
   }
 
   getOne(id, params?): Observable<any> {
-    return this.http.get(`${environment.api}/${API.questoes.multiplaEscolha}/${id}`);
+    return this.http.get(`${environment.api}/${API.questoes.verdadeiroOuFalso}/${id}`);
   }
 
   create(question: TrueOrFalseQuestion): Observable<any> {
-    return this.http.post(`${environment.api}/${API.questoes.multiplaEscolha}`, question);
+    return this.http.post(`${environment.api}/${API.questoes.verdadeiroOuFalso}`, question);
   }
 
   update(question: TrueOrFalseQuestion): Observable<any> {
-    return this.http.put(`${environment.api}/${API.questoes.multiplaEscolha}`, question);
+    return this.http.put(`${environment.api}/${API.questoes.verdadeiroOuFalso}`, question);
   }
 
   delete(id): Observable<any> {
-    return this.http.delete(`${environment.api}/${API.questoes.multiplaEscolha}/${id}`);
+    return this.http.delete(`${environment.api}/${API.questoes.verdadeiroOuFalso}/${id}`);
   }
 
 }
