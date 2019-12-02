@@ -57,9 +57,10 @@ export class ListsFormComponent implements OnInit {
                 }
             }
         } else {
+            // Se nova questao.
+            // Lista já está iniciada? Sim. Mantenha
+            // Lista já está iniciada? Não. Inicie-a
             if (this.listsService.isListaInicializada()) {
-                this.listsService.cancelarNovaLista();
-                this.listsService.inicializarNovaLista();
                 this.initializeScreen();
                 this.extractQuestionsFromNovaLista();
             } else {

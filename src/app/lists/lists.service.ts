@@ -43,7 +43,9 @@ export class ListsService {
 
     create(): Observable<any> {
         this.editing = false;
-        return this.http.post(`${environment.api}/${API.listas.base}`, this.novaLista);
+        const nova = this.novaLista;
+        delete nova.id;
+        return this.http.post(`${environment.api}/${API.listas.base}`, nova);
     }
 
     update(): Observable<any> {
@@ -59,7 +61,7 @@ export class ListsService {
     // ===================== Nova Lista ==========================
     inicializarNovaLista(lista = null) {
         this.editing = true;
-        if (lista.id !== null) {
+        if (lista !== null && lista.id !== null) {
             return this.novaLista = Object.assign({}, {...lista});
         }
         return this.novaLista = new ListaConcreta();
