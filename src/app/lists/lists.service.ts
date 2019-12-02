@@ -50,12 +50,12 @@ export class ListsService {
         return this.http.get(`${environment.api}/${API.listas.base}/${id}`);
     }
 
-    create(list: any): Observable<any> {
-        return this.http.post(`${environment.api}/${API.listas.base}`, list);
+    create(): Observable<any> {
+        return this.http.post(`${environment.api}/${API.listas.base}`, this.novaLista);
     }
 
-    update(list: any): Observable<any> {
-        return this.http.put(`${environment.api}/${API.listas.base}`, list);
+    update(): Observable<any> {
+        return this.http.put(`${environment.api}/${API.listas.base}`, this.novaLista);
     }
 
     delete(id): Observable<any> {
@@ -73,6 +73,10 @@ export class ListsService {
 
     isListaInicializada() {
         return this.novaLista !== null;
+    }
+
+    updateNovaListaValue(lista) {
+        this.novaLista = Object.assign({}, this.novaLista, ...lista);
     }
 
     onAddQuestaoToNovaLista(questao) {

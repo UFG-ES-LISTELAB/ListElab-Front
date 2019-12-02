@@ -81,11 +81,12 @@ export class ListsFormComponent implements OnInit {
 
     submit() {
         const form = this.listForm.value;
-        const result = {
-            titulo: form.titulo,
-            prontaParaAplicacao: form.prontaParaAplicacao,
-            usuario: form.usuario
-        };
+        // const result = {
+        //     titulo: form.titulo,
+        //     prontaParaAplicacao: form.prontaParaAplicacao,
+        //     usuario: form.usuario
+        // };
+        this.listsService.updateNovaListaValue(form);
         if (!this.isEditing) {
             this.router.navigate(['/listas']);
         } else {
@@ -94,15 +95,22 @@ export class ListsFormComponent implements OnInit {
     }
 
     navAddQuestions() {
-        this.listsService.create(this.listForm).subscribe(list => {
-            this.list = list;
-        });
+        const form = this.listForm.value;
+        this.listsService.novaLista.titulo = form.titulo;
+        this.listsService.novaLista.prontaParaAplicacao = form.prontaParaAplicacao;
+        this.listsService.novaLista.usuario = form.usuario;
         this.router.navigate(['/questoes']);
     }
 
     saveList() {
-        this.listsService.create(this.list).subscribe(x => {
-            console.log(x);
-        });
+        if (!this.isEditing) {
+            this.listsService.create().subscribe(x => {
+                console.log(x);
+            });
+        } else {
+            this.listsService.update().subscribe(x => {
+                console.log(x);
+            });
+        }
     }
 }
