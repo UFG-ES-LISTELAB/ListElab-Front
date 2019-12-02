@@ -26,6 +26,9 @@ export class ListsFormComponent implements OnInit {
                 private listsService: ListsService,
                 private router: Router) {}
 
+    // Tem id? Sim. Já tem lista iniciada? Sim. O id é igual ao da tela? Sim. Mantem a lista iniciada na memória.
+    // Tem id? Sim. Já tem lista iniciada? Sim. O id é igual ao da tela? Não. Finaliza a lista iniciada antes e traz o novo
+
     ngOnInit() {
         this.isLoading = true;
         this.isEditing = !!this.activatedRoute.snapshot.params.id;
@@ -33,21 +36,30 @@ export class ListsFormComponent implements OnInit {
         if ( this.isEditing ) {
             if (!this.listsService.isListaInicializada()) {
                 this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
-                    this.listsService.novaLista = list.resultado;
+                    this.listsService.inicializarNovaLista(list.resultado);
                     this.extractQuestionsFromNovaLista();
-                    this.initialize();
                 });
+            } else {
+                if (this.activatedRoute.snapshot.params.id === this.listsService.novaLista.id) {
+                    console.log('id igual ao da lista em edição');
+                    this.extractQuestionsFromNovaLista();
+                } else {
+                    console.log('id difere da lista em edicao. Fecharei a lista em aberto e abrirei a edicao da nova lista');
+                    this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
+                        this.listsService.cancelarNovaLista();
+                        this.listsService.inicializarNovaLista(list.resultado);
+                        this.extractQuestionsFromNovaLista();
+                    });
+                }
             }
         } else {
             if (this.listsService.isListaInicializada()) {
-                this.initialize();
-            } else {
-                this.initialize();
             }
         }
+        this.initializeScreen();
     }
 
-    initialize() {
+    initializeScreen() {
         this.defineScreenTitle();
         this.initializeForm();
         this.isLoading = false;

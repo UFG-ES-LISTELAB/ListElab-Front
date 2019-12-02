@@ -59,8 +59,8 @@ export class ListsService {
     // ===================== Nova Lista ==========================
     inicializarNovaLista(lista = null) {
         this.editing = true;
-        if (lista.id) {
-            return this.novaLista = new ListaConcreta(...lista);
+        if (lista.id !== null) {
+            return this.novaLista = Object.assign({}, {...lista});
         }
         return this.novaLista = new ListaConcreta();
     }
@@ -75,7 +75,7 @@ export class ListsService {
     }
 
     updateNovaListaValue(lista) {
-        this.novaLista = Object.assign({}, { ...this.novaLista }, {...lista });
+        this.novaLista = Object.assign({}, { ...this.novaLista }, { ...lista });
     }
 
     onAddQuestaoToNovaLista(questao) {
