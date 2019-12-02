@@ -166,7 +166,11 @@ export class QuestionsListComponent implements OnInit {
     }
 
     onNavBackToList() {
-        this.router.navigate(['/listas/formulario' ]);
+        if (this.listsService.novaLista.id) {
+            this.router.navigate(['/listas/formulario', this.listsService.novaLista.id ]);
+        } else {
+            this.router.navigate(['/listas/formulario' ]);
+        }
     }
 
     iniciarNovaLista() {
@@ -183,7 +187,6 @@ export class QuestionsListComponent implements OnInit {
 
     addQuestaoToNovaLista(event, questao: any) {
         event.stopPropagation();
-
         if (this.isListaInicializada()) {
             this.listsService.onAddQuestaoToNovaLista(questao);
         } else {

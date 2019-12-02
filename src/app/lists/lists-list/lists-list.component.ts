@@ -45,7 +45,6 @@ export class ListsListComponent implements OnInit {
     }
 
     onNew() {
-        this.listsService.selectedList = fromListsModels.emptyList;
         this.router.navigate([fromRoutesConstants.LISTAS_FORMULARIO]);
     }
 

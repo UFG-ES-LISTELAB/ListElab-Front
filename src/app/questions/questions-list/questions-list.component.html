@@ -5,17 +5,12 @@
 <mat-card class="card-list-edition" *ngIf="isListaInicializada()">
   <div class="title">
     <h4>Lista: {{ getNovaLista()?.titulo === '' ? 'Sem nome' : getNovaLista()?.titulo }}</h4>
-    <p style="padding-left: 20px;">
-      Qtd. Questões: {{ getNovaLista()?.qtdQuestoes > 0 ? getNovaLista()?.qtdQuestoes : 'Nenhuma' }}
-    </p>
+    <p style="padding-left: 20px;">Qtd. Questões: {{ this.listsService.qtdQuestoes > 0 ? this.listsService.qtdQuestoes : 'Nenhuma' }}</p>
   </div>
   <div (click)="onNavBackToList()">
     <button mat-stroked-button color="primary">Voltar para a Lista</button>
   </div>
 </mat-card>
-
-<!--<button *ngIf="!isListaInicializada()" (click)="iniciarNovaLista()">Iniciar Nova Lista</button>-->
-<!--<button *ngIf="isListaInicializada()" (click)="cancelarNovaLista()">Cancelar Nova Lista</button>-->
 
 <div class="container-fluid pb-5n">
   <div class="row">

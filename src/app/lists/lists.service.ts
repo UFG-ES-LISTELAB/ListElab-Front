@@ -4,28 +4,20 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 
 import {API} from '../shared/constants/api.constants';
-import * as fromListsModels from './lists.model';
-import {Question} from '../questions/questions.model';
-
-// titulo: string;
-// questoesDiscursiva: any[];
-// questoesMultiplaEscolha: any[];
-// questoesAssociacaoDeColunas: any[];
-// questoesVerdadeiroOuFalso: any[];
-// prontaParaAplicacao: boolean;
-// usuario: string;
-// qtdQuestoes: number;
 
 class ListaConcreta {
+
     constructor(
+        public id = null,
         public titulo = '',
+        public nivelDeDificuldade = 0,
         public questoesDiscursiva = [],
         public questoesMultiplaEscolha = [],
         public questoesAssociacaoDeColunas = [],
         public questoesVerdadeiroOuFalso = [],
         public prontaParaAplicacao = false,
-        public usuario = 'professor@ufg.br',
-        public qtdQuestoes = 0
+        public usuario = '',
+        public tiposDeQuestao = [0]
     ) {}
 }
 
@@ -36,9 +28,8 @@ export class ListsService {
 
     // Nova Lista
     novaLista: ListaConcreta = null;
-
-    selectedList: fromListsModels.List;
-    questionsList: Question[];
+    editing = false;
+    qtdQuestoes = 0;
 
     constructor(private http: HttpClient) {}
 
@@ -51,23 +42,31 @@ export class ListsService {
     }
 
     create(): Observable<any> {
+        this.editing = false;
         return this.http.post(`${environment.api}/${API.listas.base}`, this.novaLista);
     }
 
     update(): Observable<any> {
+        this.editing = false;
         return this.http.put(`${environment.api}/${API.listas.base}`, this.novaLista);
     }
 
     delete(id): Observable<any> {
+        this.editing = false;
         return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
     }
 
-    // Nova Lista
-    inicializarNovaLista() {
+    // ===================== Nova Lista ==========================
+    inicializarNovaLista(lista = null) {
+        this.editing = true;
+        if (lista.id) {
+            return this.novaLista = new ListaConcreta(...lista);
+        }
         return this.novaLista = new ListaConcreta();
     }
 
     cancelarNovaLista() {
+        this.editing = false;
         this.novaLista = null;
     }
 
@@ -76,7 +75,7 @@ export class ListsService {
     }
 
     updateNovaListaValue(lista) {
-        this.novaLista = Object.assign({}, this.novaLista, ...lista);
+        this.novaLista = Object.assign({}, { ...this.novaLista }, {...lista });
     }
 
     onAddQuestaoToNovaLista(questao) {
@@ -84,12 +83,12 @@ export class ListsService {
             case 0:
                 console.log('Discursiva');
                 this.novaLista.questoesDiscursiva.push(questao);
-                this.novaLista.qtdQuestoes = this.novaLista.qtdQuestoes + 1;
+                this.qtdQuestoes = this.qtdQuestoes + 1;
                 break;
             case 1:
                 console.log('Multipla Escolha');
                 this.novaLista.questoesMultiplaEscolha.push(questao);
-                this.novaLista.qtdQuestoes = this.novaLista.qtdQuestoes + 1;
+                this.qtdQuestoes = this.qtdQuestoes + 1;
                 break;
             default:
                 console.log('Não sei');

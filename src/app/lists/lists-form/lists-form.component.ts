@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChange, SimpleChanges} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LISTAS_LISTAR} from '../../shared/constants/routes.contants';
@@ -18,9 +18,8 @@ export class ListsFormComponent implements OnInit {
     isEditing = false;
     hasError = null;
     screenTitle = '';
-
-    list: any;
     listForm: FormGroup;
+    questions = [];
 
     constructor(private fb: FormBuilder,
                 private activatedRoute: ActivatedRoute,
@@ -32,47 +31,47 @@ export class ListsFormComponent implements OnInit {
         this.isEditing = !!this.activatedRoute.snapshot.params.id;
 
         if ( this.isEditing ) {
-            this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
-                this.list = list.resultado;
-                this.initialize();
-            });
+            if (!this.listsService.isListaInicializada()) {
+                this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
+                    this.listsService.novaLista = list.resultado;
+                    this.extractQuestionsFromNovaLista();
+                    this.initialize();
+                });
+            }
         } else {
             if (this.listsService.isListaInicializada()) {
-                this.list = this.listsService.novaLista;
+                this.initialize();
             } else {
-                this.list = this.listsService.inicializarNovaLista();
+                this.initialize();
             }
-            this.initialize();
         }
     }
 
     initialize() {
-        this.isEditingOrNot();
-        this.initForm();
-        this.list = this.getNovalista();
+        this.defineScreenTitle();
+        this.initializeForm();
         this.isLoading = false;
     }
 
-    isEditingOrNot() {
-        this.list.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+    defineScreenTitle() {
+        const lista = this.listsService.novaLista;
+        lista.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
     }
 
-    getNovalista() {
-        return this.listsService.novaLista;
-    }
+    initializeForm() {
+        const lista = this.listsService.novaLista;
 
-    initForm() {
         this.listForm = this.fb.group({
-            id: this.list.id ? this.list.id : null,
-            titulo: this.list.titulo,
-            prontaParaAplicacao: false,
-            usuario: this.list.usuario ?
-                this.list.usuario :
-                'professor@ufg.br'
+            id: lista.id ? lista.id : null,
+            titulo: lista.titulo,
+            prontaParaAplicacao: lista.prontaParaAplicacao,
+            usuario: lista.usuario ?
+              lista.usuario :
+              'professor@ufg.br'
         });
     }
 
-    returnToList(): void {
+    navToListagemDeListas(): void {
         if (!this.isEditing) {
             this.listsService.cancelarNovaLista();
         }
@@ -81,20 +80,21 @@ export class ListsFormComponent implements OnInit {
 
     submit() {
         const form = this.listForm.value;
-        // const result = {
-        //     titulo: form.titulo,
-        //     prontaParaAplicacao: form.prontaParaAplicacao,
-        //     usuario: form.usuario
-        // };
         this.listsService.updateNovaListaValue(form);
         if (!this.isEditing) {
-            this.router.navigate(['/listas']);
+            this.listsService.create().subscribe(x => {
+                console.log(x);
+                this.router.navigate(['/listas']);
+            });
         } else {
-            this.router.navigate(['/listas', form.id]);
+            this.listsService.update().subscribe(x => {
+                console.log(x);
+                this.router.navigate(['/listas/formulario/', form.id]);
+            });
         }
     }
 
-    navAddQuestions() {
+    navToAddQuestions() {
         const form = this.listForm.value;
         this.listsService.novaLista.titulo = form.titulo;
         this.listsService.novaLista.prontaParaAplicacao = form.prontaParaAplicacao;
@@ -102,15 +102,18 @@ export class ListsFormComponent implements OnInit {
         this.router.navigate(['/questoes']);
     }
 
-    saveList() {
-        if (!this.isEditing) {
-            this.listsService.create().subscribe(x => {
-                console.log(x);
-            });
-        } else {
-            this.listsService.update().subscribe(x => {
-                console.log(x);
-            });
-        }
+    extractQuestionsFromNovaLista() {
+        const novaLista = this.listsService.novaLista;
+        const questoesDiscursivas = novaLista.questoesDiscursiva.map(x => x.questao);
+        const questoesMultiplaEscolha = novaLista.questoesMultiplaEscolha.map(x => x.questao);
+        const questoesVerdadeiroOuFalso = novaLista.questoesVerdadeiroOuFalso.map(x => x.questao);
+        const questoesAssociacaoDeColunas = novaLista.questoesAssociacaoDeColunas.map(x => x.questao);
+
+        this.questions = [
+            ...questoesDiscursivas,
+            ...questoesMultiplaEscolha,
+            ...questoesVerdadeiroOuFalso,
+            ...questoesAssociacaoDeColunas
+        ];
     }
 }
