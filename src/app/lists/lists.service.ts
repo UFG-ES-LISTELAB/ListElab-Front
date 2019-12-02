@@ -81,14 +81,26 @@ export class ListsService {
     onAddQuestaoToNovaLista(questao) {
         switch (questao.tipo) {
             case 0:
-                console.log('Discursiva');
-                this.novaLista.questoesDiscursiva.push(questao);
+                this.novaLista.questoesDiscursiva = [ ...this.novaLista.questoesDiscursiva, { questao } ];
                 this.qtdQuestoes = this.qtdQuestoes + 1;
+                console.log(this.novaLista.questoesDiscursiva);
                 break;
             case 1:
-                console.log('Multipla Escolha');
-                this.novaLista.questoesMultiplaEscolha.push(questao);
+                this.novaLista.questoesMultiplaEscolha = [ ...this.novaLista.questoesMultiplaEscolha, { questao } ];
                 this.qtdQuestoes = this.qtdQuestoes + 1;
+                break;
+            default:
+                console.log('Não sei');
+        }
+    }
+
+    onRemoveQuestaoFromNovaLista(questao) {
+        console.log(questao);
+        switch (questao.tipo) {
+            case 0:
+                this.novaLista.questoesDiscursiva = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
+                this.qtdQuestoes = this.qtdQuestoes - 1;
+                console.log(this.novaLista.questoesDiscursiva);
                 break;
             default:
                 console.log('Não sei');

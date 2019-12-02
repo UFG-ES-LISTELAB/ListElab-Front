@@ -2,9 +2,9 @@
     <mat-progress-bar></mat-progress-bar>
 </div>
 
-{{ this.listsService.isListaInicializada() }}
-{{ isEditing | json }}
-<!--{{ listsService?.novaLista.questoesDiscursiva | json }}-->
+<!--{{ this.listsService.novaLista.questoesDiscursiva }}-->
+<!--{{ this.listsService.isListaInicializada() }}-->
+<!--{{ isEditing | json }}-->
 
 <div class="container" style="margin-bottom: 50px">
 
@@ -62,28 +62,31 @@
 
                 <div class="col-md-6 mt-2 mb-2">
 
-<!--                    <div class="lists-form-loader"-->
-<!--                         *ngIf="isLoading && !hasError">-->
-<!--                        <mat-spinner></mat-spinner>-->
-<!--                    </div>-->
+                    <div class="lists-form-loader"
+                         *ngIf="isLoading && !hasError">
+                        <mat-spinner></mat-spinner>
+                    </div>
 
-<!--                    <div *ngIf="hasError">-->
-<!--                        <mat-card>-->
-<!--                            <span>Não foi possível acessar os dados.</span>-->
-<!--                        </mat-card>-->
-<!--                    </div>-->
+                    <div *ngIf="hasError">
+                        <mat-card>
+                            <span>Não foi possível acessar os dados.</span>
+                        </mat-card>
+                    </div>
                 </div>
             </form>
         </div>
 
-<!--        <div class="col-md-12"-->
-<!--             *ngIf="isLoading">-->
-<!--            <mat-spinner></mat-spinner>-->
-<!--        </div>-->
+        <div class="col-md-12"
+             *ngIf="isLoading">
+            <mat-spinner></mat-spinner>
+        </div>
     </div>
 
-    <div *ngFor="let question of questions">
-        {{ question.enunciado }}
-    </div>
+    <mat-card *ngFor="let question of questions" style="display: flex; justify-content: space-between;">
+        <div>{{ question?.enunciado }}</div>
+        <div>
+            <button mat-raised-button color="primary" type="button" (click)="removeQuestionFromNovaLista(question)">Remover</button>
+        </div>
+    </mat-card>
 
 </div>

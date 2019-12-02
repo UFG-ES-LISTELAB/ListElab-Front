@@ -1,4 +1,4 @@
-import {Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 
 import {LISTAS_LISTAR} from '../../shared/constants/routes.contants';
@@ -28,6 +28,7 @@ export class ListsFormComponent implements OnInit {
 
     // Tem id? Sim. Já tem lista iniciada? Sim. O id é igual ao da tela? Sim. Mantem a lista iniciada na memória.
     // Tem id? Sim. Já tem lista iniciada? Sim. O id é igual ao da tela? Não. Finaliza a lista iniciada antes e traz o novo
+    // Tem id? Não. Já tem lista iniciada? Não. Inicializa uma lista com o objeto padrão
 
     ngOnInit() {
         this.isLoading = true;
@@ -37,26 +38,36 @@ export class ListsFormComponent implements OnInit {
             if (!this.listsService.isListaInicializada()) {
                 this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
                     this.listsService.inicializarNovaLista(list.resultado);
+                    this.initializeScreen();
                     this.extractQuestionsFromNovaLista();
                 });
             } else {
                 if (this.activatedRoute.snapshot.params.id === this.listsService.novaLista.id) {
                     console.log('id igual ao da lista em edição');
+                    this.initializeScreen();
                     this.extractQuestionsFromNovaLista();
                 } else {
                     console.log('id difere da lista em edicao. Fecharei a lista em aberto e abrirei a edicao da nova lista');
                     this.listsService.getOne(this.activatedRoute.snapshot.params.id).subscribe(list => {
                         this.listsService.cancelarNovaLista();
                         this.listsService.inicializarNovaLista(list.resultado);
+                        this.initializeScreen();
                         this.extractQuestionsFromNovaLista();
                     });
                 }
             }
         } else {
             if (this.listsService.isListaInicializada()) {
+                this.listsService.cancelarNovaLista();
+                this.listsService.inicializarNovaLista();
+                this.initializeScreen();
+                this.extractQuestionsFromNovaLista();
+            } else {
+                this.listsService.inicializarNovaLista();
+                this.initializeScreen();
+                this.extractQuestionsFromNovaLista();
             }
         }
-        this.initializeScreen();
     }
 
     initializeScreen() {
@@ -66,28 +77,25 @@ export class ListsFormComponent implements OnInit {
     }
 
     defineScreenTitle() {
-        const lista = this.listsService.novaLista;
-        lista.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+        if (this.listsService.isListaInicializada()) {
+            const lista = this.listsService.novaLista;
+            lista.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+        }
     }
 
     initializeForm() {
-        const lista = this.listsService.novaLista;
+        if (this.listsService.isListaInicializada()) {
+            const lista = this.listsService.novaLista;
 
-        this.listForm = this.fb.group({
-            id: lista.id ? lista.id : null,
-            titulo: lista.titulo,
-            prontaParaAplicacao: lista.prontaParaAplicacao,
-            usuario: lista.usuario ?
-              lista.usuario :
-              'professor@ufg.br'
-        });
-    }
-
-    navToListagemDeListas(): void {
-        if (!this.isEditing) {
-            this.listsService.cancelarNovaLista();
+            this.listForm = this.fb.group({
+                id: lista.id ? lista.id : null,
+                titulo: lista.titulo,
+                prontaParaAplicacao: lista.prontaParaAplicacao,
+                usuario: lista.usuario ?
+                  lista.usuario :
+                  'professor@ufg.br'
+            });
         }
-        this.router.navigate([LISTAS_LISTAR]);
     }
 
     submit() {
@@ -106,14 +114,6 @@ export class ListsFormComponent implements OnInit {
         }
     }
 
-    navToAddQuestions() {
-        const form = this.listForm.value;
-        this.listsService.novaLista.titulo = form.titulo;
-        this.listsService.novaLista.prontaParaAplicacao = form.prontaParaAplicacao;
-        this.listsService.novaLista.usuario = form.usuario;
-        this.router.navigate(['/questoes']);
-    }
-
     extractQuestionsFromNovaLista() {
         const novaLista = this.listsService.novaLista;
         const questoesDiscursivas = novaLista.questoesDiscursiva.map(x => x.questao);
@@ -127,5 +127,25 @@ export class ListsFormComponent implements OnInit {
             ...questoesVerdadeiroOuFalso,
             ...questoesAssociacaoDeColunas
         ];
+    }
+
+    navToListagemDeListas(): void {
+        if (!this.isEditing) {
+            this.listsService.cancelarNovaLista();
+        }
+        this.router.navigate([LISTAS_LISTAR]);
+    }
+
+    navToAddQuestions() {
+        const form = this.listForm.value;
+        this.listsService.novaLista.titulo = form.titulo;
+        this.listsService.novaLista.prontaParaAplicacao = form.prontaParaAplicacao;
+        this.listsService.novaLista.usuario = form.usuario;
+        this.router.navigate(['/questoes']);
+    }
+
+    removeQuestionFromNovaLista(question: any) {
+        this.listsService.onRemoveQuestaoFromNovaLista(question);
+        this.extractQuestionsFromNovaLista();
     }
 }
