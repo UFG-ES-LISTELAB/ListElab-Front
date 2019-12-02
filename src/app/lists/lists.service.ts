@@ -102,7 +102,10 @@ export class ListsService {
             case 0:
                 this.novaLista.questoesDiscursiva = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
                 this.qtdQuestoes = this.qtdQuestoes - 1;
-                console.log(this.novaLista.questoesDiscursiva);
+                break;
+            case 1:
+                this.novaLista.questoesMultiplaEscolha = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
+                this.qtdQuestoes = this.qtdQuestoes - 1;
                 break;
             default:
                 console.log('Não sei');
