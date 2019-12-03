@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {NotificationService} from "../../shared/services/notification.service";
 
 import { DiscursiveQuestionsService } from '../discursiveQuestions.service';
 import { MultiChoiceQuestionsService } from '../multiChoiceQuestions.service';
@@ -96,6 +97,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(private router: Router,
+    private notificationService: NotificationService,
     private disciplinesService: DisciplinesService,
     private activatedRoute: ActivatedRoute,
     private areaConhecimentoService: AreaConhecimentoService,
@@ -126,19 +128,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     else {
       this.question = fromQuestionsModels.emptyQuestionGenerica;
     }
-    
-    this.getDisciplinas();
-    this.getAreasDeConhecimento();
-
-    if ( this.isEditing ) {
-      this.questionService.getOne(this.activatedRoute.snapshot.params.id).subscribe(question => {
-        this.question = question.resultado;
-        this.initialize();
-      });
-    } else {
-      this.question = fromQuestionsModels.emptyQuestion;
-      this.initialize();
-    }
+    this.initialize();
   }
 
   initialize() {
@@ -255,7 +245,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   submitted() {
-    if (this.isEditing) {
+    if (!this.isEditing) {
       this.createQuestion(this.questionForm.value);
     } else {
       this.updateQuestion(this.questionForm.value);
@@ -285,10 +275,12 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         };
 
         this.questionService.create(question).subscribe(success => {
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => this.isLoading = false);
+        }, error => {
+          this.notificationService.error(error.mensagem);
+        });
         break;
       case 1: //Questões múltipla escolha
         const _indiceCorreta = this.indiceAlternativaCorreta;
@@ -316,11 +308,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         }
 
         this.questionServiceMultipleChoice.create(questionMultipleChoice).subscribe(success => {
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
         }, error => {
-          console.log(error);
+          this.notificationService.error(error.mensagem);
         });
         break;
       case 2: //Associação de colunas
@@ -386,11 +378,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           usuario: form.autor
         }
         this.questionServiceTrueOrFalse.create(questionTrueOrFalse).subscribe(success => {
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
         }, error => {
-          console.log(error);
+          this.notificationService.error(error.mensagem);
         })
         break;
       default:
@@ -425,9 +417,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
         this.questionService.update(question).subscribe(success => {
           this.isLoading = false;
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.router.navigate([QUESTOES_LISTAR]);
         }, error => {
+          this.notificationService.error(error.mensagem);
           return this.isLoading = false;
         });
         break;
@@ -458,11 +451,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         }
 
         this.questionServiceMultipleChoice.update(questionMultipleChoice).subscribe(success => {
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
         }, error => {
-          console.log(error);
+          this.notificationService.error(error.mensagem);
         });
         break;
       case 2:
@@ -497,11 +490,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         }
 
         this.questionAssociacaoColunaService.update(questionAssociacaoColuna).subscribe(success => {
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
         }, error => {
-          console.log(error);
+          this.notificationService.error(error.mensagem);
         });
         break;
       case 3:
@@ -529,11 +522,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
         }
 
         this.questionServiceTrueOrFalse.update(questionTrueOrFalse).subscribe(success => {
-          console.log(success);
+          this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
         }, error => {
-          console.log(error);
+          this.notificationService.error(error.mensagem);
         })
         break;
       default:
