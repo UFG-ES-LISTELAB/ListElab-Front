@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-list',
-  template: `      
+  template: `
       <app-toolbar></app-toolbar>
       <router-outlet></router-outlet>
   `
