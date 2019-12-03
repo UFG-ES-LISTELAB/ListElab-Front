@@ -83,4 +83,7 @@ export class ListsListComponent implements OnInit {
         });
     }
 
+    onSearch($event: any) {
+        console.log($event);
+    }
 }
