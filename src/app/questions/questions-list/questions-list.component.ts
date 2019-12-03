@@ -34,11 +34,11 @@ export class QuestionsListComponent implements OnInit {
     questions: fromQuestionsModels.Question[] = [];
     hasError: any;
     isLoading: boolean;
-
+    listsService: ListsService
+    
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private loginService: LoginService,
-                private listsService: ListsService,
                 private discursiveQuestionsService: DiscursiveQuestionsService,
                 private multipleChoiceService: MultiChoiceQuestionsService,
                 private associacaoColunaService: AssociacaoColunaService,
