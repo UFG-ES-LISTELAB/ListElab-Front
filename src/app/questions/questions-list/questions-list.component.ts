@@ -46,7 +46,12 @@ export class QuestionsListComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.getNovaLista();
         this.onSearch();
+    }
+
+    getNovaLista() {
+        return this.listsService.novaLista;
     }
 
     onSearch(params?) {
@@ -55,7 +60,8 @@ export class QuestionsListComponent implements OnInit {
         let obj = {};
         if (params) {
             console.log(params);
-            if (params.tempoEsperadoResposta !== null && params.tempoEsperadoResposta >= 0) {
+            if (params.tempoEsperadoResposta !== null &&
+                params.tempoEsperadoResposta >= 0) {
                 obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: params.tempoEsperadoResposta.toString()});
             } else {
                 obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: '0'});
@@ -245,8 +251,32 @@ export class QuestionsListComponent implements OnInit {
         });
     }
 
-    onSelect(question: fromQuestionsModels.Question) {
-        // TODO: Implementar, pois estava dando erro de build.
+    onNavBackToList() {
+        if (this.listsService.novaLista.id) {
+            this.router.navigate(['/listas/formulario', this.listsService.novaLista.id ]);
+        } else {
+            this.router.navigate(['/listas/formulario' ]);
+        }
     }
 
+    iniciarNovaLista() {
+        this.listsService.inicializarNovaLista();
+    }
+
+    cancelarNovaLista() {
+        this.listsService.cancelarNovaLista();
+    }
+
+    isListaInicializada(): boolean {
+        return this.listsService.isListaInicializada();
+    }
+
+    addQuestaoToNovaLista(event, questao: any) {
+        event.stopPropagation();
+        if (this.isListaInicializada()) {
+            this.listsService.onAddQuestaoToNovaLista(questao);
+        } else {
+            console.log('não tem lista em aberto!');
+        }
+    }
 }

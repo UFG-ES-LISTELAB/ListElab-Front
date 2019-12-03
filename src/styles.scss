@@ -11,7 +11,7 @@ html {
 }
 
 body {
-  font-family: 'Modak', cursive;
+  font-family: 'Arial';
   min-height: 100vh;
   height: 100%;
 }
@@ -28,5 +28,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card-list-edition {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    display: flex;
+    justify-content: space-around;
+  }
 }
 

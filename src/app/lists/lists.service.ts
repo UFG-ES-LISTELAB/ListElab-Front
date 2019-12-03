@@ -1,41 +1,129 @@
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
 
-import {API} from "../shared/constants/api.constants";
-import * as fromListsModels from "./lists.model";
-import * as fromQuestionsModels from '../questions/questions.model';
-import {Question} from "../questions/questions.model";
+import {API} from '../shared/constants/api.constants';
+import {catchError, tap} from 'rxjs/operators';
+import {NotificationService} from '../shared/services/notification.service';
+
+class ListaConcreta {
+
+    constructor(
+        public id = null,
+        public titulo = '',
+        public nivelDeDificuldade = 0,
+        public questoesDiscursiva = [],
+        public questoesMultiplaEscolha = [],
+        public questoesAssociacaoDeColunas = [],
+        public questoesVerdadeiroOuFalso = [],
+        public prontaParaAplicacao = false,
+        public usuario = '',
+        public tiposDeQuestao = [0]
+    ) {}
+}
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ListsService {
 
-  selectedList: fromListsModels.List;
-  questionsList: Question[];
+    // Nova Lista
+    novaLista: ListaConcreta = null;
+    editing = false;
+    qtdQuestoes = 0;
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+                private notificationService: NotificationService) {}
 
-  getAll(params?): Observable<any> {
-    return this.http.get(`${environment.api}/${API.listas.base}`);
-  }
+    getAll(params?): Observable<any> {
+        return this.http.get(`${environment.api}/${API.listas.base}`);
+    }
 
-  getOne(id, params?): Observable<any> {
-    return this.http.get(`${environment.api}/${API.listas.base}/${id}`);
-  }
+    getOne(id, params?): Observable<any> {
+        return this.http.get(`${environment.api}/${API.listas.base}/${id}`);
+    }
 
-  create(list: any): Observable<any> {
-    return this.http.post(`${environment.api}/${API.listas.base}`, list);
-  }
+    create(): Observable<any> {
+        this.editing = false;
+        const nova = this.novaLista;
+        delete nova.id;
+        return this.http.post(`${environment.api}/${API.listas.base}`, nova);
+    }
 
-  update(list: any): Observable<any> {
-    return this.http.put(`${environment.api}/${API.listas.base}`, list);
-  }
+    update(): Observable<any> {
+        this.editing = false;
+        return this.http.put(`${environment.api}/${API.listas.base}`, this.novaLista).pipe(
+            tap(x => {
+                this.notificationService.success('Lista alterada com sucesso!');
+            }),
+            catchError( (err) => {
+                console.log(err);
+                this.notificationService.error(
+                    'Não foi possível realizar a operação. ' + err.error.erros[0].mensagem
+                );
+                return err;
+            })
+        );
+    }
 
-  delete(id): Observable<any> {
-    return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
-  }
+    delete(id): Observable<any> {
+        this.editing = false;
+        return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
+    }
+
+    // ===================== Nova Lista ==========================
+    inicializarNovaLista(lista = null) {
+        this.editing = true;
+        if (lista !== null && lista.id !== null) {
+            return this.novaLista = Object.assign({}, {...lista});
+        }
+        return this.novaLista = new ListaConcreta();
+    }
+
+    cancelarNovaLista() {
+        this.editing = false;
+        this.novaLista = null;
+    }
+
+    isListaInicializada() {
+        return this.novaLista !== null;
+    }
+
+    updateNovaListaValue(lista) {
+        this.novaLista = Object.assign({}, { ...this.novaLista }, { ...lista });
+    }
+
+    onAddQuestaoToNovaLista(questao) {
+        switch (questao.tipo) {
+            case 0:
+                this.novaLista.questoesDiscursiva = [ ...this.novaLista.questoesDiscursiva, { questao } ];
+                this.qtdQuestoes = this.qtdQuestoes + 1;
+                console.log(this.novaLista.questoesDiscursiva);
+                break;
+            case 1:
+                this.novaLista.questoesMultiplaEscolha = [ ...this.novaLista.questoesMultiplaEscolha, { questao } ];
+                this.qtdQuestoes = this.qtdQuestoes + 1;
+                break;
+            default:
+                console.log('Não sei');
+        }
+    }
+
+    onRemoveQuestaoFromNovaLista(questao) {
+        console.log(questao);
+        switch (questao.tipo) {
+            case 0:
+                this.novaLista.questoesDiscursiva = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
+                this.qtdQuestoes = this.qtdQuestoes - 1;
+                break;
+            case 1:
+                this.novaLista.questoesMultiplaEscolha = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
+                this.qtdQuestoes = this.qtdQuestoes - 1;
+                break;
+            default:
+                console.log('Não sei');
+        }
+    }
 
 }
