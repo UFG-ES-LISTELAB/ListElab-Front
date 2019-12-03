@@ -4,6 +4,8 @@ import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 
 import {API} from '../shared/constants/api.constants';
+import {catchError, tap} from 'rxjs/operators';
+import {NotificationService} from '../shared/services/notification.service';
 
 class ListaConcreta {
 
@@ -31,7 +33,8 @@ export class ListsService {
     editing = false;
     qtdQuestoes = 0;
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+                private notificationService: NotificationService) {}
 
     getAll(params?): Observable<any> {
         return this.http.get(`${environment.api}/${API.listas.base}`);
@@ -50,7 +53,18 @@ export class ListsService {
 
     update(): Observable<any> {
         this.editing = false;
-        return this.http.put(`${environment.api}/${API.listas.base}`, this.novaLista);
+        return this.http.put(`${environment.api}/${API.listas.base}`, this.novaLista).pipe(
+            tap(x => {
+                this.notificationService.success('Lista alterada com sucesso!');
+            }),
+            catchError( (err) => {
+                console.log(err);
+                this.notificationService.error(
+                    'Não foi possível realizar a operação. ' + err.error.erros[0].mensagem
+                );
+                return err;
+            })
+        );
     }
 
     delete(id): Observable<any> {

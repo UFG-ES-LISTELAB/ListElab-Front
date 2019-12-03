@@ -2,7 +2,7 @@
     <mat-progress-bar></mat-progress-bar>
 </div>
 
-{{ this.listsService.novaLista | json }}
+<!--{{ this.listsService.novaLista | json }}-->
 <!--{{ this.listsService.novaLista.questoesDiscursiva }}-->
 <!--{{ this.listsService.isListaInicializada() }}-->
 <!--{{ isEditing | json }}-->
@@ -18,7 +18,7 @@
         <div class="col-md-6">
             <button class="full-width"
                     matTooltip="Adicione questões na Lista"
-                    mat-raised-button color="primary"
+                    mat-stroked-button color="secondary"
                     (click)="navToAddQuestions()"
                     [disabled]="listForm?.invalid">Adicionar Questões</button>
         </div>
@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="margin: 10px 0 5px 0">
                             <button mat-raised-button color="primary"
                                     [disabled]="listForm?.invalid">
                                 Salvar Lista
@@ -86,7 +86,7 @@
     <mat-card *ngFor="let question of questions" style="display: flex; justify-content: space-between;">
         <div>{{ question?.enunciado }}</div>
         <div>
-            <button mat-raised-button color="primary" type="button" (click)="removeQuestionFromNovaLista(question)">Remover</button>
+            <button mat-stroked-button color="warn" type="button" (click)="removeQuestionFromNovaLista(question)">Remover</button>
         </div>
     </mat-card>
 
