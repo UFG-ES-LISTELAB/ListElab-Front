@@ -30,7 +30,7 @@ export class ListsListComponent implements OnInit {
 
     ngOnInit() {
         this.isLoading = true;
-        this.getLists();
+        this.onSearch();
     }
 
     getLists() {
@@ -83,7 +83,57 @@ export class ListsListComponent implements OnInit {
         });
     }
 
-    onSearch($event: any) {
-        console.log($event);
+    onSearch(params?: any) {
+        let obj = {};
+
+        if (params) {
+            if (params.tempoEsperadoResposta !== null &&
+              params.tempoEsperadoResposta >= 0) {
+                obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: params.tempoEsperadoResposta.toString()});
+            } else {
+                obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: '0'});
+            }
+
+            if (params.nivelDificuldade !== null && params.nivelDificuldade >= 0) {
+                obj = Object.assign({}, {...obj}, {nivelDificuldade: params.nivelDificuldade.toString()});
+            }
+
+            if (params.usuario !== '') {
+                obj = Object.assign({}, {...obj}, {usuario: params.usuario});
+            }
+
+            if (params.areaDeConhecimento && params.areaDeConhecimento !== '') {
+                obj = Object.assign({}, {...obj}, {areaDeConhecimento: params.areaDeConhecimento});
+            }
+
+            if (params.disciplina && params.disciplina !== '') {
+                obj = Object.assign({}, {...obj}, {disciplina: params.disciplina});
+            }
+
+            if (params.tags && params.tags !== '') {
+                const tags = params.tags.replace(' ', '');
+                const splittedTags = tags.split(',');
+                let final = '';
+                splittedTags.forEach(tag => {
+                    console.log(tag);
+                    final += `{ tags: ${tag}}, `;
+                });
+                obj = Object.assign({}, {...obj}, final);
+            }
+
+            this.listsService.filters(obj).subscribe(response => {
+                  console.log(response);
+                  this.lists = response.resultado;
+              }, error => {
+                  this.hasError = error;
+              });
+        } else {
+            this.listsService.filters().subscribe(response => {
+                console.log('abaixo');
+                console.log(response);
+                this.lists = response.resultado;
+                this.isLoading = false;
+            });
+        }
     }
 }

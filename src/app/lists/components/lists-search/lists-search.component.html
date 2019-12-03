@@ -11,7 +11,7 @@
 
 <mat-card class="mt-2 mb-2">
 
-  <form [formGroup]="searchForm">
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
 
     <div class="row">
 

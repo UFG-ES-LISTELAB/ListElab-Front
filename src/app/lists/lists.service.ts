@@ -67,6 +67,10 @@ export class ListsService {
         );
     }
 
+    filters(params?): Observable<any> {
+        return this.http.get(`${environment.api}/Lista/filtro`, { params });
+    }
+
     delete(id): Observable<any> {
         this.editing = false;
         return this.http.delete(`${environment.api}/${API.listas.base}/${id}`);
