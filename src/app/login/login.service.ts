@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {Observable, Subject} from 'rxjs';
 import {tap} from 'rxjs/operators';
 import {ApiResponse} from '../shared/models/api-response.model';
+import {LocalStorageService} from '../shared/services/local-storage.service';
+import {NotificationService} from '../shared/services/notification.service';
+
+import {environment} from '../../environments/environment';
+import * as fromAPIConstants from '../shared/constants/api.constants';
+import * as fromROUTESConstants from '../shared/constants/routes.contants';
 
 export interface LoginResponse extends ApiResponse {
   mensagem: string;
   resultado: string;
   sucesso: boolean;
 }
-
-import {LocalStorageService} from '../shared/services/local-storage.service';
-import {NotificationService} from "../shared/services/notification.service";
-
-import {environment} from "../../environments/environment";
-import * as fromAPIConstants from "../shared/constants/api.constants";
-import * as fromROUTESConstants from "../shared/constants/routes.contants";
 
 @Injectable({
   providedIn: 'root'

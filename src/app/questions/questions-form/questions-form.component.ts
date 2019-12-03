@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { DiscursiveQuestionsService } from '../discursiveQuestions.service';
@@ -45,6 +45,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   // Automação da tela
   screenTitle: string;
   isLoading: boolean;
+  isEditing: boolean;
 
   // Dados
   question: fromQuestionsModels.Question;
@@ -75,11 +76,11 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   getRespostaEsperadaControls() {
-    return (<FormArray>this.questionForm.get('respostaEsperada')).controls;
+    return (this.questionForm.get('respostaEsperada') as FormArray).controls;
   }
 
   getTagsQuestaoControls() {
-    return (<FormArray>this.questionForm.get('tagsQuestao')).controls;
+    return (this.questionForm.get('tagsQuestao') as FormArray).controls;
   }
 
   getAlternativasMultiplaEscolhaControls() {
@@ -96,6 +97,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
     private disciplinesService: DisciplinesService,
+    private activatedRoute: ActivatedRoute,
     private areaConhecimentoService: AreaConhecimentoService,
     private questionService: DiscursiveQuestionsService,
     private questionServiceMultipleChoice: MultiChoiceQuestionsService,
@@ -105,7 +107,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isLoading = false;
-
+    this.isEditing = !!this.activatedRoute.snapshot.params.id;
     if(this.questionAssociacaoColunaService.selectedQuestion && this.questionAssociacaoColunaService.selectedQuestion.id)
     {
       this.question = this.questionAssociacaoColunaService.selectedQuestion
@@ -128,25 +130,49 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.getDisciplinas();
     this.getAreasDeConhecimento();
 
-    this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
+    if ( this.isEditing ) {
+      this.questionService.getOne(this.activatedRoute.snapshot.params.id).subscribe(question => {
+        this.question = question.resultado;
+        this.initialize();
+      });
+    } else {
+      this.question = fromQuestionsModels.emptyQuestion;
+      this.initialize();
+    }
+  }
 
+  initialize() {
+    this.isEditingOrNot();
     this.initForm();
-
+    this.getDisciplinas();
+    this.getAreasDeConhecimento();
     this.loadRespostasEsperadasQuestaoAtual();
     this.loadTagsQuestaoAtual();
+    this.isLoading = false;
+  }
+
+  isEditingOrNot() {
+    this.question.id ? this.screenTitle = 'Alterar' : this.screenTitle = 'Criar';
   }
 
   getDisciplinas(): void {
     this.disciplinesService.getAll().subscribe((response: ApiResponse) => {
       this.disciplinas = response.resultado;
       this.isLoading = false;
-    }, error => console.log("Deu erro!"));
+    }, error => {
+      console.error(error);
+      this.isLoading = false;
+    });
   }
 
   getAreasDeConhecimento(): void {
     this.areaConhecimentoService.getAll().subscribe((response: ApiResponse) => {
       this.areasDeConhecimento = response.resultado;
-    }, error => console.log("Deu erro!"));
+      this.isLoading = false;
+    }, error => {
+      console.error(error);
+      this.isLoading = false;
+    });
   }
 
   loadRespostasEsperadasQuestaoAtual(): void {
@@ -210,7 +236,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.questionForm = this.fb.group({
       id: this.question.id,
       tipoQuestao: this.question.tipo,
-      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : "",
+      areaDeConhecimentoId: this.question.areaDeConhecimento ? this.question.areaDeConhecimento.codigo : '',
       tempoMaximoDeResposta: this.question.tempoMaximoDeResposta,
       nivelDificuldade: this.question.nivelDificuldade,
       enunciado: [this.question.enunciado, [Validators.required]],
@@ -229,7 +255,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   submitted() {
-    if (!this.question.id) {
+    if (this.isEditing) {
       this.createQuestion(this.questionForm.value);
     } else {
       this.updateQuestion(this.questionForm.value);
@@ -531,7 +557,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     this.respostasEsperadas.removeAt(resEsperadaIndex);
   }
 
-  addTag(tag: string = ""): void {
+  addTag(tag: string = ''): void {
     this.tagsQuestao.push(
       this.fb.group({
         descricao: [tag, Validators.required]

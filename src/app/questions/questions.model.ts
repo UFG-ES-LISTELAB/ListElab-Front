@@ -15,6 +15,7 @@ export interface DiscursiveQuestion extends Question {
   tempoEsperadoResposta?: number;
 }
 
+// tslint:disable-next-line:no-empty-interface
 export interface ObjectiveQuestion extends Question {
   respostaEsperada?: AlternativeAnswer[];
 }
@@ -43,34 +44,34 @@ export interface AlternativeAnswer {
 }
 
 export interface ExpectedAnswer {
-  descricao?: string;
-  peso?: number;
+    descricao?: string;
+    peso?: number;
 }
 
 export interface Discipline {
-  codigo?: string;
-  descricao?: string;
+    codigo?: string;
+    descricao?: string;
 }
 
 export interface KnowlegdeArea {
-  codigo?: string;
-  descricao?: string;
+    codigo?: string;
+    descricao?: string;
 }
 
 export const emptyQuestion: DiscursiveQuestion = {
-  id: null,
-  tipo: 0,
-  enunciado: '',
-  areaDeConhecimento: {
-    codigo: "",
-    descricao: ""
-  },
-  disciplina: {
-    codigo: "",
-    descricao: ""
-  },
-  nivelDificuldade: 1,
-  tempoMaximoDeResposta: 0,
+    id: null,
+    tipo: 0,
+    enunciado: '',
+    areaDeConhecimento: {
+        codigo: '',
+        descricao: ''
+    },
+    disciplina: {
+        codigo: '',
+        descricao: ''
+    },
+    nivelDificuldade: 1,
+    tempoMaximoDeResposta: 0,
 };
 
 export const emptyQuestionGenerica: Question = {
@@ -90,10 +91,10 @@ export const emptyQuestionGenerica: Question = {
 };
 
 export interface QuestionFiltersDto {
-  tipo: number;
-  nivelDificuldadeId: number;
-  areaDeConhecimentoId: string;
-  disciplinaId: string;
-  tempoMaximoDeResposta: number;
-  usuario: string;
+    tipo: number;
+    nivelDificuldadeId: number;
+    areaDeConhecimentoId: string;
+    disciplinaId: string;
+    tempoMaximoDeResposta: number;
+    usuario: string;
 }
