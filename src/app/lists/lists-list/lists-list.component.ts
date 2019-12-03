@@ -9,6 +9,7 @@ import {ApiResponse} from '../../shared/models/api-response.model';
 import * as fromRoutesConstants from '../../shared/constants/routes.contants';
 import * as fromListsModels from '../lists.model';
 import Swal from 'sweetalert2';
+import {NotificationService} from '../../shared/services/notification.service';
 
 
 @Component({
@@ -25,23 +26,13 @@ export class ListsListComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private router: Router,
+                private notificationService: NotificationService,
                 private loginService: LoginService,
                 private listsService: ListsService) { }
 
     ngOnInit() {
         this.isLoading = true;
         this.onSearch();
-    }
-
-    getLists() {
-        this.isLoading = true;
-        this.hasError = null;
-        this.listsService.getAll().subscribe((response: ApiResponse) => {
-            this.lists = response.resultado;
-            this.isLoading = false;
-        }, error => {
-            this.hasError = error;
-        });
     }
 
     onNew() {
@@ -124,14 +115,20 @@ export class ListsListComponent implements OnInit {
             this.listsService.filters(obj).subscribe(response => {
                   console.log(response);
                   this.lists = response.resultado;
+                  this.isLoading = false;
               }, error => {
                   this.hasError = error;
+                  this.isLoading = false;
+                  this.notificationService.error('Houve um problema ao tentar obter as Listas. Tente mais tarde.');
               });
         } else {
             this.listsService.filters().subscribe(response => {
                 console.log('abaixo');
                 console.log(response);
                 this.lists = response.resultado;
+                this.isLoading = false;
+            }, (err) => {
+                this.notificationService.error('Houve um problema ao tentar obter as Listas. Tente mais tarde.');
                 this.isLoading = false;
             });
         }
