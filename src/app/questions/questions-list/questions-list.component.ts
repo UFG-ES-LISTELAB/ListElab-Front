@@ -15,7 +15,7 @@ import * as fromRoutesConstants from '../../shared/constants/routes.contants';
 import {AreaDeConhecimento} from '../../shared/models/areaDeConhecimento';
 import {NivelDificuldade} from '../../shared/models/nivelDificuldade';
 import {TipoQuestao} from '../../shared/models/tipoQuestao';
-import { TrueOrFalseQuestionsService } from '../trueOrFalseQuestions.service';
+import {TrueOrFalseQuestionsService} from '../trueOrFalseQuestions.service';
 
 @Component({
     selector: 'app-questions-list',
@@ -34,11 +34,11 @@ export class QuestionsListComponent implements OnInit {
     questions: fromQuestionsModels.Question[] = [];
     hasError: any;
     isLoading: boolean;
-    listsService: ListsService
     
     constructor(private formBuilder: FormBuilder,
                 private router: Router,
                 private loginService: LoginService,
+                public listsService: ListsService,
                 private discursiveQuestionsService: DiscursiveQuestionsService,
                 private multipleChoiceService: MultiChoiceQuestionsService,
                 private associacaoColunaService: AssociacaoColunaService,
