@@ -101,32 +101,90 @@ export class ListsService {
     onAddQuestaoToNovaLista(questao) {
         switch (questao.tipo) {
             case 0:
-                this.novaLista.questoesDiscursiva = [ ...this.novaLista.questoesDiscursiva, { questao } ];
-                this.qtdQuestoes = this.qtdQuestoes + 1;
-                console.log(this.novaLista.questoesDiscursiva);
+                const findQuestoesDiscursiva = this.novaLista.questoesDiscursiva.filter(q => {
+                    return q.questao.id === questao.id;
+                });
+                if (findQuestoesDiscursiva.length <= 0) {
+                    this.novaLista.questoesDiscursiva = [ ...this.novaLista.questoesDiscursiva, { questao } ];
+                    this.qtdQuestoes = this.qtdQuestoes + 1;
+                    this.notificationService.warn('Questão adicionada na Lista');
+                } else {
+                    this.notificationService.warn('Questão já existente na Lista');
+                }
                 break;
             case 1:
-                this.novaLista.questoesMultiplaEscolha = [ ...this.novaLista.questoesMultiplaEscolha, { questao } ];
-                this.qtdQuestoes = this.qtdQuestoes + 1;
+                const findQuestoesMultiplaEscolha = this.novaLista.questoesMultiplaEscolha.filter(q => {
+                    return q.questao.id === questao.id;
+                });
+                if (findQuestoesMultiplaEscolha.length <= 0) {
+                    this.novaLista.questoesMultiplaEscolha = [ ...this.novaLista.questoesMultiplaEscolha, { questao } ];
+                    this.qtdQuestoes = this.qtdQuestoes + 1;
+                    this.notificationService.warn('Questão adicionada na Lista');
+                } else {
+                    this.notificationService.warn('Questão já existente na Lista');
+                }
+                break;
+            case 2:
+                const findQuestoesAssociacaoDeColunas = this.novaLista.questoesAssociacaoDeColunas.filter(q => {
+                    return q.questao.id === questao.id;
+                });
+                if (findQuestoesAssociacaoDeColunas.length <= 0) {
+                    this.novaLista.questoesAssociacaoDeColunas = [...this.novaLista.questoesAssociacaoDeColunas, {questao}];
+                    this.qtdQuestoes = this.qtdQuestoes + 1;
+                    this.notificationService.warn('Questão adicionada na Lista');
+                } else {
+                    this.notificationService.warn('Questão já existente na Lista');
+                }
+                break;
+            case 3:
+                const findQuestoesVerdadeiroOuFalso = this.novaLista.questoesVerdadeiroOuFalso.filter(q => {
+                    return q.questao.id === questao.id;
+                });
+                if (findQuestoesVerdadeiroOuFalso.length <= 0) {
+                    this.novaLista.questoesVerdadeiroOuFalso = [...this.novaLista.questoesVerdadeiroOuFalso, {questao}];
+                    this.qtdQuestoes = this.qtdQuestoes + 1;
+                    this.notificationService.warn('Questão adicionada na Lista');
+                } else {
+                    this.notificationService.warn('Questão já existente na Lista');
+                }
                 break;
             default:
-                console.log('Não sei');
+                console.log('Nenhum tipo conhecido.');
         }
     }
 
     onRemoveQuestaoFromNovaLista(questao) {
-        console.log(questao);
         switch (questao.tipo) {
-            case 0:
-                this.novaLista.questoesDiscursiva = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
+            case 0: {
+                this.novaLista.questoesDiscursiva =
+                  this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
                 this.qtdQuestoes = this.qtdQuestoes - 1;
+                this.notificationService.success('Questão removida da Lista');
                 break;
-            case 1:
-                this.novaLista.questoesMultiplaEscolha = this.novaLista.questoesDiscursiva.filter(x => x.questao.id !== questao.id);
+            }
+            case 1: {
+                this.novaLista.questoesMultiplaEscolha =
+                  this.novaLista.questoesMultiplaEscolha.filter(x => x.questao.id !== questao.id);
                 this.qtdQuestoes = this.qtdQuestoes - 1;
+                this.notificationService.success('Questão removida da Lista');
                 break;
+            }
+            case 2: {
+                this.novaLista.questoesAssociacaoDeColunas =
+                  this.novaLista.questoesAssociacaoDeColunas.filter(x => x.questao.id !== questao.id);
+                this.qtdQuestoes = this.qtdQuestoes - 1;
+                this.notificationService.success('Questão removida da Lista');
+                break;
+            }
+            case 3: {
+                this.novaLista.questoesVerdadeiroOuFalso =
+                  this.novaLista.questoesVerdadeiroOuFalso.filter(x => x.questao.id !== questao.id);
+                this.qtdQuestoes = this.qtdQuestoes - 1;
+                this.notificationService.success('Questão removida da Lista');
+                break;
+            }
             default:
-                console.log('Não sei');
+                console.log('Nenhum tipo conhecido.');
         }
     }
 

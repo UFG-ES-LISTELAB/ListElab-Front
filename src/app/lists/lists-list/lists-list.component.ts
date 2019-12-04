@@ -123,8 +123,6 @@ export class ListsListComponent implements OnInit {
               });
         } else {
             this.listsService.filters().subscribe(response => {
-                console.log('abaixo');
-                console.log(response);
                 this.lists = response.resultado;
                 this.isLoading = false;
             }, (err) => {
