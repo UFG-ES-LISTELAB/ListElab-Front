@@ -113,7 +113,7 @@ export class QuestionsListComponent implements OnInit {
                                 return this.questions = Object.assign([], [...response.resultado.multiplaEscolha]);
                             case 2: // associaçãoColuna
                                 return this.questions = Object.assign([], [...response.resultado.associacaoDeColunas]);
-                            case 3: //VerdadeiroOuFalso
+                            case 3: // VerdadeiroOuFalso
                                 return this.questions = [...this.questions, ...response.resultado.verdadeiroOuFalso];
                             default:
                                 this.questions = [];

@@ -1,21 +1,19 @@
-<div class="row mt-2 mb-2">
-  <div class="col-md-6">
+<div class="row mb-2">
+
+  <div class="col-md-6" style="display: flex; align-items: center;">
     <h3>Listas</h3>
   </div>
   <div class="col-md-6" style="text-align: right;">
     <button mat-raised-button (click)="onListNew()" [color]="'primary'">Nova Lista</button>
   </div>
+
 </div>
 
 <mat-card class="mt-2 mb-2">
 
-  <form [formGroup]="searchForm">
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
 
     <div class="row">
-      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
-        <input matInput type="text" formControlName="enunciado" placeholder="Enunciado" autocomplete="off">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
 
       <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
         <input matInput type="text" formControlName="tags" placeholder="Tags" autocomplete="off">
@@ -40,15 +38,6 @@
                       [value]="disciplina.codigo">
             {{disciplina.descricao}}
           </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <mat-form-field class="col-md-3 col-sm-12 full-width font-size--12" appearance="outline">
-        <mat-label>Tipo</mat-label>
-        <mat-select formControlName="tipo">
-          <mat-option></mat-option>
-          <mat-option [value]="0">Discursiva</mat-option>
-          <mat-option [value]="1">Objetiva</mat-option>
         </mat-select>
       </mat-form-field>
 

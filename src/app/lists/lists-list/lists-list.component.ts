@@ -9,6 +9,7 @@ import {ApiResponse} from '../../shared/models/api-response.model';
 import * as fromRoutesConstants from '../../shared/constants/routes.contants';
 import * as fromListsModels from '../lists.model';
 import Swal from 'sweetalert2';
+import {NotificationService} from '../../shared/services/notification.service';
 
 
 @Component({
@@ -25,23 +26,13 @@ export class ListsListComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private router: Router,
+                private notificationService: NotificationService,
                 private loginService: LoginService,
                 private listsService: ListsService) { }
 
     ngOnInit() {
         this.isLoading = true;
-        this.getLists();
-    }
-
-    getLists() {
-        this.isLoading = true;
-        this.hasError = null;
-        this.listsService.getAll().subscribe((response: ApiResponse) => {
-            this.lists = response.resultado;
-            this.isLoading = false;
-        }, error => {
-            this.hasError = error;
-        });
+        this.onSearch();
     }
 
     onNew() {
@@ -83,7 +74,61 @@ export class ListsListComponent implements OnInit {
         });
     }
 
-    onSearch($event: any) {
-        console.log($event);
+    onSearch(params?: any) {
+        let obj = {};
+
+        if (params) {
+            if (params.tempoEsperadoResposta !== null &&
+              params.tempoEsperadoResposta >= 0) {
+                obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: params.tempoEsperadoResposta.toString()});
+            } else {
+                obj = Object.assign({}, {...obj}, {tempoEsperadoResposta: '0'});
+            }
+
+            if (params.nivelDificuldade !== null && params.nivelDificuldade >= 0) {
+                obj = Object.assign({}, {...obj}, {nivelDificuldade: params.nivelDificuldade.toString()});
+            }
+
+            if (params.usuario !== '') {
+                obj = Object.assign({}, {...obj}, {usuario: params.usuario});
+            }
+
+            if (params.areaDeConhecimento && params.areaDeConhecimento !== '') {
+                obj = Object.assign({}, {...obj}, {areaDeConhecimento: params.areaDeConhecimento});
+            }
+
+            if (params.disciplina && params.disciplina !== '') {
+                obj = Object.assign({}, {...obj}, {disciplina: params.disciplina});
+            }
+
+            if (params.tags && params.tags !== '') {
+                const tags = params.tags.replace(' ', '');
+                const splittedTags = tags.split(',');
+                let final = '';
+                splittedTags.forEach(tag => {
+                    console.log(tag);
+                    final += `{ tags: ${tag}}, `;
+                });
+                obj = Object.assign({}, {...obj}, final);
+            }
+
+            this.listsService.filters(obj).subscribe(response => {
+                  console.log(response);
+                  this.lists = response.resultado;
+                  this.isLoading = false;
+              }, error => {
+                  this.hasError = error;
+                  this.isLoading = false;
+                  this.notificationService.error('Houve um problema ao tentar obter as Listas. Tente mais tarde.');
+              });
+        } else {
+            this.listsService.filters().subscribe(response => {
+                this.lists = response.resultado;
+                this.isLoading = false;
+            }, (err) => {
+                this.notificationService.error('Houve um problema ao tentar obter as Listas. Tente mais tarde.');
+                this.isLoading = false;
+            });
+        }
     }
 }

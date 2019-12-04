@@ -2,24 +2,26 @@
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
 </div>
 
-<mat-card class="card-list-edition" *ngIf="isListaInicializada()">
-  <div class="title">
+<mat-card *ngIf="isListaInicializada()" style="display: flex; justify-content: space-between;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
     <h4>Lista: {{ getNovaLista()?.titulo === '' ? 'Sem nome' : getNovaLista()?.titulo }}</h4>
     <p style="padding-left: 20px;">Qtd. Questões: {{ this.listsService.qtdQuestoes > 0 ? this.listsService.qtdQuestoes : 'Nenhuma' }}</p>
   </div>
-  <div (click)="onNavBackToList()">
-    <button mat-stroked-button color="primary">Voltar para a Lista</button>
+  <div>
+    <button type="button" mat-stroked-button style="margin-right: 10px"
+            color="warn" (click)="listsService.cancelarNovaLista()">Cancelar Lista</button>
+
+    <button mat-stroked-button type="button" color="primary" (click)="onNavBackToList()">Voltar para a Lista</button>
   </div>
 </mat-card>
 
-<div class="container-fluid pb-5n">
+<div class="container-fluid pb-5">
   <div class="row">
     <div class="col-md-12">
       <app-questions-search
         (questionNew)="onNavQuestionNew()"
         (submitted)="onSearch($event)">
       </app-questions-search>
-
     </div>
   </div>
 </div>
@@ -84,7 +86,7 @@
     <ng-template matMenuContent let-question="question">
       <button mat-menu-item type="button" (click)="onNavQuestionUpdate($event, question)">Editar</button>
       <button mat-menu-item type="button" (click)="onNavQuestionDelete($event, question)">Eliminar</button>
-      <button mat-menu-item type="button" (click)="addQuestaoToNovaLista($event, question)">Adicionar a Lista</button>
+      <button mat-menu-item type="button" *ngIf="listsService.isListaInicializada()" (click)="addQuestaoToNovaLista($event, question)">Adicionar a Lista</button>
     </ng-template>
   </mat-menu>
 

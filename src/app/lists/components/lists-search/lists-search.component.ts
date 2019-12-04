@@ -28,10 +28,8 @@ export class ListsSearchComponent implements OnInit {
         this.getDisciplinas();
 
         this.searchForm = this.fb.group({
-            enunciado: [''],
             nivelDificuldade: [],
             areaDeConhecimento: [''],
-            tipo: [null],
             disciplina: [''],
             tempoEsperadoResposta: [0],
             usuario: [''],
