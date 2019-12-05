@@ -1,0 +1,98 @@
+<div *ngIf="isLoading">
+    <mat-progress-bar></mat-progress-bar>
+</div>
+
+<!--{{ this.listsService.novaLista | json }}-->
+<!--{{ this.listsService.novaLista.questoesDiscursiva }}-->
+<!--{{ this.listsService.isListaInicializada() }}-->
+<!--{{ isEditing | json }}-->
+
+<div class="container" style="margin-bottom: 50px">
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <button (click)="navToListagemDeListas()" mat-icon-button>
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+        <div class="col-md-6">
+            <button class="full-width"
+                    matTooltip="Adicione questões na Lista"
+                    mat-stroked-button color="secondary"
+                    (click)="navToAddQuestions()"
+                    [disabled]="listForm?.invalid">Adicionar Questões</button>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+
+        <div class="col-md-12 mt-2 mb-2" *ngIf="!isLoading">
+
+            <form [formGroup]="listForm" (ngSubmit)="submit()">
+
+                <mat-card>
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <h4>{{screenTitle}} Lista</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-form-field class="full-width font-size--12" appearance="outline">
+                                <mat-label>Titulo</mat-label>
+                                <input matInput formControlName="titulo" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <mat-checkbox formControlName="prontaParaAplicacao">Pronta para aplicação</mat-checkbox>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2" style="margin: 10px 0 5px 0">
+                            <button mat-raised-button color="primary"
+                                    [disabled]="listForm?.invalid">
+                                Salvar Lista
+                            </button>
+                        </div>
+                        <div class="col-md-2" style="margin: 10px 0 5px 0">
+                            <button (click)='cancelaLista()' mat-stroked-button type="button" color="warn">
+                                Cancelar Lista
+                            </button>
+                        </div>
+                    </div>
+                </mat-card>
+
+                <div class="col-md-6 mt-2 mb-2">
+
+                    <div class="lists-form-loader"
+                         *ngIf="isLoading && !hasError">
+                        <mat-spinner></mat-spinner>
+                    </div>
+
+                    <div *ngIf="hasError">
+                        <mat-card>
+                            <span>Não foi possível acessar os dados.</span>
+                        </mat-card>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-12"
+             *ngIf="isLoading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>
+
+    <mat-card *ngFor="let question of questions" style="display: flex; justify-content: space-between;">
+        <div>{{ question?.enunciado }}</div>
+        <div>
+            <button mat-stroked-button color="warn" type="button" (click)="removeQuestionFromNovaLista(question)">Remover</button>
+        </div>
+    </mat-card>
+
+</div>
