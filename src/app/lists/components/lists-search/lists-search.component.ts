@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {ApiResponse} from '../../../shared/models/api-response.model';
 import {DisciplinesService} from '../../../shared/services/disciplines.service';
 import {AreaConhecimentoService} from '../../../shared/services/areaConhecimento.service';
+import { ListsService } from '../../lists.service';
 
 @Component({
     selector: 'app-lists-search',
@@ -19,7 +20,8 @@ export class ListsSearchComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private disciplinesService: DisciplinesService,
-                private areaConhecimentoService: AreaConhecimentoService) {
+                private areaConhecimentoService: AreaConhecimentoService,
+                private listService: ListsService) {
         this.searchForm = this.fb.group({});
     }
 
@@ -54,6 +56,7 @@ export class ListsSearchComponent implements OnInit {
     }
 
     onListNew() {
+        this.listService.cancelarNovaLista();
         this.listNew.emit();
     }
 

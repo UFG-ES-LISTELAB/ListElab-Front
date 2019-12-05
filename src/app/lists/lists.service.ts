@@ -80,6 +80,11 @@ export class ListsService {
     inicializarNovaLista(lista = null) {
         this.editing = true;
         if (lista !== null && lista.id !== null) {
+            this.qtdQuestoes = 0;
+            this.qtdQuestoes += lista.questoesDiscursiva ? lista.questoesDiscursiva.length : null;
+            this.qtdQuestoes += lista.questoesMultiplaEscolha ? lista.questoesMultiplaEscolha.length : null;
+            this.qtdQuestoes += lista.questoesVerdadeiroOuFalso ? lista.questoesVerdadeiroOuFalso.length : null;
+            this.qtdQuestoes += lista.findQuestoesAssociacaoDeColunas ? lista.findQuestoesAssociacaoDeColunas.length : null;
             return this.novaLista = Object.assign({}, {...lista});
         }
         return this.novaLista = new ListaConcreta();

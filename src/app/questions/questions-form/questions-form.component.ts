@@ -14,6 +14,7 @@ import * as fromQuestionsModels from '../questions.model';
 import { DisciplinesService } from "../../shared/services/disciplines.service";
 import { AreaConhecimentoService } from "../../shared/services/areaConhecimento.service";
 import { QuestionsModule } from '../questions.module';
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 
 export const emptyRespostaEsperada = {
   descricao: '',
@@ -105,6 +106,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
     private questionServiceMultipleChoice: MultiChoiceQuestionsService,
     private questionAssociacaoColunaService: AssociacaoColunaService,
     private questionServiceTrueOrFalse: TrueOrFalseQuestionsService,
+    private localStorageService: LocalStorageService,
     private fb: FormBuilder) { }
 
   ngOnInit() {
@@ -223,6 +225,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   initForm() {
+    const userEmail = this.localStorageService.getItem('user.email');
     this.questionForm = this.fb.group({
       id: this.question.id,
       tipoQuestao: this.question.tipo,
@@ -236,7 +239,7 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
       alternativasMultiplaEscolha: this.fb.array([]),
       associacaoColunas: this.fb.array([]),
       alternativasVerdadeiroOuFalso: this.fb.array([]),
-      autor: this.question.usuario ? this.question.usuario : "professor@ufg.br"
+      autor: this.question.usuario ? this.question.usuario : userEmail
     });
   }
 

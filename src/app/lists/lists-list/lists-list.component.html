@@ -57,6 +57,7 @@
   <mat-menu #menu="matMenu" [matMenuTriggerFor]="menu">
     <ng-template matMenuContent let-list="list">
       <button mat-menu-item type="button" (click)="onSelected($event, list)">Editar</button>
+      <button mat-menu-item type="button" (click)="onDuplicate($event, list)">Duplicar</button>
       <button mat-menu-item type="button" (click)="onRemoved($event, list)">Eliminar</button>
     </ng-template>
   </mat-menu>

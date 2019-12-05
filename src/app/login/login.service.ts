@@ -35,6 +35,7 @@ export class LoginService {
       tap((response: ApiResponse) => {
         if(response.sucesso) {
           this.localStorageService.setItem('token', `Bearer ${response.resultado.token}`);
+          this.localStorageService.setItem('user.email', `${response.resultado.email}`);
           this.onLogin.next();
         }
         return response;
