@@ -45,6 +45,16 @@ export class ListsListComponent implements OnInit {
         this.router.navigate([fromRoutesConstants.LISTAS_FORMULARIO, list.id]);
     }
 
+    onDuplicate(event, list) {
+        event.stopPropagation();
+        console.log(list);
+        this.router.navigate([fromRoutesConstants.LISTAS_FORMULARIO, list.id], {
+            queryParams: {
+                duplicated: true
+            }
+        });
+    }
+
     onRemoved(event, list: fromListsModels.List) {
         event.stopPropagation();
         Swal.fire({

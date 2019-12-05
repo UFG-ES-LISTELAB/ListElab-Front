@@ -92,6 +92,8 @@ export class QuestionsListComponent implements OnInit {
             }
 
             if (params.tags && params.tags !== '') {
+                obj = Object.assign({}, {...obj}, { tags: params.tags});
+                /*
                 const tags = params.tags.replace(' ', '');
                 const splittedTags = tags.split(',');
                 let final = '';
@@ -99,9 +101,8 @@ export class QuestionsListComponent implements OnInit {
                     console.log(tag);
                     final += `{ tags: ${tag}}, `;
                 });
-                obj = Object.assign({}, {...obj}, final);
+            */
             }
-
             this.discursiveQuestionsService
                 .filters(obj)
                 .subscribe(response => {
@@ -114,13 +115,15 @@ export class QuestionsListComponent implements OnInit {
                             case 2: // associaçãoColuna
                                 return this.questions = Object.assign([], [...response.resultado.associacaoDeColunas]);
                             case 3: // VerdadeiroOuFalso
-                                return this.questions = [...this.questions, ...response.resultado.verdadeiroOuFalso];
+                                return this.questions = Object.assign([], [...response.resultado.verdadeiroOuFalso]);
                             default:
                                 this.questions = [];
-                                this.questions = [...this.questions, ...response.resultado.discursiva];
-                                this.questions = [...this.questions, ...response.resultado.multiplaEscolha];
-                                this.questions = [...this.questions, ...response.resultado.associacaoDeColunas];
-                                this.questions = [...this.questions, ...response.resultado.verdadeiroOuFalso];
+                                this.questions = [...this.questions,
+                                    ...response.resultado.discursiva,
+                                    ...response.resultado.multiplaEscolha,
+                                    ...response.resultado.associacaoDeColunas,
+                                    ...response.resultado.verdadeiroOuFalso
+                                ];
                         }
                     }
                 }, error => {

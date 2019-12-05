@@ -16,6 +16,7 @@ export class ListsFormComponent implements OnInit {
 
     isLoading = false;
     isEditing = false;
+    isDuplicate = false;
     hasError = null;
     screenTitle = '';
     listForm: FormGroup;
@@ -33,6 +34,7 @@ export class ListsFormComponent implements OnInit {
     ngOnInit() {
         this.isLoading = true;
         this.isEditing = !!this.activatedRoute.snapshot.params.id;
+        this.isDuplicate = !!this.activatedRoute.snapshot.queryParams.duplicated;
 
         if ( this.isEditing ) {
             if (!this.listsService.isListaInicializada()) {
@@ -108,10 +110,19 @@ export class ListsFormComponent implements OnInit {
                 this.router.navigate(['/listas']);
             });
         } else {
-            this.listsService.update().subscribe(x => {
-                console.log(x);
-                this.router.navigate(['/listas/formulario/', form.id]);
-            });
+            if(this.isDuplicate) {
+                delete form.id;
+                this.listsService.updateNovaListaValue(form);
+                this.listsService.create().subscribe(x => {
+                    console.log(x);
+                    this.router.navigate(['/listas']);
+                });
+            } else {
+                this.listsService.update().subscribe(x => {
+                    console.log(x);
+                    this.router.navigate(['/listas/']);
+                });
+            }
         }
     }
 
@@ -134,6 +145,12 @@ export class ListsFormComponent implements OnInit {
         if (!this.isEditing) {
             this.listsService.cancelarNovaLista();
         }
+        this.router.navigate([LISTAS_LISTAR]);
+    }
+
+    cancelaLista(): void {
+        this.listsService.cancelarNovaLista();
+        
         this.router.navigate([LISTAS_LISTAR]);
     }
 
