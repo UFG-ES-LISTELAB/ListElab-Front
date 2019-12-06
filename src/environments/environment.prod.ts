@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'http://dev.api.sifo.tech/api'
+  api: 'http://api.sifo.tech/api'
 };
