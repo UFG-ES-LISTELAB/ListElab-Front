@@ -112,14 +112,7 @@ export class ListsListComponent implements OnInit {
             }
 
             if (params.tags && params.tags !== '') {
-                const tags = params.tags.replace(' ', '');
-                const splittedTags = tags.split(',');
-                let final = '';
-                splittedTags.forEach(tag => {
-                    console.log(tag);
-                    final += `{ tags: ${tag}}, `;
-                });
-                obj = Object.assign({}, {...obj}, final);
+                obj = Object.assign({}, {...obj}, {tags: params.tags});
             }
 
             this.listsService.filters(obj).subscribe(response => {
