@@ -81,12 +81,15 @@ export class ListsService {
         this.editing = true;
         if (lista !== null && lista.id !== null) {
             this.qtdQuestoes = 0;
-            this.qtdQuestoes += lista.questoesDiscursiva ? lista.questoesDiscursiva.length : null;
-            this.qtdQuestoes += lista.questoesMultiplaEscolha ? lista.questoesMultiplaEscolha.length : null;
-            this.qtdQuestoes += lista.questoesVerdadeiroOuFalso ? lista.questoesVerdadeiroOuFalso.length : null;
-            this.qtdQuestoes += lista.findQuestoesAssociacaoDeColunas ? lista.findQuestoesAssociacaoDeColunas.length : null;
+            this.qtdQuestoes += lista.questoesDiscursiva ? lista.questoesDiscursiva.length : 0;
+            this.qtdQuestoes += lista.questoesMultiplaEscolha ? lista.questoesMultiplaEscolha.length : 0;
+            this.qtdQuestoes += lista.questoesVerdadeiroOuFalso ? lista.questoesVerdadeiroOuFalso.length : 0;
+            this.qtdQuestoes += lista.questoesAssociacaoDeColunas ? lista.questoesAssociacaoDeColunas.length : 0;
             return this.novaLista = Object.assign({}, {...lista});
         }
+
+        this.qtdQuestoes = 0;
+
         return this.novaLista = new ListaConcreta();
     }
 
