@@ -74,7 +74,7 @@ export class ListsListComponent implements OnInit {
                     this.lists = this.lists.filter(x => x.id !== list.id);
                     Swal.fire(
                         'Removida!',
-                        'Sua questão foi removida.',
+                        'Sua lista foi removida.',
                         'success'
                     );
                 }, error => {
