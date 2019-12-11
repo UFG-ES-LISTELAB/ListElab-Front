@@ -256,7 +256,6 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
   }
 
   createQuestion(form: any) {
-    this.isLoading = true;
     switch (form.tipoQuestao) {
       case 0: //Questões discursivas
         const question: fromQuestionsModels.DiscursiveQuestion = {
@@ -281,8 +280,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da questão, verifique os dados informados.");
+          return this.isLoading = false;
         });
         break;
       case 1: //Questões múltipla escolha
@@ -314,8 +314,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da questão, verifique os dados informados.");
+          return this.isLoading = false;
         });
         break;
       case 2: //Associação de colunas
@@ -352,10 +353,10 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           console.log(success);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          console.log(error);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da questão, verifique os dados informados.");
+          return this.isLoading = false;
         });
-        break;
         break;
       case 3: //Verdadeiro ou falso
         const alternativasVouF = form.alternativasVerdadeiroOuFalso.map(item => {
@@ -384,19 +385,20 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da questão, verifique os dados informados.");
+          return this.isLoading = false;
         })
         break;
       default:
-        console.log("Tipo de questão não encontrado ou inexistente!");
+        this.notificationService.error("Tipo de questão inexistente.");
+        this.isLoading = false;
         break;
     }
 
   }
 
   updateQuestion(form: any) {
-    this.isLoading = true;
     switch (form.tipoQuestao) {
       case 0:
         const question: fromQuestionsModels.DiscursiveQuestion = {
@@ -422,8 +424,8 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.notificationService.success(success.mensagem);
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro na atualização da questão, verifique os dados informados.");
           return this.isLoading = false;
         });
         break;
@@ -457,8 +459,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro na atualização da questão, verifique os dados informados.");
+          return this.isLoading = false;
         });
         break;
       case 2:
@@ -496,8 +499,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro na atualização da questão, verifique os dados informados.");
+          return this.isLoading = false;
         });
         break;
       case 3:
@@ -528,8 +532,9 @@ export class QuestionsFormComponent implements OnInit, OnDestroy {
           this.notificationService.success(success.mensagem);
           this.isLoading = false;
           this.router.navigate([QUESTOES_LISTAR]);
-        }, error => {
-          this.notificationService.error(error.mensagem);
+        }, x => {
+          this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro na atualização da questão, verifique os dados informados.");
+          return this.isLoading = false;
         })
         break;
       default:

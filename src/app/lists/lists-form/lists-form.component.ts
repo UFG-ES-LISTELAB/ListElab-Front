@@ -3,6 +3,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import {LISTAS_LISTAR} from '../../shared/constants/routes.contants';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {NotificationService} from '../../shared/services/notification.service';
+
 
 import {ListsService} from '../lists.service';
 
@@ -26,6 +28,7 @@ export class ListsFormComponent implements OnInit {
                 private activatedRoute: ActivatedRoute,
                 private listsService: ListsService,
                 private localStorageService: LocalStorageService,
+                private notificationService: NotificationService,
                 private router: Router) {}
 
     // Tem id? Sim. Já tem lista iniciada? Sim. O id é igual ao da tela? Sim. Mantem a lista iniciada na memória.
@@ -109,6 +112,9 @@ export class ListsFormComponent implements OnInit {
             this.listsService.create().subscribe(x => {
                 console.log(x);
                 this.router.navigate(['/listas']);
+            },
+            x => {
+                this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da lista, verifique os dados informados.");
             });
         } else {
             if(this.isDuplicate) {
@@ -117,11 +123,17 @@ export class ListsFormComponent implements OnInit {
                 this.listsService.create().subscribe(x => {
                     console.log(x);
                     this.router.navigate(['/listas']);
+                },
+                x => {
+                    this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da lista, verifique os dados informados.");
                 });
             } else {
                 this.listsService.update().subscribe(x => {
                     console.log(x);
                     this.router.navigate(['/listas/']);
+                },
+                x => {
+                    this.notificationService.error(x.error.erros[0].campo !== "" ? x.error.erros[0].mensagem : "Ocorreu um erro no cadastro da lista, verifique os dados informados.");
                 });
             }
         }
