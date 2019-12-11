@@ -1,6 +1,6 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
+import { LocalStorageService } from 'src/app/shared/services/local-storage.service';
 import {LISTAS_LISTAR} from '../../shared/constants/routes.contants';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
@@ -25,6 +25,7 @@ export class ListsFormComponent implements OnInit {
     constructor(private fb: FormBuilder,
                 private activatedRoute: ActivatedRoute,
                 private listsService: ListsService,
+                private localStorageService: LocalStorageService,
                 private router: Router) {}
 
     // Tem id? Sim. Já tem lista iniciada? Sim. O id é igual ao da tela? Sim. Mantem a lista iniciada na memória.
@@ -96,7 +97,7 @@ export class ListsFormComponent implements OnInit {
                 prontaParaAplicacao: lista.prontaParaAplicacao,
                 usuario: lista.usuario ?
                   lista.usuario :
-                  'professor@ufg.br'
+                  this.localStorageService.getItem('user.email')
             });
         }
     }
@@ -124,6 +125,7 @@ export class ListsFormComponent implements OnInit {
                 });
             }
         }
+        this.listsService.cancelarNovaLista();
     }
 
     extractQuestionsFromNovaLista() {
